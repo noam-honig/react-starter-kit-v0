@@ -18,6 +18,14 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
 import { Avatar, Menu, MenuItem } from '@mui/material';
+import { remult } from './common';
+import { openDialog } from './Utils/StackUtils';
+import { dialogs } from './Utils/FormDialog';
+import { SignUp } from './Users/SignUp';
+
+remult.ui = {
+  ...dialogs
+}
 
 const drawerWidth = 240;
 
@@ -94,6 +102,7 @@ export default function PersistentDrawerLeft() {
 
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    new SignUp(remult).show();
     setAnchorEl(event.currentTarget);
   };
 
@@ -118,9 +127,7 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          <Avatar sx={{  }}>NH</Avatar>
           <div>
-
             <IconButton
               size="large"
               aria-label="account of current user"
