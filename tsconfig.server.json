@@ -1,0 +1,14 @@
+{
+   "extends": "./tsconfig.json",
+   "compilerOptions": {
+      "outDir": "./dist/server",
+      "module": "commonjs",
+      "noEmit": false,
+      "emitDecoratorMetadata": true
+   },
+   "include": [
+      "src/Utils/AugmentRemult.ts",
+      "src/server/index.ts"
+   ]
+}
+ 

@@ -17,15 +17,13 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
-import { Avatar, Menu, MenuItem } from '@mui/material';
-import { remult } from './common';
-import { openDialog } from './Utils/StackUtils';
-import { dialogs } from './Utils/FormDialog';
+import { Button, Menu, MenuItem } from '@mui/material';
+import { auth, remult } from './common';
 import { SignUp } from './Users/SignUp';
+import { uiTools } from './Utils/FormDialog';
+import { SignIn } from './Users/SignIn';
 
-remult.ui = {
-  ...dialogs
-}
+
 
 const drawerWidth = 240;
 
@@ -80,10 +78,19 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   const location = useLocation();
-  console.log({ location, routes });
   const title = React.useMemo(() => {
-    return routes.find(r => r.path == location.pathname.substring(1))?.title ?? 'Default Title'
+    return routes.find(r => r.path === location.pathname.substring(1))?.title ?? 'Default Title'
   }, [location])
+
+  const [, refresh] = React.useState({});
+  React.useEffect(() => {
+    let unobserve = () => { };
+    remult.userChange.observe(() => refresh({})).then(x => unobserve = x);
+    return () => {
+      unobserve();
+    }
+  }, []);
+
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -102,7 +109,6 @@ export default function PersistentDrawerLeft() {
 
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    new SignUp(remult).show();
     setAnchorEl(event.currentTarget);
   };
 
@@ -128,34 +134,51 @@ export default function PersistentDrawerLeft() {
             {title}
           </Typography>
           <div>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-            </Menu>
+            {
+              !remult.authenticated() && (<>
+                <Button color="inherit"
+                  onClick={() => new SignIn(remult).show(uiTools)}>
+                  Sign In
+                </Button>
+                <Button color="inherit"
+                  onClick={() => new SignUp(remult).show(uiTools)}>
+                  Sign Up
+                </Button>
+              </>)
+            }
+            {remult.authenticated() && (<>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={() => {
+                  auth.signOut();
+                  handleClose();
+                }}>Sign Out</MenuItem>
+              </Menu>
+            </>)}
           </div>
         </Toolbar>
       </AppBar>

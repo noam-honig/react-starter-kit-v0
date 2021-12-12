@@ -1,8 +1,8 @@
 
-import { Box, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, TextField } from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import { forwardRef, useEffect, useState } from 'react';
-import { ErrorInfo, FieldRef } from 'remult';
+import { Box, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { FieldRef } from 'remult';
+import { auth } from '../common';
 import { FormDialogArgs, UITools } from './AugmentRemult';
 import { openDialog } from './StackUtils';
 
@@ -47,7 +47,7 @@ function MyTextField({ field }: { field: FieldRef }) {
     )
 }
 export function useField<T>(field: FieldRef<T>) {
-    const [x, set] = useState({});
+    const [, set] = useState({});
     useEffect(() => field.subscribe(() => set({})), [field]);
     return field;
 }
@@ -62,7 +62,7 @@ export async function formDialog({ fields, title, ok }: FormDialogArgs) {
                     await ok();
                     close();
                 } catch (err: any) {
-                    error(err?.message);
+                    error(err);
                 }
             }
 
@@ -88,7 +88,12 @@ export async function formDialog({ fields, title, ok }: FormDialogArgs) {
         });
 }
 
-export async function error(message: string) {
+export async function error(error: any) {
+    console.error(error);
+    let message = error;
+    if (error.message)
+        message = error.message;
+
     return await openDialog(close => {
         return (
             <>
@@ -129,8 +134,9 @@ export async function question(message: string) {
 }
 
 
-export const dialogs: UITools = {
+export const uiTools: UITools = {
     question,
     error,
-    formDialog
+    formDialog,
+    setAuthToken: x => auth.setAuthToken(x)
 }

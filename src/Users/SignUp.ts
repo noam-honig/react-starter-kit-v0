@@ -1,7 +1,7 @@
-import { BackendMethod, Controller, Field, Remult, Validators, ControllerBase } from "remult";
-
-
-
+import { BackendMethod, Controller, Field, Validators, ControllerBase } from "remult";
+import { User } from "./User";
+import '../Utils/AugmentRemult';
+import { UITools } from "../Utils/AugmentRemult";
 
 @Controller("signUp")
 export class SignUp extends ControllerBase {
@@ -9,32 +9,45 @@ export class SignUp extends ControllerBase {
     @Field({
         validate: Validators.required
     })
-
     name: string = '';
+
     @Field({
         validate: Validators.required,
         inputType: 'password'
     })
     password: string = '';
+
     @Field<SignUp>({
         validate: self => {
-            if (self.password != self.confirmPassword)
+            if (self.password !== self.confirmPassword)
                 self.$.confirmPassword.error = "Doesn't match " + self.$.password.metadata.caption
         },
         inputType: 'password'
     })
     confirmPassword: string = '';
-    show() {
-        this.remult.ui.formDialog({
+    
+    show(ui: UITools) {
+        ui.formDialog({
             title: "Sign Up",
             fields: [...this.$],
             ok: async () => {
-                await this.register();
+                ui.setAuthToken(await this.register());
             }
         });
     }
     @BackendMethod({ allowed: true })
     async register() {
+        let admin = false;
+        if ((await this.remult.repo(User).count()) === 0)
+            admin = true;// If it's the first user, make it an admin
+
+        let user = this.remult.repo(User).create({
+            name: this.name,
+            admin
+        });
+        user.hashAndSetPassword(this.password);
+        await user.save();
+        return user.getJwtToken();
 
     }
 

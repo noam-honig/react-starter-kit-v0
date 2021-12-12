@@ -2,7 +2,7 @@ import { Dialog, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { makeAutoObservable } from "mobx";
 import { observer } from "mobx-react-lite";
-import { FC, forwardRef, ReactNode, useState } from "react";
+import { forwardRef, ReactNode, useState } from "react";
 
 
 class Application {
@@ -30,8 +30,8 @@ const Transition = forwardRef(function Transition(
 });
 
 const MyDialog: React.FC<{ children?: React.ReactNode }> = observer(({ children }) => {
-    const [open, setOpen] = useState(true);
-    return (<Dialog 
+    const [open] = useState(true);
+    return (<Dialog
         open={open}
         TransitionComponent={Transition}
     >
