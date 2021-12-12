@@ -34,7 +34,7 @@ function MyTextField({ field }: { field: FieldRef }) {
 
         <TextField
             type={field.metadata.inputType}
-            size='small'
+            
             value={value}
             label={field.metadata.caption}
             helperText={field.error}
