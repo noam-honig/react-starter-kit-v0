@@ -121,7 +121,7 @@ export default function MainPage() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} >
+      <AppBar position="fixed" open={open}  >
         <Toolbar variant="dense">
           <IconButton
             color="inherit"

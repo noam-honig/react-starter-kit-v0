@@ -5,14 +5,33 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import { StackUtilsComponent } from './Utils/StackUtils';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+// Create rtl cache
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [rtlPlugin],
+});
+const theme = createTheme({
+  direction: 'rtl', // Both here and <body dir="rtl">
+});
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <StackUtilsComponent >
-        <App />
-      </StackUtilsComponent>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <CacheProvider value={cacheRtl}>
+        <BrowserRouter>
+          <StackUtilsComponent >
+            <App />
+          </StackUtilsComponent>
+        </BrowserRouter>
+      </CacheProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
