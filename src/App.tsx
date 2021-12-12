@@ -76,10 +76,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function MainPage() {
   const location = useLocation();
+  const allowedRoutes = routes.filter(r => r.allowed === undefined || remult.isAllowed(r.allowed));
   const title = React.useMemo(() => {
-    return routes.find(r => r.path === location.pathname.substring(1))?.title ?? 'Default Title'
+    return allowedRoutes.find(r => r.path === location.pathname.substring(1))?.title ?? ''
   }, [location])
 
   const [, refresh] = React.useState({});
@@ -115,6 +116,7 @@ export default function PersistentDrawerLeft() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -202,7 +204,7 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {routes.map(r => (<ListItem button key={r.path} component={Link} to={"/" + r.path} >
+          {allowedRoutes.map(r => (<ListItem button key={r.path} component={Link} to={"/" + r.path} >
             <ListItemText > {r.title} </ListItemText>
           </ListItem>))}
 
@@ -213,7 +215,7 @@ export default function PersistentDrawerLeft() {
       <Main open={open}>
         <DrawerHeader />
         <Routes>
-          {routes.map(r => (<Route key={r.path} path={r.path} element={r.element} />))}
+          {allowedRoutes.map(r => (<Route key={r.path} path={r.path} element={r.element} />))}
         </Routes>
 
       </Main>

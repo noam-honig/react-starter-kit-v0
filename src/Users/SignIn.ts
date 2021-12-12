@@ -31,7 +31,7 @@ export class SignIn extends ControllerBase {
             name: this.name
         })
         if (!user || !user.passwordMatches(this.password))
-            throw "Invalid user or password";
+            throw new Error("Invalid user or password");
         return user.getJwtToken();
 
     }
