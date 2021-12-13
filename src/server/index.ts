@@ -1,9 +1,17 @@
 import express from 'express';
 import expressJwt from 'express-jwt';
 import { remultExpress } from 'remult/remult-express';
-import { getJwtTokenSignKey } from '../Users/User';
-import '../Users/SignUp';
-import '../Users/SignIn';
+import { getJwtTokenSignKey } from '../Users/User.entity';
+import glob from 'glob';
+import path from 'path';
+for (const type of ["entity", "controller"]) {
+    for (const ext of ["js", "ts"]) {
+        for (const file of glob.sync(`src/**/*.${type}.${ext}`)) {
+            require(path.resolve(file))
+        }
+    }
+}
+
 
 const app = express();
 app.use(expressJwt({
