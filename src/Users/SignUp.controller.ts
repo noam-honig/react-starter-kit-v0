@@ -1,5 +1,5 @@
 import { BackendMethod, Controller, Field, Validators, ControllerBase } from "remult";
-import { User } from "./User";
+import { User } from "./User.entity";
 import '../Utils/AugmentRemult';
 import { UITools } from "../Utils/AugmentRemult";
 

@@ -1,6 +1,6 @@
 import { BackendMethod, Controller, ControllerBase, Field, Validators } from "remult";
 import { UITools } from "../Utils/AugmentRemult";
-import { User } from "./User";
+import { User } from "./User.entity";
 
 @Controller("signIn")
 export class SignIn extends ControllerBase {
