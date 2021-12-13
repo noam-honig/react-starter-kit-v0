@@ -5,12 +5,5 @@
     "password": "",
     "createDate": "2021-12-13T10:41:36.403Z",
     "admin": true
-  },
-  {
-    "id": "36309163-03b4-4fbd-abb8-7893853efd00",
-    "name": "1",
-    "password": "",
-    "createDate": "2021-12-13T11:35:42.993Z",
-    "admin": false
   }
 ]

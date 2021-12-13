@@ -1,6 +1,6 @@
 import { DataGrid, GridActionsCellItem, GridColDef, GridFeatureMode, GridFilterModel, GridRowParams, GridSlotsComponent, GridSortModel, GridToolbarContainer } from "@mui/x-data-grid";
 import React, { useEffect, useMemo, useState } from "react";
-import { Repository, EntityFilter, IdEntity, ContainsStringValueFilter, EntityBase, ValueFilter, Paginator, EntityMetadata, FieldMetadata, getEntityRef, Fields, FieldsMetadata } from "remult";
+import { Repository, EntityFilter, IdEntity, ContainsStringValueFilter, EntityBase, ValueFilter, Paginator, FieldMetadata, getEntityRef, FieldsMetadata } from "remult";
 import { Action } from "./AugmentRemult";
 import { uiTools } from "./FormDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,7 +17,7 @@ export interface muiGridOptions<entityType> {
     gridActions?: Action<GridUtils<entityType>>[]
 }
 
-
+const pageSize = 100;
 export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: muiGridOptions<entityType>) {
 
     const [sortModel, onSortModelChange] = useState([] as GridSortModel);
@@ -29,7 +29,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
         rows: [] as entityType[],
         pager: undefined! as Paginator<entityType>,
         rowCount: 0,
-        pageSize: 100,
+
         loadedPage: 0,
         page: 0,
         loading: false
@@ -117,7 +117,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
         return { fields: fields as GridColFields<entityType>, components, columns, editFields: displayFields, singular: options?.singular || repo.metadata.caption }
     }, []);
     useEffect(() => {
-        set({ ...s, loading: true });
+        set(s=>({ ...s, loading: true }));
         let orderBy: any = {};
         for (const sort of sortModel) {
             orderBy[sort.field] = sort.sort;
@@ -166,22 +166,20 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 }
                 where.push({ [filter.columnField]: val });
             }
-        let state = s;
+
         (async () => {
-            state.pager = await repo.query({
-                pageSize: state.pageSize,
+            const pager = await repo.query({
+                pageSize: pageSize,
                 orderBy,
-                where: (where.length == 0 || !filterModel ? undefined :
-                    filterModel.linkOperator == "or" ? { $or: where } : { $and: where }) as EntityFilter<entityType>
+                where: (where.length === 0 || !filterModel ? undefined :
+                    filterModel.linkOperator === "or" ? { $or: where } : { $and: where }) as EntityFilter<entityType>
             }).paginator();
 
-            state.rowCount = await state.pager.count();
-            state.loadedPage = 0;
-            state.page = 0;
-            state.loading = false;
-            state.allRows = state.pager.items;
-            state.rows = state.pager.items;
-            set(state);
+            const rowCount = await pager.count();
+            set(s => ({
+                ...s, pager, rowCount, loadedPage: 0, page: 0, loading: false, allRows: pager.items,
+                rows: pager.items
+            }));
         })();
     }, [sortModel, filterModel]);
 
@@ -211,7 +209,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 state.loading = false;
             }
             state.page = page;
-            state.rows = state.allRows.filter((_, i) => i >= page * state.pageSize && i <= (page + 1) * state.pageSize);
+            state.rows = state.allRows.filter((_, i) => i >= page * pageSize && i <= (page + 1) * pageSize);
             set(state);
         },
 
@@ -293,7 +291,7 @@ export function MyGrid<entityType>(repo: Repository<entityType>, options?: muiGr
     let mui = useMuiGrid(repo, options);
     return (
         <div style={{ height: 500, width: '100%' }}>
-            <DataGrid {...mui} />
+            <DataGrid density="compact" {...mui} />
         </div>
 
     )
