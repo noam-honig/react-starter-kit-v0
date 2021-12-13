@@ -1,6 +1,6 @@
 import { remult } from "../common";
 import { DeleteRowAction, AddRowAction, MyGrid } from "../Utils/useMuiGrid";
-import { User } from "./User";
+import { User } from "./User.entity";
 
 
 

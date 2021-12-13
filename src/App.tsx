@@ -19,9 +19,9 @@ import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { auth, remult } from './common';
-import { SignUp } from './Users/SignUp';
+import { SignUp } from './Users/SignUp.controller';
 import { uiTools } from './Utils/FormDialog';
-import { SignIn } from './Users/SignIn';
+import { SignIn } from './Users/SignIn.controller';
 
 
 
