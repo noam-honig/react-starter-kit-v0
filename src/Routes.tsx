@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { Allowed } from "remult";
 import { makeTitle } from "remult/src/column";
 import { Home } from "./Home/Home";

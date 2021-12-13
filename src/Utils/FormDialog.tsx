@@ -1,10 +1,15 @@
 
-import { Box, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { Box, Button, Checkbox, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FieldRef } from 'remult';
 import { auth } from '../common';
 import { FormDialogArgs, UITools } from './AugmentRemult';
 import { openDialog } from './StackUtils';
+import { useTheme } from '@mui/material/styles';
+import { typography } from '@mui/system';
+
+
+
 
 
 
@@ -14,7 +19,7 @@ export function FieldsInput(args: { fields: FieldRef[] }) {
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 1,
+            gap: 2,
             pt: 1,
             pb: 1
         }}>
@@ -29,12 +34,31 @@ export function FieldsInput(args: { fields: FieldRef[] }) {
 
 function MyTextField({ field }: { field: FieldRef }) {
     useField(field);
+    const theme = useTheme();
     const [value, setValue] = useState(field.value);
+
+
+    if (field.metadata.inputType === "checkbox") {
+        return <Box sx={{
+            color: field.error ? theme.palette.error.main : undefined
+        }}>
+            <FormControlLabel control={
+                <Checkbox
+
+                    size="small"
+                    checked={value}
+                    onChange={e => {
+                        setValue(field.value = e.target.checked);
+                    }}
+                />} label={field.metadata.caption} />
+            <Typography fontSize={"small"}>{field.error}</Typography>
+        </Box>
+    }
     return (
 
         <TextField
             type={field.metadata.inputType}
-            
+            size="small"
             value={value}
             label={field.metadata.caption}
             helperText={field.error}
@@ -46,13 +70,17 @@ function MyTextField({ field }: { field: FieldRef }) {
 
     )
 }
+let i = 0;
 export function useField<T>(field: FieldRef<T>) {
     const [, set] = useState({});
-    useEffect(() => field.subscribe(() => set({})), [field]);
+    useEffect(() =>
+        field.subscribe(() => {
+            set({});
+        }), [field]);
     return field;
 }
 
-export async function formDialog({ fields, title, ok }: FormDialogArgs) {
+export async function formDialog({ fields, title, ok, cancel }: FormDialogArgs) {
 
     return await openDialog(
         close => {
@@ -70,17 +98,14 @@ export async function formDialog({ fields, title, ok }: FormDialogArgs) {
                 <>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogContent>
-                        <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 1,
-                            pt: 1
-                        }}>
-                            {fields.map(f => (<MyTextField key={f.metadata.key} field={f} />))}
-                        </Box >
+                        <FieldsInput fields={fields} />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={close}>Cancel</Button>
+                        <Button onClick={() => {
+                            if (cancel)
+                                cancel();
+                            close();
+                        }}>Cancel</Button>
                         <Button onClick={handleOk}>ok</Button>
                     </DialogActions>
                 </>

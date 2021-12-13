@@ -1,3 +1,4 @@
+import { FunctionComponent, ReactElement } from "react";
 import { FieldRef } from "remult";
 
 declare module 'remult' {
@@ -16,4 +17,9 @@ export interface FormDialogArgs {
     fields: FieldRef<any>[];
     ok: () => Promise<void>;
     cancel?: () => Promise<void>
+}
+export interface Action<itemType> {
+    caption: string,
+    click: (item: itemType) => Promise<void>,
+    icon?: FunctionComponent
 }
