@@ -25,6 +25,7 @@ import { Roles } from "./Roles";
 export class User extends IdEntity {
 
     @Field({
+        caption: 'שם',
         validate: [Validators.required, Validators.uniqueOnBackend]
     })
     name: string = '';
@@ -45,7 +46,8 @@ export class User extends IdEntity {
 
     @Field({
         allowApiUpdate: Roles.admin,
-        valueType:Boolean
+        valueType: Boolean,
+        caption: 'מנהל'
     })
     admin: boolean = false;
 
@@ -59,6 +61,14 @@ export class User extends IdEntity {
             userInfo.roles.push(Roles.admin);
         return jwt.sign(userInfo, getJwtTokenSignKey());
     }
+
+
+    @Field({ caption: 'כלי נגינה' })
+    instrument: string = '';
+    @Field({ caption: 'טלפון' })
+    phone: string = '';
+    @Field({ caption: 'דוא"ל' })
+    email: string = '';
 
 }
 export function getJwtTokenSignKey() {

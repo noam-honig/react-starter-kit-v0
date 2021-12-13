@@ -11,7 +11,7 @@ const routes: {
     allowed?: Allowed
 }[] = [
         { path: '', element: <Home />, title: 'Home' },
-        { path: 'Users', element: <UsersPage />, allowed: Roles.admin }
+        { path: 'Users', element: <UsersPage />, title:'מורים', allowed: Roles.admin }
     ]
 
 for (const route of routes) {
