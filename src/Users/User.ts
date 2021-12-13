@@ -44,9 +44,10 @@ export class User extends IdEntity {
     createDate: Date = new Date();
 
     @Field({
-        allowApiUpdate: Roles.admin
+        allowApiUpdate: Roles.admin,
+        valueType:Boolean
     })
-    admin: Boolean = false;
+    admin: boolean = false;
 
     getJwtToken() {
         let userInfo: UserInfo = {
