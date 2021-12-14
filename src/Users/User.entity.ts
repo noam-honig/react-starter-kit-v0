@@ -3,7 +3,7 @@ import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType } from 
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
-//import '../Courses/CoursesPage';
+
 
 @Entity<User>("Users", {
     allowApiRead: Allow.authenticated,

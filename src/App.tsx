@@ -18,10 +18,11 @@ import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
 import { Button, Menu, MenuItem } from '@mui/material';
-import { auth, remult } from './common';
+
 import { SignUp } from './Users/SignUp.controller';
 import { uiTools } from './Utils/FormDialog';
 import { SignIn } from './Users/SignIn.controller';
+import { AuthContext, RemultContext } from './common';
 
 
 
@@ -78,6 +79,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function MainPage() {
   const location = useLocation();
+  const remult = React.useContext(RemultContext);
+  const auth = React.useContext(AuthContext);
+
   const allowedRoutes = routes.filter(r => r.allowed === undefined || remult.isAllowed(r.allowed));
   const title = React.useMemo(() => {
     return allowedRoutes.find(r => r.path === location.pathname.substring(1))?.title ?? ''
@@ -103,6 +107,7 @@ export default function MainPage() {
       navigate(path);
     }
   }
+  uiTools.setAuthToken = token => auth.setAuthToken(token);
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);

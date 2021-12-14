@@ -1,5 +1,5 @@
 import { Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
-import { FunctionComponent, useMemo } from "react";
+import { FunctionComponent, useContext, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Allowed } from "remult";
 import { makeTitle } from "remult/src/column";
@@ -10,9 +10,10 @@ import { StudentsPage } from "./Students/StudentsPage";
 import { Roles } from "./Users/Roles";
 import { UsersPage } from "./Users/UsersPage";
 
-import { remult } from "./common";
+
 import { Course } from "./Courses/Course.entity";
 import { FieldsInput } from "./Utils/FormDialog";
+import { RemultContext } from "./common";
 
 const routes: {
     path: string,
@@ -37,10 +38,11 @@ for (const route of routes) {
 export default routes;
 
 function Play() {
+    const remult = useContext(RemultContext);
     const c = useMemo(() => remult.repo(Course).create(), []);
     return <>
-        <FieldsInput fields={[c.$.name,c.$.teacher!]} />
-        
+        <FieldsInput fields={[c.$.name, c.$.teacher!]} />
+
 
     </>
 }

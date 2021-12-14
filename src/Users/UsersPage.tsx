@@ -1,4 +1,6 @@
-import { remult } from "../common";
+
+import { useContext } from "react";
+import { RemultContext } from "../common";
 import { DeleteRowAction, AddRowAction, MyGrid } from "../Utils/useMuiGrid";
 import { User } from "./User.entity";
 
@@ -7,6 +9,7 @@ import { User } from "./User.entity";
 
 
 export function UsersPage() {
+    const remult = useContext(RemultContext);
     return MyGrid<User>(remult.repo(User), {
         editOnClick: true,
         gridActions: [AddRowAction],

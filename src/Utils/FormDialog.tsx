@@ -2,7 +2,7 @@
 import { Box, Button, Checkbox, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FieldRef } from 'remult';
-import { auth } from '../common';
+
 import { FormDialogArgs, UITools } from './AugmentRemult';
 import { openDialog } from './StackUtils';
 import { useTheme } from '@mui/material/styles';
@@ -186,6 +186,6 @@ export const uiTools: UITools = {
     question,
     error,
     formDialog,
-    setAuthToken: x => auth.setAuthToken(x),
-    navigate: undefined!
+    navigate: undefined!,
+    setAuthToken: undefined!
 }

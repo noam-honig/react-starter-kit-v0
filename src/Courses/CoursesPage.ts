@@ -1,4 +1,5 @@
-import { remult } from "../common";
+import { useContext } from "react";
+import { RemultContext } from "../common";
 import { User } from "../Users/User.entity";
 import { uiTools } from "../Utils/FormDialog";
 import { DeleteRowAction, AddRowAction, MyGrid } from "../Utils/useMuiGrid";
@@ -6,6 +7,7 @@ import { Course } from "./Course.entity";
 import { StudentsInCoursePage } from "./StudentsInCoursePage";
 
 export function CoursesPage() {
+    const remult = useContext(RemultContext);
     return MyGrid<Course>(remult.repo(Course), {
         editOnClick: true,
         gridActions: [AddRowAction],
@@ -23,7 +25,7 @@ export function CoursesPage() {
                 utils.renderRows();
             }
         }, DeleteRowAction],
-        fields: u => [u.name, u.town,u.teacher!],
+        fields: u => [u.name, u.town, u.teacher!],
     });
 }
 

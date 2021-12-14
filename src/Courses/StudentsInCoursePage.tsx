@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import { remult } from "../common";
+import { RemultContext } from "../common";
+
 import { Student } from "../Students/Student.entity";
 import { uiTools } from "../Utils/FormDialog";
 import { openDialog } from "../Utils/StackUtils";
@@ -9,6 +10,7 @@ import { defaultEditFields } from "../Utils/useMuiGrid";
 import { Course } from "./Course.entity";
 
 export function StudentsInCoursePage() {
+    const remult = useContext(RemultContext);
     let { id } = useParams<"id">();
     const { data: course } = useEntityQuery(() => remult.repo(Course).findId(id!), [id]);
     const { data: students, ...studentTools } = useEntityArray(async () => remult.repo(Student).find({ where: Student.inCourse(id!) }), [id]);
@@ -44,6 +46,7 @@ export interface SelectStudentsArgs {
     select: (student: Student) => void;
 }
 export function SelectStudent(props: SelectStudentsArgs) {
+    const remult = useContext(RemultContext);
     return openDialog(close => {
         const SelectStudentElement = () => {
             const [search, setSearch] = useState('');

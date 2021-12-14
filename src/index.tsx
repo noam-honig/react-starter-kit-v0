@@ -9,6 +9,24 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
+import './Utils/AugmentRemult';
+import { AuthService } from "./Users/AuthService";
+import { Remult } from "remult";
+import { AuthContext, RemultContext } from './common';
+
+
+
+
+axios.interceptors.request.use(config => {
+  const token = AuthService.fromStorage();
+  if (token)
+    config.headers!["Authorization"] = "Bearer " + token;
+  return config;
+});
+Remult.apiBaseUrl = '/api';
+export const remult = new Remult(axios);
+export const auth = new AuthService(remult);
 
 
 // Create rtl cache
@@ -21,13 +39,18 @@ const theme = createTheme({
 });
 
 
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CacheProvider value={cacheRtl}>
         <BrowserRouter>
           <StackUtilsComponent >
-            <App />
+            <RemultContext.Provider value={remult}>
+              <AuthContext.Provider value={auth}>
+                <App />
+              </AuthContext.Provider>
+            </RemultContext.Provider>
           </StackUtilsComponent>
         </BrowserRouter>
       </CacheProvider>
