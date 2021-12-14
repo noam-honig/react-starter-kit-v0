@@ -45,13 +45,13 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <CacheProvider value={cacheRtl}>
         <BrowserRouter>
-          <StackUtilsComponent >
-            <RemultContext.Provider value={remult}>
-              <AuthContext.Provider value={auth}>
+          <RemultContext.Provider value={remult}>
+            <AuthContext.Provider value={auth}>
+              <StackUtilsComponent >
                 <App />
-              </AuthContext.Provider>
-            </RemultContext.Provider>
-          </StackUtilsComponent>
+              </StackUtilsComponent>
+            </AuthContext.Provider>
+          </RemultContext.Provider>
         </BrowserRouter>
       </CacheProvider>
     </ThemeProvider>

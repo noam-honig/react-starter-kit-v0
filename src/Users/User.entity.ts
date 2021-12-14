@@ -3,6 +3,11 @@ import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType } from 
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
+import { useContext, useState } from "react";
+import { RemultContext } from "../common";
+import { openDialog } from "../Utils/StackUtils";
+import { useEntityQuery } from "../Utils/useEntityQuery";
+import { SelectUser } from "./SelectUserDialog";
 
 
 @Entity<User>("Users", {
@@ -32,8 +37,7 @@ import { Roles } from "./Roles";
     inputType: 'custom'
 },
     (o, r) => o.userClickToSelectValue = async f => {
-        let u = await r.repo(User).findFirst();
-        f.value = u;
+        SelectUser({ select: user => f.value = user });
     }
 )
 export class User extends IdEntity {
@@ -90,3 +94,4 @@ export function getJwtTokenSignKey() {
         return process.env.TOKEN_SIGN_KEY!;
     return "my secret key";
 }
+
