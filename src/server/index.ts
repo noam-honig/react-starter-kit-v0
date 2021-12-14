@@ -2,6 +2,7 @@ import express from 'express';
 import expressJwt from 'express-jwt';
 import { remultExpress } from 'remult/remult-express';
 import { getJwtTokenSignKey } from '../Users/User.entity';
+import '../Utils/AugmentRemult';
 import glob from 'glob';
 import path from 'path';
 

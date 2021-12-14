@@ -1,0 +1,27 @@
+[
+  {
+    "id": "9b6199a4-cb6f-4206-9cd0-e16aebc85581",
+    "courseId": "8526a764-7fb8-4682-9757-860d789eb33f",
+    "studentId": "3931d03a-35dd-43b0-9adc-b9aebb9b92a7"
+  },
+  {
+    "id": "f4b91c20-a3bb-4176-8a89-5e210d50da8d",
+    "courseId": "8526a764-7fb8-4682-9757-860d789eb33f",
+    "studentId": "b76da191-a1b6-4bec-ab4c-b9c89f09f52a"
+  },
+  {
+    "id": "ed809451-b081-4a03-b7e8-32b0cf793d57",
+    "courseId": "8526a764-7fb8-4682-9757-860d789eb33f",
+    "studentId": "54641690-730b-4285-8387-7ae3d6b0920d"
+  },
+  {
+    "id": "f27c2a56-6d1a-4f12-941b-ed05c241e265",
+    "courseId": "8526a764-7fb8-4682-9757-860d789eb33f",
+    "studentId": "605792f9-5039-49c3-a792-63bb645b4afa"
+  },
+  {
+    "id": "3aee80d9-68b4-45a7-a26f-b354fc7a8f1a",
+    "courseId": "8526a764-7fb8-4682-9757-860d789eb33f",
+    "studentId": "d0e937d4-5cf9-4004-8d20-8a1fdcad9b8a"
+  }
+]

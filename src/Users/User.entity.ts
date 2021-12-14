@@ -1,14 +1,19 @@
 
-import { IdEntity, Entity, Field, Validators, Allow, UserInfo } from "remult";
+import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType } from "remult";
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
+//import '../Courses/CoursesPage';
 
 @Entity<User>("Users", {
     allowApiRead: Allow.authenticated,
     allowApiUpdate: Allow.authenticated,
     allowApiDelete: Roles.admin,
-    allowApiInsert: Roles.admin
+    allowApiInsert: Roles.admin,
+    caption: 'מורים',
+    defaultOrderBy: {
+        name: 'asc'
+    }
 },
     (options, remult) => {
         //only admin can see all users, a regular user can only see their own details
@@ -21,6 +26,15 @@ import { Roles } from "./Roles";
         }
     }
 
+)
+@FieldType<User>({
+    displayValue: (x, y) => y.name,
+    inputType: 'custom'
+},
+    (o, r) => o.userClickToSelectValue = async f => {
+        let u = await r.repo(User).findFirst();
+        f.value = u;
+    }
 )
 export class User extends IdEntity {
 

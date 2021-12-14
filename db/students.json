@@ -1,0 +1,32 @@
+[
+  {
+    "id": "3931d03a-35dd-43b0-9adc-b9aebb9b92a7",
+    "name": "מעיין הניג",
+    "parentName": "יעל",
+    "parentPhone": "0507953019"
+  },
+  {
+    "id": "b76da191-a1b6-4bec-ab4c-b9c89f09f52a",
+    "name": "איתמר הניג",
+    "parentName": "יעל",
+    "parentPhone": "0507953019"
+  },
+  {
+    "id": "54641690-730b-4285-8387-7ae3d6b0920d",
+    "name": "עופרי הניג",
+    "parentName": "יעל",
+    "parentPhone": "0507953019"
+  },
+  {
+    "id": "605792f9-5039-49c3-a792-63bb645b4afa",
+    "name": "הראל צוריה",
+    "parentName": "גוון",
+    "parentPhone": ""
+  },
+  {
+    "id": "d0e937d4-5cf9-4004-8d20-8a1fdcad9b8a",
+    "name": "מאיה לבני",
+    "parentName": "יעל ",
+    "parentPhone": ""
+  }
+]

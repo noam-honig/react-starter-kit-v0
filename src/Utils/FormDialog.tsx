@@ -1,12 +1,13 @@
 
-import { Box, Button, Checkbox, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FieldRef } from 'remult';
 import { auth } from '../common';
 import { FormDialogArgs, UITools } from './AugmentRemult';
 import { openDialog } from './StackUtils';
 import { useTheme } from '@mui/material/styles';
-import { typography } from '@mui/system';
+
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
 
@@ -53,6 +54,28 @@ function MyTextField({ field }: { field: FieldRef }) {
                 />} label={field.metadata.caption} />
             <Typography fontSize={"small"}>{field.error}</Typography>
         </Box>
+    }
+    if (field.metadata.inputType === "custom") {
+        return <FormControl variant="outlined" size="small" error={!!field.error}>
+            <InputLabel htmlFor="custom-input">{field.metadata.caption}</InputLabel>
+            <OutlinedInput readOnly
+                id="custom-input"
+                value={field.displayValue}
+                endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                            onClick={() => {
+                                field.metadata.options.userClickToSelectValue!(field);
+                            }}
+                            edge="end"
+                        >
+                            <ArrowDropDownIcon />
+                        </IconButton>
+                    </InputAdornment>
+                }
+                label={field.metadata.caption}
+            />
+        </FormControl>
     }
     return (
 
@@ -105,8 +128,8 @@ export async function formDialog({ fields, title, ok, cancel }: FormDialogArgs) 
                             if (cancel)
                                 cancel();
                             close();
-                        }}>Cancel</Button>
-                        <Button onClick={handleOk}>ok</Button>
+                        }}>בטל</Button>
+                        <Button onClick={handleOk}>אשר</Button>
                     </DialogActions>
                 </>
             )
@@ -147,11 +170,11 @@ export async function question(message: string) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={close}>No</Button>
+                    <Button onClick={close}>לא</Button>
                     <Button onClick={() => {
                         yes = true;
                         close();
-                    }}>Yes</Button>
+                    }}>כן</Button>
                 </DialogActions>
             </>)
     });
@@ -163,5 +186,6 @@ export const uiTools: UITools = {
     question,
     error,
     formDialog,
-    setAuthToken: x => auth.setAuthToken(x)
+    setAuthToken: x => auth.setAuthToken(x),
+    navigate: undefined!
 }

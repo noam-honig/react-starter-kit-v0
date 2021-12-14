@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
 import { Button, Menu, MenuItem } from '@mui/material';
@@ -92,6 +92,17 @@ export default function MainPage() {
     }
   }, []);
 
+  const navigate = useNavigate();
+  uiTools.navigate = (element, ...args: any[]) => {
+    let r = allowedRoutes.find(x => x.element == element);
+    if (r) {
+      let path = '/' + r?.path.split('/')[0];
+      for (const a of args) {
+        path += '/' + a;
+      }
+      navigate(path);
+    }
+  }
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -215,7 +226,7 @@ export default function MainPage() {
       <Main open={open}>
         <DrawerHeader />
         <Routes>
-          {allowedRoutes.map(r => (<Route key={r.path} path={r.path} element={r.element} />))}
+          {allowedRoutes.map(r => (<Route key={r.path} path={r.path} element={React.createElement(r.element)} />))}
         </Routes>
 
       </Main>

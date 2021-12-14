@@ -9,6 +9,7 @@ axios.interceptors.request.use(config => {
         config.headers!["Authorization"] = "Bearer " + token;
     return config;
 });
+Remult.apiBaseUrl='/api';
 export const remult = new Remult(axios);
 export const auth = new AuthService(remult);
 

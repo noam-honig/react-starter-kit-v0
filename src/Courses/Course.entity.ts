@@ -1,14 +1,29 @@
-import { DateOnlyField, Entity, Field, IdEntity } from "remult";
+import { DateOnlyField, Entity, Field, IdEntity, OneToMany, Remult } from "remult";
+import { User } from "../Users/User.entity";
+
 
 @Entity("courses", {
-    allowApiCrud: true
+    allowApiCrud: true,
+    caption: 'חוג'
 })
 export class Course extends IdEntity {
-    @Field()
+    @Field({ caption: 'שם החוג' })
     name: string = '';
-    @Field()
+    @Field({ caption: 'ישוב' })
     town: string = '';
-    
+    students = new OneToMany(this.remult.repo(StudentInCourse), {
+        where: {
+            courseId: this.id
+        }
+    });
+    @Field({
+        caption: 'מורה'
+    }, o => o.valueType = User)
+    teacher?: User;
+    constructor(private remult: Remult) {
+        super();
+    }
+
 }
 
 @Entity("Classes", {
@@ -40,15 +55,4 @@ export class StudentInCourse extends IdEntity {
     courseId: string = '';
     @Field()
     studentId: string = '';
-}
-@Entity("students", {
-    allowApiCrud: true
-})
-export class Student extends IdEntity {
-    @Field()
-    name: string = '';
-    @Field()
-    parentName: string = '';
-    @Field()
-    parentPhone: string = '';
 }

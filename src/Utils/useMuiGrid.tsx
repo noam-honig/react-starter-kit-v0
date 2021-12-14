@@ -1,6 +1,6 @@
 import { DataGrid, GridActionsCellItem, GridColDef, GridFeatureMode, GridFilterModel, GridRowParams, GridSlotsComponent, GridSortModel, GridToolbarContainer } from "@mui/x-data-grid";
 import React, { useEffect, useMemo, useState } from "react";
-import { Repository, EntityFilter, IdEntity, ContainsStringValueFilter, EntityBase, ValueFilter, Paginator, FieldMetadata, getEntityRef, FieldsMetadata } from "remult";
+import { Repository, EntityFilter, IdEntity, ContainsStringValueFilter, EntityBase, ValueFilter, Paginator, FieldMetadata, getEntityRef, FieldsMetadata, FieldRef } from "remult";
 import { Action } from "./AugmentRemult";
 import { uiTools } from "./FormDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -43,7 +43,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
         const gridUtils: GridUtils<entityType> = {
             create: () => repo.create(),
             removeRow: row => set(s => ({ ...s, allRows: s.allRows.filter(x => x !== row), rows: s.rows.filter(x => x !== row) })),
-            renderRows: () => set(s => ({ ...s, rows: [...rows] })),
+            renderRows: () => set(s => ({ ...s, rows: [...s.rows] })),
             addRow: row => set(s => ({ ...s, allRows: [...s.allRows, row], rows: [...s.rows, row] })),
             displayFields: [] as FieldMetadata[]
         }
@@ -53,7 +53,10 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
             let field: GridColDef = {
                 field: f.key,
                 headerName: f.caption,
-                width: 150
+                width: 150,
+                valueGetter:({row})=>{
+                    return getEntityRef(row).fields.find(f).displayValue;
+                }
             }
             if (f.options.valueType === Boolean)
                 field.type = "boolean";
@@ -66,11 +69,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
         if (options?.fields)
             gridUtils.displayFields = options?.fields(repo.metadata.fields);
         else
-            for (const f of [...repo.metadata.fields]) {
-                if (!(item instanceof IdEntity && f.key === "id")) {
-                    gridUtils.displayFields.push(f)
-                }
-            }
+            gridUtils.displayFields = defaultEditFieldsMetaData(item);
 
 
 
@@ -83,7 +82,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 //@ts-ignore
                 getActions: (params: GridRowParams<User>) => {
                     return options.rowActions!.map(a => (
-                        <GridActionsCellItem onClick={async () => {
+                        <GridActionsCellItem key={a.caption} onClick={async () => {
                             await a.click({ row: params.row, utils: gridUtils });
 
                         }} label={a.caption} showInMenu icon={a.icon ? React.createElement(a.icon) : undefined} />
@@ -99,7 +98,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 Toolbar: () => (
                     <GridToolbarContainer>
                         {options.gridActions?.map(a => (
-                            <Button startIcon={a.icon ? React.createElement(a.icon) : undefined}
+                            <Button key={a.caption} startIcon={a.icon ? React.createElement(a.icon) : undefined}
                                 size="small"
                                 onClick={async () => {
 
@@ -224,7 +223,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
         onRowClick: options?.editOnClick ? (x: GridRowParams) => {
             let row = getEntityRef(x.row);
             uiTools.formDialog({
-                title: 'Edit ' + config.singular,
+                title: 'ערוך ' + config.singular,
                 fields: config.gridUtils.displayFields.map(f => row.fields.find(f)),
                 ok: async () => {
                     await row.save();
@@ -283,13 +282,31 @@ export const AddRowAction: Action<GridUtils<any>> = {
                 await ref.save();
                 utils.addRow(row);
             },
-            cancel: () => row.undoChanges()
+            cancel: () => ref.undoChanges()
         });
     },
     icon: AddIcon
 };
 
 
+
+function defaultEditFieldsMetaData<entityType>(item: entityType) {
+    let ref = getEntityRef(item);
+    let result = [] as FieldMetadata<entityType>[];
+    for (const f of [...ref.metadata.fields]) {
+        if (!(item instanceof IdEntity && f.key === "id")) {
+            result.push(f);
+        }
+    }
+    return result;
+}
+
+
+export function defaultEditFields<entityType>(item: entityType) {
+    let ref = getEntityRef(item);
+    let result = [] as FieldRef<entityType>[];
+    return defaultEditFieldsMetaData(item).map(f => ref.fields.find(f));
+}
 
 export function MyGrid<entityType>(repo: Repository<entityType>, options?: muiGridOptions<entityType>) {
     let mui = useMuiGrid(repo, options);
