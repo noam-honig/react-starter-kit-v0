@@ -8,6 +8,7 @@ declare module 'remult' {
     export interface FieldOptions<entityType, valueType> {
         userClickToSelectValue?: (ref: FieldRef<entityType, valueType>) => void;
     }
+
 }
 export interface UITools {
     formDialog(args: FormDialogArgs): Promise<void>;

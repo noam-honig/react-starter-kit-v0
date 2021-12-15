@@ -3,11 +3,7 @@ import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType } from 
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
-import { useContext, useState } from "react";
-import { RemultContext } from "../common";
-import { openDialog } from "../Utils/StackUtils";
-import { useEntityQuery } from "../Utils/useEntityQuery";
-import { SelectUser } from "./SelectUserDialog";
+import { SelectDialog } from "../Utils/SelectDialog";
 
 
 @Entity<User>("Users", {
@@ -36,8 +32,10 @@ import { SelectUser } from "./SelectUserDialog";
     displayValue: (x, y) => y.name,
     inputType: 'custom'
 },
-    (o, r) => o.userClickToSelectValue = async f => {
-        SelectUser({ select: user => f.value = user });
+    (o) => o.userClickToSelectValue = async f => {
+        SelectDialog(User, {
+            select: user => f.value = user
+        })
     }
 )
 export class User extends IdEntity {
