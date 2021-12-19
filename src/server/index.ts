@@ -10,11 +10,16 @@ import '../Utils/AugmentRemult';
 import glob from 'glob';
 import path from 'path';
 
+let ext = "ts";
+let dir = "src";
+if (__filename.endsWith("js")) {
+    ext = "js";
+    dir = "dist";
+}
+
 for (const type of ["entity", "controller"]) {
-    for (const ext of ["js", "ts"]) {
-        for (const file of glob.sync(`src/**/*.${type}.${ext}`)) {
-            require(path.resolve(file))
-        }
+    for (const file of glob.sync(dir + `/**/*.${type}.${ext}`)) {
+        require(path.resolve(file))
     }
 }
 
@@ -41,4 +46,3 @@ app.use('/*', async (req, res) => {
     res.sendFile('./build/index.html');
 });
 app.listen(process.env.PORT || 3002, () => console.log("Server started"));
-app.listen(3002, () => console.log("Server started"));
