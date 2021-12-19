@@ -36,7 +36,7 @@ export function FieldsInput(args: { fields: FieldRef[] }) {
 function MyTextField({ field }: { field: FieldRef }) {
     useField(field);
     const theme = useTheme();
-    const [value, setValue] = useState(field.value);
+    const [value, setValue] = useState(field.inputValue);
 
 
     if (field.metadata.inputType === "checkbox") {
@@ -47,9 +47,9 @@ function MyTextField({ field }: { field: FieldRef }) {
                 <Checkbox
 
                     size="small"
-                    checked={value}
+                    checked={field.value}
                     onChange={e => {
-                        setValue(field.value = e.target.checked);
+                        field.value = e.target.checked;
                     }}
                 />} label={field.metadata.caption} />
             <Typography fontSize={"small"}>{field.error}</Typography>

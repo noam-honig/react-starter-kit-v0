@@ -4,9 +4,10 @@ import { User } from "../Users/User.entity";
 import { uiTools } from "../Utils/FormDialog";
 import { DeleteRowAction, AddRowAction, MyGrid } from "../Utils/useMuiGrid";
 import { Course } from "./Course.entity";
-import { StudentsInCoursePage } from "./StudentsInCoursePage";
+import { CourseDetailsPage } from "./CourseDetailsPage";
 
 export function CoursesPage() {
+    
     const remult = useContext(RemultContext);
     return MyGrid<Course>(remult.repo(Course), {
         editOnClick: true,
@@ -14,7 +15,7 @@ export function CoursesPage() {
         rowActions: [{
             caption: 'תלמידים',
             click: async ({ row }) => {
-                uiTools.navigate(StudentsInCoursePage, row.id);
+                uiTools.navigate(CourseDetailsPage, row.id);
             }
         }, {
             caption: 'בחר מורה',

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-export function useEntityQuery<T>(get: () => Promise<T>, deps: any[]) {
+export function useEntityQuery<T>(get: () => Promise<T> | undefined, deps: any[]) {
     const [data, setData] = useState<T>();
     const [loading, setLoading] = useState(true);
 
@@ -16,7 +16,7 @@ export function useEntityQuery<T>(get: () => Promise<T>, deps: any[]) {
     useEffect(() => { reload() }, [reload]);
     return { data, reload, loading, setData };
 }
-export function useEntityArray<T>(get: () => Promise<T[]>, deps: any[]) {
+export function useEntityArray<T>(get: () => Promise<T[]> | undefined, deps: any[]) {
     let r = useEntityQuery(get, deps);
     return { ...r, add: (item: T) => r.setData(d => [...d!, item]) };
 }

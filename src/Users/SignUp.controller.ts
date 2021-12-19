@@ -7,13 +7,14 @@ import { UITools } from "../Utils/AugmentRemult";
 export class SignUp extends ControllerBase {
 
     @Field({
-        validate: Validators.required
+        validate: Validators.required,
+        caption: 'שם'
     })
     name: string = '';
 
     @Field({
         validate: Validators.required,
-        inputType: 'password'
+        inputType: 'password', caption: 'סיסמה'
     })
     password: string = '';
 
@@ -22,13 +23,14 @@ export class SignUp extends ControllerBase {
             if (self.password !== self.confirmPassword)
                 self.$.confirmPassword.error = "Doesn't match " + self.$.password.metadata.caption
         },
+        caption: 'אישור סיסמה',
         inputType: 'password'
     })
     confirmPassword: string = '';
-    
+
     show(ui: UITools) {
         ui.formDialog({
-            title: "Sign Up",
+            title: "הרשמה",
             fields: [...this.$],
             ok: async () => {
                 ui.setAuthToken(await this.register());

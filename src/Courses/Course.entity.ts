@@ -1,10 +1,12 @@
-import { DateOnlyField, Entity, Field, IdEntity, OneToMany, Remult } from "remult";
+import { DateOnlyField, Entity, Field, Filter, IdEntity, OneToMany, Remult, EntityFilter } from "remult";
 import { User } from "../Users/User.entity";
+
 
 
 @Entity("courses", {
     allowApiCrud: true,
-    caption: 'חוג'
+    caption: 'חוג',
+
 })
 export class Course extends IdEntity {
     @Field({ caption: 'שם החוג' })
@@ -14,6 +16,11 @@ export class Course extends IdEntity {
     students = new OneToMany(this.remult.repo(StudentInCourse), {
         where: {
             courseId: this.id
+        }
+    });
+    lessons = new OneToMany(this.remult.repo(Lesson), {
+        where: {
+            course: this
         }
     });
     @Field({
@@ -26,29 +33,49 @@ export class Course extends IdEntity {
 
 }
 
-@Entity("Classes", {
-    allowApiCrud: true
+@Entity("Lessons", {
+    allowApiCrud: true,
+    caption: 'שעור'
 })
-export class Class extends IdEntity {
-    @Field()
-    courseId: string = '';
+export class Lesson extends IdEntity {
+    @Field(o => o.valueType = Course)
+    course!: Course;
     @DateOnlyField()
     date!: Date;
-}
+    static currentUser = Filter.createCustom<Lesson>(async remult => {
+        let currentUser = await remult.repo(User).findId(remult.user.id);
+        if (currentUser) {
+            let teacherCourses = await remult.repo(Course).find({
+                where: {
+                    teacher: currentUser
+                }
+            })
+            return {
+                course: teacherCourses
+            };
+        }
+        else return {
+            id: []
 
-@Entity("studentsInClass", {
-    allowApiCrud: true
+        }
+    });
+
+}
+@Entity("studentsInLesson", {
+    allowApiCrud: true,
+    caption: "לתמיד בשיעור"
 })
-export class StudentInClass extends IdEntity {
+export class StudentInLesson extends IdEntity {
     @Field()
-    classId: string = '';
+    lessonId: string = '';
     @Field()
     studentId: string = '';
     @Field()
     attended: boolean = false;
 }
 @Entity("studentsInCourse", {
-    allowApiCrud: true
+    allowApiCrud: true,
+    caption: "תלמיד בחוג"
 })
 export class StudentInCourse extends IdEntity {
     @Field()

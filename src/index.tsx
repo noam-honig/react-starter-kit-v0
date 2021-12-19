@@ -36,6 +36,11 @@ const cacheRtl = createCache({
 });
 const theme = createTheme({
   direction: 'rtl', // Both here and <body dir="rtl">
+  typography: {
+    fontFamily: 'Segoe UI,Helvetica Neue,Helvetica,Lucida Grande,Arial,Ubuntu,Cantarell,Fira Sans,sans-serif',
+    fontSize: 18,
+    fontWeightRegular:500
+  }
 });
 
 

@@ -156,11 +156,11 @@ export default function MainPage() {
               !remult.authenticated() && (<>
                 <Button color="inherit"
                   onClick={() => new SignIn(remult).show(uiTools)}>
-                  Sign In
+                  כניסה
                 </Button>
                 <Button color="inherit"
                   onClick={() => new SignUp(remult).show(uiTools)}>
-                  Sign Up
+                  הרשמה
                 </Button>
               </>)
             }

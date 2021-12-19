@@ -48,7 +48,8 @@ export function SelectDialog<T>(itemType: ClassType<T>, props: SelectDialogArgs<
             const { data } = useEntityQuery(async () => repo.find({
                 where: {
                     [searchKey]: { $contains: search }
-                } as EntityFilter<T>
+                } as EntityFilter<T>,
+                limit: 100
             }), [search]);
             const select = (s: T) => {
                 props.select(s); close();

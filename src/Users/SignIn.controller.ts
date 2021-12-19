@@ -6,19 +6,20 @@ import { User } from "./User.entity";
 export class SignIn extends ControllerBase {
 
     @Field({
-        validate: Validators.required
+        validate: Validators.required,
+        caption: "שם"
     })
     name: string = '';
 
     @Field({
-        validate: Validators.required,
-        inputType: 'password'
+        inputType: 'password',
+        caption: "סיסמה"
     })
     password: string = '';
 
     show(ui: UITools) {
         ui.formDialog({
-            title: "Sign In",
+            title: "כניסה",
             fields: [...this.$],
             ok: async () => {
                 ui.setAuthToken(await this.signIn());
@@ -31,7 +32,7 @@ export class SignIn extends ControllerBase {
             name: this.name
         })
         if (!user || !user.passwordMatches(this.password))
-            throw new Error("Invalid user or password");
+            throw new Error("סיסמה שגויה");
         return user.getJwtToken();
     }
 }

@@ -11,7 +11,7 @@ import { SelectDialog } from "../Utils/SelectDialog";
     allowApiUpdate: Allow.authenticated,
     allowApiDelete: Roles.admin,
     allowApiInsert: Roles.admin,
-    caption: 'מורים',
+    caption: 'מורה',
     defaultOrderBy: {
         name: 'asc'
     }
