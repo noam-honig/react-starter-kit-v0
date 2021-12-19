@@ -3,19 +3,19 @@
     "id": "0fd1f16e-5737-408f-b4e5-3875147ac964",
     "lessonId": "2f51c043-8303-42ec-8fda-113101b75bb7",
     "studentId": "b76da191-a1b6-4bec-ab4c-b9c89f09f52a",
-    "attended": false
+    "attended": true
   },
   {
     "id": "059e113c-8570-475b-bdf8-3c87c6eac61c",
     "lessonId": "2f51c043-8303-42ec-8fda-113101b75bb7",
     "studentId": "018fff3b-6d77-4ad8-9719-75435dee5ac0",
-    "attended": true
+    "attended": false
   },
   {
     "id": "56020319-6119-4487-bcd4-96ef19643bf9",
     "lessonId": "2f51c043-8303-42ec-8fda-113101b75bb7",
     "studentId": "3931d03a-35dd-43b0-9adc-b9aebb9b92a7",
-    "attended": true
+    "attended": false
   },
   {
     "id": "cac86a67-f4b7-45bb-b3b3-1d9ef749ca52",
@@ -33,7 +33,7 @@
     "id": "bde4f521-0738-447e-a13c-c4334fe1d75d",
     "lessonId": "2f51c043-8303-42ec-8fda-113101b75bb7",
     "studentId": "d0e937d4-5cf9-4004-8d20-8a1fdcad9b8a",
-    "attended": false
+    "attended": true
   },
   {
     "id": "e4b99643-2f1b-41f5-a780-72db20605662",
@@ -123,7 +123,7 @@
     "id": "026a9521-31bd-4bdd-80d7-a8d21763f760",
     "lessonId": "37393e9f-d1e0-45d2-b4a0-4bafcd83a91e",
     "studentId": "605792f9-5039-49c3-a792-63bb645b4afa",
-    "attended": true
+    "attended": false
   },
   {
     "id": "a9c2db27-d89c-4a4d-b58d-f959f66c34fe",
@@ -147,7 +147,7 @@
     "id": "b5b6880b-0c68-40e3-8ad2-e19c2c5ea70b",
     "lessonId": "37393e9f-d1e0-45d2-b4a0-4bafcd83a91e",
     "studentId": "3931d03a-35dd-43b0-9adc-b9aebb9b92a7",
-    "attended": false
+    "attended": true
   },
   {
     "id": "d52cd71f-a0fc-4113-a99f-8fcb0ecd14c9",

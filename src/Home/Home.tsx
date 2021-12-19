@@ -1,6 +1,6 @@
 import { AppBar, Button, Checkbox, Dialog, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Slide, Toolbar, Typography } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useRemult } from "../common";
 import { Lesson, StudentInLesson } from "../Courses/Course.entity";
 import { Student } from "../Students/Student.entity";
@@ -44,14 +44,15 @@ export function Home() {
 
     return (<>
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {lessons.data?.map(l => (<>
-                <ListItemButton id={l.id} role={undefined} onClick={() => setSelectedLesson(l)}>
-                    <ListItem key={l.id}>
+            {lessons.data?.map(l => (
+            <Fragment key={l.id}>
+                <ListItemButton  role={undefined} onClick={() => setSelectedLesson(l)}>
+                    <ListItem >
                         <ListItemText primary={l.course.name} secondary={l.$.date.displayValue} />
                     </ListItem>
                 </ListItemButton>
                 <Divider component="li" />
-            </>
+            </Fragment>
             ))}
         </List>
         <Dialog
@@ -110,12 +111,12 @@ export function Home() {
 }
 
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement;
+        const Transition = React.forwardRef(function Transition(
+        props: TransitionProps & {
+            children: React.ReactElement;
     },
-    ref: React.Ref<unknown>,
-) {
+        ref: React.Ref<unknown>,
+            ) {
     return <Slide direction="right" ref={ref} {...props} />;
 });
 
