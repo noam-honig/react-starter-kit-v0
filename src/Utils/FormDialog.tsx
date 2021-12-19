@@ -1,5 +1,5 @@
 
-import { Box, Button, Checkbox, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
+import { Backdrop, Box, Button, Checkbox, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FieldRef } from 'remult';
 
@@ -107,32 +107,46 @@ export async function formDialog({ fields, title, ok, cancel }: FormDialogArgs) 
 
     return await openDialog(
         close => {
-
-            const handleOk = async () => {
-                try {
-                    await ok();
-                    close();
-                } catch (err: any) {
-                    error(err);
+            const Me = () => {
+                const [backdrop, setBackdrop] = useState(false);
+                const handleOk = async () => {
+                    try {
+                        setBackdrop(true);
+                        await ok();
+                        setBackdrop(false);
+                        close();
+                    } catch (err: any) {
+                        setBackdrop(false);
+                        error(err);
+                    }
+                  
                 }
-            }
 
-            return (
-                <>
-                    <DialogTitle>{title}</DialogTitle>
-                    <DialogContent>
-                        <FieldsInput fields={fields} />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => {
-                            if (cancel)
-                                cancel();
-                            close();
-                        }}>בטל</Button>
-                        <Button onClick={handleOk}>אשר</Button>
-                    </DialogActions>
-                </>
-            )
+
+                return (
+                    <>
+                        <DialogTitle>{title}</DialogTitle>
+                        <DialogContent>
+                            <FieldsInput fields={fields} />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => {
+                                if (cancel)
+                                    cancel();
+                                close();
+                            }}>בטל</Button>
+                            <Button onClick={handleOk}>אשר</Button>
+                        </DialogActions>
+                        <Backdrop
+                            sx={{ color: '#fff',position:'absolute' , zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={backdrop}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
+                    </>
+                )
+            }
+            return (<Me/>);
         });
 }
 

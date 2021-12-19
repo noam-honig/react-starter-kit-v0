@@ -22,6 +22,11 @@ export class SignIn extends ControllerBase {
             title: "כניסה",
             fields: [...this.$],
             ok: async () => {
+                await new Promise(res => {
+                    setTimeout(() => {
+                        res({});
+                    }, 1000);
+                })
                 ui.setAuthToken(await this.signIn());
             }
         });
