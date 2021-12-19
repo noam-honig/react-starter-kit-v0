@@ -52,7 +52,8 @@ export function SelectDialog<T>(itemType: ClassType<T>, props: SelectDialogArgs<
                 limit: 100
             }), [search]);
             const select = (s: T) => {
-                props.select(s); close();
+                props.select(s);
+                close();
             }
             return (
                 <>

@@ -45,7 +45,7 @@ export function Home() {
     return (<>
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {lessons.data?.map(l => (<>
-                <ListItemButton role={undefined} onClick={() => setSelectedLesson(l)}>
+                <ListItemButton id={l.id} role={undefined} onClick={() => setSelectedLesson(l)}>
                     <ListItem key={l.id}>
                         <ListItemText primary={l.course.name} secondary={l.$.date.displayValue} />
                     </ListItem>

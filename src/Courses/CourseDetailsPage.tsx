@@ -78,7 +78,7 @@ function addStudent(course: Course, add: (s: Student) => void) {
             select: async (s) => {
                 //improve later
                 let sc = await course.students.reload();
-                if (!sc.find(sc => sc.studentId === s.id)) {
+                if (!sc.find(sc => sc.studentId === s.id && sc.courseId == course.id)) {
                     await course.students.create({
                         studentId: s.id,
                         courseId: course.id
