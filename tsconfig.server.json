@@ -8,7 +8,9 @@
    },
    "include": [
       "src/Utils/AugmentRemult.ts",
-      "src/server/index.ts"
+      "src/server/index.ts",
+      "src/**/*.entity.ts",
+      "src/**/*.controller.ts",
    ]
 }
  
