@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemText, TextField } from "@mui/material";
+import { Backdrop, Button, CircularProgress, DialogActions, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemText, TextField } from "@mui/material";
 import { useContext, useMemo, useState } from "react";
 import { EntityFilter, EntityMetadata, FieldMetadata, Fields, FieldsMetadata, getEntityRef, Repository } from "remult";
 import { RemultContext } from "../common";
@@ -45,7 +45,7 @@ export function SelectDialog<T>(itemType: ClassType<T>, props: SelectDialogArgs<
                 }
             }, []);
             const [search, setSearch] = useState('');
-            const { data } = useEntityQuery(async () => repo.find({
+            const { data, loading } = useEntityQuery(async () => repo.find({
                 where: {
                     [searchKey]: { $contains: search }
                 } as EntityFilter<T>,
@@ -73,7 +73,8 @@ export function SelectDialog<T>(itemType: ClassType<T>, props: SelectDialogArgs<
                         </IconButton>
 
                     </DialogTitle>
-                    <DialogContent>
+                    <DialogContent sx={{ position: 'relative' }}>
+
                         <List sx={{ pt: 0 }}>
                             {data?.map((s) => (
                                 <ListItem button onClick={() => select(s)} key={getEntityRef(s).getId()}>
@@ -82,24 +83,32 @@ export function SelectDialog<T>(itemType: ClassType<T>, props: SelectDialogArgs<
                                 </ListItem>
                             ))}
                         </List>
+                        <Backdrop
+                            sx={{ color: '#fff', position: 'absolute', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={loading}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
 
 
                     </DialogContent>
-                    {props.actions && (<DialogActions >
-                        {props.actions.map(action => (
-                            <Button
-                                key={action.caption}
-                                onClick={() => {
-                                    action.click({
-                                        searchValue: search,
-                                        select,
-                                        repo
-                                    });
-                                }}>{action.caption}</Button>
-                        ))}
+                    {
+                        props.actions && (<DialogActions >
+                            {props.actions.map(action => (
+                                <Button
+                                    key={action.caption}
+                                    onClick={() => {
+                                        action.click({
+                                            searchValue: search,
+                                            select,
+                                            repo
+                                        });
+                                    }}>{action.caption}</Button>
+                            ))}
 
 
-                    </DialogActions>)}
+                        </DialogActions>)
+                    }
 
 
 
