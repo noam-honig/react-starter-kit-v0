@@ -7,7 +7,7 @@ import { Group } from "../Courses/Course.entity";
 @Entity("students", {
     caption: 'תלמיד',
     allowApiCrud: true,
-    defaultOrderBy: { name: 'asc' }
+    defaultOrderBy: { order: 'asc' }
 })
 export class Student extends IdEntity {
     @Field({ caption: 'שם פרטי', validate: Validators.required.withMessage("חסר ערך") })
@@ -19,7 +19,7 @@ export class Student extends IdEntity {
     parentName: string = '';
     @Field({ caption: 'טלפון הורה', validate: Validators.required.withMessage("חסר ערך") })
     parentPhone: string = '';
-    @Field()
+    @Field({dbName:'theOrder'})
     order: number = 0;
 
     @Field({
