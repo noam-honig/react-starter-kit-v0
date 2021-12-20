@@ -1,13 +1,15 @@
 
 import { Backdrop, Box, Button, Checkbox, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { FieldRef } from 'remult';
+import { FieldRef, ValueListItem } from 'remult';
 
 import { FormDialogArgs, UITools } from './AugmentRemult';
 import { openDialog } from './StackUtils';
 import { useTheme } from '@mui/material/styles';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { ValueListValueConverter } from 'remult/valueConverters';
+import { SelectDialog } from './SelectDialog';
 
 
 
@@ -37,9 +39,23 @@ function MyTextField({ field }: { field: FieldRef }) {
     useField(field);
     const theme = useTheme();
     const [value, setValue] = useState(field.inputValue);
+    let inputType = field.metadata.inputType;
+    let click = field.metadata.options.userClickToSelectValue;
+    if (field.metadata.valueConverter instanceof ValueListValueConverter) {
+        inputType = 'custom';
+        let con = field.metadata.valueConverter;
+        click = ref => {
+            let options: ValueListItem[] = con.getOptions();
+            SelectDialog({
+                title: 'בחר ' + field.metadata.caption,
+                find: async search => options.filter(x => x.caption.indexOf(search) >= 0),
+                select: x => ref.value = x
+            });
+        }
+    }
 
 
-    if (field.metadata.inputType === "checkbox") {
+    if (inputType === "checkbox") {
         return <Box sx={{
             color: field.error ? theme.palette.error.main : undefined
         }}>
@@ -55,7 +71,7 @@ function MyTextField({ field }: { field: FieldRef }) {
             <Typography fontSize={"small"}>{field.error}</Typography>
         </Box>
     }
-    if (field.metadata.inputType === "custom") {
+    if (inputType === "custom") {
         return <FormControl variant="outlined" size="small" error={!!field.error}>
             <InputLabel htmlFor="custom-input">{field.metadata.caption}</InputLabel>
             <OutlinedInput readOnly
@@ -65,7 +81,7 @@ function MyTextField({ field }: { field: FieldRef }) {
                     <InputAdornment position="end">
                         <IconButton
                             onClick={() => {
-                                field.metadata.options.userClickToSelectValue!(field);
+                                click!(field);
                             }}
                             edge="end"
                         >
@@ -80,7 +96,7 @@ function MyTextField({ field }: { field: FieldRef }) {
     return (
 
         <TextField
-            type={field.metadata.inputType}
+            type={inputType}
             size="small"
             value={value}
             label={field.metadata.caption}
@@ -119,7 +135,7 @@ export async function formDialog({ fields, title, ok, cancel }: FormDialogArgs) 
                         setBackdrop(false);
                         error(err);
                     }
-                  
+
                 }
 
 
@@ -138,7 +154,7 @@ export async function formDialog({ fields, title, ok, cancel }: FormDialogArgs) 
                             <Button onClick={handleOk}>אשר</Button>
                         </DialogActions>
                         <Backdrop
-                            sx={{ color: '#fff',position:'absolute' , zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            sx={{ color: '#fff', position: 'absolute', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                             open={backdrop}
                         >
                             <CircularProgress color="inherit" />
@@ -146,7 +162,7 @@ export async function formDialog({ fields, title, ok, cancel }: FormDialogArgs) 
                     </>
                 )
             }
-            return (<Me/>);
+            return (<Me />);
         });
 }
 

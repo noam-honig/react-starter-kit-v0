@@ -1,27 +1,36 @@
-import { AppBar, Button, Checkbox, Dialog, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Slide, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Checkbox, Dialog, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Slide, TextField, Toolbar, Typography } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { Fragment, useState } from "react";
 import { useRemult } from "../common";
-import { Lesson, StudentInLesson } from "../Courses/Course.entity";
+import { Group, StudentInLesson } from "../Courses/Course.entity";
 import { Student } from "../Students/Student.entity";
-import { useEntityArray } from "../Utils/useEntityQuery";
+import { useEntityArray, useEntityQuery } from "../Utils/useEntityQuery";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { AlternateEmailRounded, CheckRounded } from "@mui/icons-material";
+import { User } from "../Users/User.entity";
+import { uiTools } from "../Utils/FormDialog";
+import { DateOnlyValueConverter, DateValueConverter } from "remult/valueConverters";
 
 export function Home() {
     const remult = useRemult();
-    const lessons = useEntityArray(() => remult.repo(Lesson).find({
-        where: Lesson.currentUser()
-    }), [remult.user.id]);
-    const [selectedLesson, setSelectedLesson] = useState<Lesson | undefined>(undefined);
+    const currentUser = useEntityQuery(() => remult.repo(User).findId(remult.user.id), [remult.user.id]);
+    const groups = useEntityArray(() =>
+        !currentUser ? undefined :
+            remult.repo(Group).find({
+                where: {
+                    teacher: currentUser.data
+                }
+            }), [currentUser.data]);
+    const [date, setDate] = useState(new Date());
+
+    const [selectedGroup, setSelectedGroup] = useState<Group | undefined>(undefined);
     const students = useEntityArray(async () =>
-        selectedLesson ? remult.repo(Student).find({ where: Student.inCourse(selectedLesson.course.id) }) :
-            [], [selectedLesson?.course.id]);
+        selectedGroup ? remult.repo(Student).find({ where: { group: selectedGroup } }) :
+            [], [selectedGroup?.id]);
     const studentInLesson = useEntityArray(async () =>
-        selectedLesson ? remult.repo(StudentInLesson).find({ where: { lessonId: selectedLesson.id } }) : [],
-        [selectedLesson?.id]);
+        selectedGroup ? remult.repo(StudentInLesson).find({ where: { lessonId: selectedGroup.id } }) : [],
+        [selectedGroup?.id]);
     const handleClose = () => {
-        setSelectedLesson(undefined);
+        setSelectedGroup(undefined);
     };
 
     const attended = (student: Student) => {
@@ -33,7 +42,7 @@ export function Home() {
     const setAttended = async (student: Student) => {
         let sil = studentInLesson.data?.find(x => x.studentId === student.id);
         if (!sil) {
-            sil = await remult.repo(StudentInLesson).create({ studentId: student.id, lessonId: selectedLesson?.id });
+            sil = await remult.repo(StudentInLesson).create({ studentId: student.id, lessonId: selectedGroup?.id });
             studentInLesson!.data!.push(sil);
         }
         sil.attended = !sil.attended;
@@ -42,26 +51,40 @@ export function Home() {
     }
 
 
+
     return (<>
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {lessons.data?.map(l => (
-            <Fragment key={l.id}>
-                <ListItemButton  role={undefined} onClick={() => setSelectedLesson(l)}>
-                    <ListItem >
-                        <ListItemText primary={l.course.name} secondary={l.$.date.displayValue} />
-                    </ListItem>
-                </ListItemButton>
-                <Divider component="li" />
-            </Fragment>
+            {groups.data?.map(group => (
+                <Fragment key={group.id}>
+                    <ListItemButton role={undefined} onClick={() => setSelectedGroup(group)}>
+                        <ListItem >
+                            <ListItemText primary={group.name} secondary={group.town} />
+                        </ListItem>
+                    </ListItemButton>
+                    <Divider component="li" />
+                </Fragment>
             ))}
         </List>
+
+        <Button variant="contained" onClick={async () => {
+            const g = remult.repo(Group).create({ teacher: currentUser.data });
+            uiTools.formDialog({
+                title: "הוסף קבוצה חדשה",
+                fields: [g.$.name, g.$.town],
+                ok: async () => {
+                    await g.save();
+                    groups.add(g);
+                }
+            });
+        }}>הוסף קבוצה חדשה</Button>
+
         <Dialog
             fullScreen
-            open={!!selectedLesson}
+            open={!!selectedGroup}
             onClose={(handleClose)}
             TransitionComponent={Transition}
         >
-            <AppBar sx={{ position: 'relative' }}>
+            <Box sx={{ position: 'relative' }}>
                 <Toolbar variant="dense">
                     <IconButton
                         edge="start"
@@ -71,12 +94,18 @@ export function Home() {
                     >
                         <ChevronRightIcon />
                     </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        {selectedLesson?.$.date.displayValue}
-                    </Typography>
+                    <TextField type="date" inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
+                        color="secondary"
+                        label="תאריך השיעור"
+                        value={DateOnlyValueConverter.toInput!(date, 'date')}
+                        onChange={e => setDate(DateOnlyValueConverter.fromInput!(e.target.value, 'date'))}
+
+                    />
 
                 </Toolbar>
-            </AppBar>
+            </Box>
+
+            <Divider />
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {students.data?.map((student) => {
 
@@ -98,7 +127,7 @@ export function Home() {
 
                                         />
                                     </ListItemIcon>
-                                    <ListItemText primary={student.name} />
+                                    <ListItemText primary={student.fullName} secondary={student.$.lessonType.displayValue} />
                                 </ListItemButton>
                             </ListItem>
                             <Divider component="li" />
@@ -106,17 +135,28 @@ export function Home() {
                     );
                 })}
             </List>
+            <Button variant="contained" onClick={async () => {
+                const student = remult.repo(Student).create({ group: selectedGroup! });
+                uiTools.formDialog({
+                    title: "הוסף תלמיד ",
+                    fields: [student.$.firstName, student.$.lastName, student.$.parentName, student.$.parentPhone, student.$.lessonType],
+                    ok: async () => {
+                        await student.save();
+                        students.add(student);
+                    }
+                });
+            }}>הוסף תלמיד</Button>
         </Dialog>
     </>)
 }
 
 
-        const Transition = React.forwardRef(function Transition(
-        props: TransitionProps & {
-            children: React.ReactElement;
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement;
     },
-        ref: React.Ref<unknown>,
-            ) {
+    ref: React.Ref<unknown>,
+) {
     return <Slide direction="right" ref={ref} {...props} />;
 });
 

@@ -3,7 +3,8 @@ import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType } from 
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
-import { SelectDialog } from "../Utils/SelectDialog";
+import { SelectEntityDialog } from "../Utils/SelectDialog";
+
 
 
 @Entity<User>("Users", {
@@ -33,7 +34,7 @@ import { SelectDialog } from "../Utils/SelectDialog";
     inputType: 'custom'
 },
     (o) => o.userClickToSelectValue = async f => {
-        SelectDialog(User, {
+        SelectEntityDialog(User, {
             select: user => f.value = user
         })
     }

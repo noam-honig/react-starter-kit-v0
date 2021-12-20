@@ -1,23 +1,46 @@
-import { Entity, Field, Filter, IdEntity } from "remult";
-import { StudentInCourse } from "../Courses/Course.entity";
+import { Entity, Field, IdEntity, Validators, ValueListFieldType } from "remult";
+import { Group } from "../Courses/Course.entity";
+
+
+
 
 @Entity("students", {
-    caption:'תלמיד',
+    caption: 'תלמיד',
     allowApiCrud: true,
     defaultOrderBy: { name: 'asc' }
 })
 export class Student extends IdEntity {
-    @Field({ caption: 'שם התלמיד' })
-    name: string = '';
+    @Field({ caption: 'שם פרטי', validate: Validators.required.withMessage("חסר ערך") })
+    firstName: string = '';
+    @Field({ caption: 'שם משפחה', validate: Validators.required.withMessage("חסר ערך") })
+    lastName: string = '';
+    get fullName() { return this.firstName + " " + this.lastName; }
     @Field({ caption: 'שם הורה' })
     parentName: string = '';
-    @Field({ caption: 'טלפון הורה' })
+    @Field({ caption: 'טלפון הורה', validate: Validators.required.withMessage("חסר ערך") })
     parentPhone: string = '';
 
-    static inCourse = Filter.createCustom<Student, string>(async (remult, courseId) => {
-        let ids = await remult.repo(StudentInCourse).find({ where: { courseId } });
-        return {
-            id: ids.map(x => x.studentId)
+    @Field({
+        caption: 'סוג שעור', validate: (x, col) => {
+            if (!col.value?.id) {
+                col.error = "חסר ערך";
+            }
         }
-    });
-} 
+    }, o => o.valueType = LessonType)
+    lessonType!: LessonType;
+
+    @Field({ caption: 'קבוצה' }, o => o.valueType = Group)
+    group!: Group;
+
+
+}
+
+
+
+
+export class LessonType {
+    constructor(public id: number, public caption: string) { }
+    static m30 = new LessonType(30, "30 דקות");
+    static m45 = new LessonType(45, "45 דקות");
+}
+ValueListFieldType(LessonType)(LessonType)

@@ -11,7 +11,7 @@ export function StudentsPage() {
         editOnClick: true,
         gridActions: [AddRowAction],
         rowActions: [DeleteRowAction],
-        fields: u => [u.name, u.parentName, u.parentPhone],
+        fields: u => [u.firstName, u.parentName, u.parentPhone],
     });
 }
 

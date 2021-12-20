@@ -1,44 +1,56 @@
 [
   {
-    "id": "3931d03a-35dd-43b0-9adc-b9aebb9b92a7",
-    "name": "מעיין הניג",
-    "parentName": "יעל",
-    "parentPhone": "0507953019"
+    "id": "86789059-32ff-4a3d-97fb-f89c1b767388",
+    "firstName": "אלון",
+    "lastName": "גפנר",
+    "parentName": "1",
+    "parentPhone": "1",
+    "lessonType": 30,
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
   },
   {
-    "id": "b76da191-a1b6-4bec-ab4c-b9c89f09f52a",
-    "name": "איתמר הניג",
-    "parentName": "יעל",
-    "parentPhone": "0507953019"
+    "id": "0442286c-2522-4068-9353-b66ea81b1b2a",
+    "firstName": "בר ",
+    "lastName": "נתנאלי",
+    "parentName": "1",
+    "parentPhone": "1",
+    "lessonType": 30,
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
   },
   {
-    "id": "54641690-730b-4285-8387-7ae3d6b0920d",
-    "name": "עופרי הניג",
-    "parentName": "יעל",
-    "parentPhone": "0507953019"
+    "id": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
+    "firstName": "מעין",
+    "lastName": "צברי",
+    "parentName": "1",
+    "parentPhone": "1",
+    "lessonType": 30,
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
   },
   {
-    "id": "605792f9-5039-49c3-a792-63bb645b4afa",
-    "name": "הראל צוריה",
-    "parentName": "גוון",
-    "parentPhone": ""
+    "id": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
+    "firstName": "אגם",
+    "lastName": "צברי",
+    "parentName": "1",
+    "parentPhone": "1",
+    "lessonType": 45,
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
   },
   {
-    "id": "d0e937d4-5cf9-4004-8d20-8a1fdcad9b8a",
-    "name": "מאיה לבני",
-    "parentName": "יעל ",
-    "parentPhone": ""
+    "id": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
+    "firstName": "נועם",
+    "lastName": "בן צור",
+    "parentName": "1",
+    "parentPhone": "1",
+    "lessonType": 45,
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
   },
   {
-    "id": "018fff3b-6d77-4ad8-9719-75435dee5ac0",
-    "name": "יסמין אדלר",
-    "parentName": "ענת",
-    "parentPhone": ""
-  },
-  {
-    "id": "b102f473-beaf-4158-a69f-d39d72a5651f",
-    "name": "Noam",
-    "parentName": "",
-    "parentPhone": ""
+    "id": "1ce91388-da45-4578-90a5-b568434f0e47",
+    "firstName": "ליה",
+    "lastName": "עדני",
+    "parentName": "1",
+    "parentPhone": "1",
+    "lessonType": 45,
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
   }
 ]

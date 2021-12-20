@@ -1,0 +1,26 @@
+[
+  {
+    "id": "7e80f291-9b16-4e45-b32d-9df88544ab5a",
+    "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "studentId": "0442286c-2522-4068-9353-b66ea81b1b2a",
+    "attended": false
+  },
+  {
+    "id": "2f739483-a00f-4ec1-b0c9-8a3c026c7944",
+    "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "studentId": "86789059-32ff-4a3d-97fb-f89c1b767388",
+    "attended": false
+  },
+  {
+    "id": "fafdba05-08db-4820-b7b7-e2adf6b876d2",
+    "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "studentId": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
+    "attended": false
+  },
+  {
+    "id": "908e3901-bbd7-4716-814a-d273f97077a7",
+    "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "studentId": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
+    "attended": false
+  }
+]
