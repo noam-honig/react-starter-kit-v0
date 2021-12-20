@@ -24,3 +24,8 @@ export function useEntityArray<T>(get: () => Promise<T[]> | undefined, deps: any
     return { ...r, add: (item: T) => r.setData(d => [...d!, item]) };
 }
 
+
+export function useRender() {
+    const [, render] = useState({});
+    return () => render({});
+}

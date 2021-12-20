@@ -6,7 +6,8 @@
     "parentName": "1",
     "parentPhone": "1",
     "lessonType": 30,
-    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "order": 0
   },
   {
     "id": "0442286c-2522-4068-9353-b66ea81b1b2a",
@@ -15,7 +16,8 @@
     "parentName": "1",
     "parentPhone": "1",
     "lessonType": 30,
-    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "order": 1
   },
   {
     "id": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
@@ -24,7 +26,8 @@
     "parentName": "1",
     "parentPhone": "1",
     "lessonType": 30,
-    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "order": 2
   },
   {
     "id": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
@@ -33,7 +36,8 @@
     "parentName": "1",
     "parentPhone": "1",
     "lessonType": 45,
-    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "order": 3
   },
   {
     "id": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
@@ -42,7 +46,8 @@
     "parentName": "1",
     "parentPhone": "1",
     "lessonType": 45,
-    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "order": 4
   },
   {
     "id": "1ce91388-da45-4578-90a5-b568434f0e47",
@@ -51,6 +56,7 @@
     "parentName": "1",
     "parentPhone": "1",
     "lessonType": 45,
-    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830"
+    "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
+    "order": 5
   }
 ]

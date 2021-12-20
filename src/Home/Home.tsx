@@ -1,14 +1,23 @@
-import { AppBar, Box, Button, Checkbox, Dialog, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Slide, TextField, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Button, Checkbox, Dialog, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Slide, TextField, Toolbar, Typography } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { Fragment, useState } from "react";
 import { useRemult } from "../common";
 import { Group, StudentInLesson } from "../Courses/Course.entity";
+import { StudentInLessonStatus } from "../Courses/StudentInLessonStatus";
 import { Student } from "../Students/Student.entity";
 import { useEntityArray, useEntityQuery } from "../Utils/useEntityQuery";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { User } from "../Users/User.entity";
 import { uiTools } from "../Utils/FormDialog";
-import { DateOnlyValueConverter, DateValueConverter } from "remult/valueConverters";
+import { DateOnlyValueConverter } from "remult/valueConverters";
+import {
+    DragDropContext,
+    Droppable,
+    Draggable,
+    DropResult,
+    ResponderProvided
+} from "react-beautiful-dnd";
+import { StudentInLessonElement } from "./StudentInLessonElement";
 
 export function Home() {
     const remult = useRemult();
@@ -26,29 +35,41 @@ export function Home() {
     const students = useEntityArray(async () =>
         selectedGroup ? remult.repo(Student).find({ where: { group: selectedGroup } }) :
             [], [selectedGroup?.id]);
-    const studentInLesson = useEntityArray(async () =>
-        selectedGroup ? remult.repo(StudentInLesson).find({ where: { lessonId: selectedGroup.id } }) : [],
-        [selectedGroup?.id]);
+    const studentsInLesson = useEntityArray(async () => {
+        if (!selectedGroup || !students.data)
+            return [];
+        let result = await remult.repo(StudentInLesson).find({ where: { date, studentId: students.data!.map(s => s.id) } });
+        result.push(...students.data!.filter(s => !result.find(l => l.studentId === s.id)).map(s => remult.repo(StudentInLesson).create({ studentId: s.id, date: date })));
+        return result;
+    },
+
+        [selectedGroup?.id, students.data, date]);
     const handleClose = () => {
         setSelectedGroup(undefined);
     };
 
-    const attended = (student: Student) => {
-        let z = studentInLesson.data?.find(x => x.studentId === student.id);
-        if (z)
-            return z.attended;
-        return false;
-    }
-    const setAttended = async (student: Student) => {
-        let sil = studentInLesson.data?.find(x => x.studentId === student.id);
-        if (!sil) {
-            sil = await remult.repo(StudentInLesson).create({ studentId: student.id, lessonId: selectedGroup?.id });
-            studentInLesson!.data!.push(sil);
+
+
+    const reorder = (list: any[], startIndex: number, endIndex: number) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+
+        return result;
+    };
+    const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
+        if (!result.destination) {
+            return;
         }
-        sil.attended = !sil.attended;
-        await sil.save();
-        studentInLesson.setData([...studentInLesson!.data!]);
-    }
+
+        const items = reorder(students.data!, result.source.index, result.destination.index);
+
+        students.setData(items);
+        for (let order = 0; order < items.length; order++) {
+            const student = items[order] as Student;
+            student.assign({ order }).save();
+        }
+    };
 
 
 
@@ -95,7 +116,7 @@ export function Home() {
                         <ChevronRightIcon />
                     </IconButton>
                     <TextField type="date" inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
-                        color="secondary"
+                        
                         label="תאריך השיעור"
                         value={DateOnlyValueConverter.toInput!(date, 'date')}
                         onChange={e => setDate(DateOnlyValueConverter.fromInput!(e.target.value, 'date'))}
@@ -106,37 +127,33 @@ export function Home() {
             </Box>
 
             <Divider />
-            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                {students.data?.map((student) => {
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                        <List
+                            ref={provided.innerRef}
+                            sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                            {students.data?.map((student, index) => {
+                                let sl = studentsInLesson.data!.find(x => x.studentId === student.id);
+                                if (!sl) {
+                                    return <Fragment key={student.id} />;
+                                }
 
+                                return (
+                                    <StudentInLessonElement
+                                        key={student.id}
+                                        index={index}
+                                        student={student}
+                                        studentInLesson={sl} />
+                                );
+                            })}
 
-                    return (
-                        <>
-                            <ListItem
-                                key={student.id}
-
-                                disablePadding
-                            >
-                                <ListItemButton role={undefined} onClick={(e) => setAttended(student)} dense>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            checked={attended(student)}
-                                            tabIndex={-1}
-                                            disableRipple
-
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText primary={student.fullName} secondary={student.$.lessonType.displayValue} />
-                                </ListItemButton>
-                            </ListItem>
-                            <Divider component="li" />
-                        </>
-                    );
-                })}
-            </List>
+                            {provided.placeholder}
+                        </List>)}
+                </Droppable>
+            </DragDropContext>
             <Button variant="contained" onClick={async () => {
-                const student = remult.repo(Student).create({ group: selectedGroup! });
+                const student = remult.repo(Student).create({ group: selectedGroup!, order: students.data!.length });
                 uiTools.formDialog({
                     title: "הוסף תלמיד ",
                     fields: [student.$.firstName, student.$.lastName, student.$.parentName, student.$.parentPhone, student.$.lessonType],

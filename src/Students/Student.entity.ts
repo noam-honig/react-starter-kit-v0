@@ -19,6 +19,8 @@ export class Student extends IdEntity {
     parentName: string = '';
     @Field({ caption: 'טלפון הורה', validate: Validators.required.withMessage("חסר ערך") })
     parentPhone: string = '';
+    @Field()
+    order: number = 0;
 
     @Field({
         caption: 'סוג שעור', validate: (x, col) => {

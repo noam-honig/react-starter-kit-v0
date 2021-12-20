@@ -1,6 +1,7 @@
-import { DateOnlyField, Entity, Field, Filter, IdEntity, OneToMany, Remult, EntityFilter } from "remult";
+import { DateOnlyField, Entity, Field, Filter, IdEntity, OneToMany, Remult, EntityFilter, ValueListFieldType } from "remult";
 import { Student } from "../Students/Student.entity";
 import { User } from "../Users/User.entity";
+import { StudentInLessonStatus } from "./StudentInLessonStatus";
 
 
 
@@ -32,13 +33,14 @@ export class Group extends IdEntity {
 
 @Entity("studentsInDate", {
     allowApiCrud: true,
-    caption: "לתמיד בשיעור"
+    caption: "תלמיד בשיעור"
 })
 export class StudentInLesson extends IdEntity {
-    @Field()
-    lessonId: string = '';
+    @DateOnlyField()
+    date!: Date;
     @Field()
     studentId: string = '';
-    @Field()
-    attended: boolean = false;
+    @Field(o => o.valueType = StudentInLessonStatus)
+    status: StudentInLessonStatus = StudentInLessonStatus.none;
 }
+
