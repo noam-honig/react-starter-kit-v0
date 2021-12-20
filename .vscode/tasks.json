@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "release",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"label": "npm: release",
+			"detail": "git push heroku yael:master"
+		}
+	]
+}

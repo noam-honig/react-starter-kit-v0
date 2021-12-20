@@ -53,7 +53,8 @@
     "dev-node": "ts-node-dev --project tsconfig.server.json src/server/",
     "dev-react": "react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "release":"git push heroku yael:master"
   },
   "eslintConfig": {
     "extends": [

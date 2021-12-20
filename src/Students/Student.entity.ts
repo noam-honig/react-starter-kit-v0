@@ -31,7 +31,7 @@ export class Student extends IdEntity {
     }, o => o.valueType = LessonType)
     lessonType!: LessonType;
 
-    @Field({ caption: 'קבוצה' }, o => o.valueType = Group)
+    @Field({ caption: 'קבוצה' ,dbName:"theGroup"}, o => o.valueType = Group)
     group!: Group;
 
 
