@@ -4,7 +4,7 @@ import { ValueListFieldType } from "remult";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-//@ValueListFieldType(StudentInLessonStatus)
+@ValueListFieldType()
 export class StudentInLessonStatus {
     static none: StudentInLessonStatus = new StudentInLessonStatus("", "טרם עודכן", () => StudentInLessonStatus.attended, <CheckBoxOutlineBlankIcon />);
     static attended = new StudentInLessonStatus("v", "נכח", () => StudentInLessonStatus.none, <CheckBoxIcon />);
@@ -31,4 +31,3 @@ export class StudentInLessonStatus {
         }
     }
 }
-ValueListFieldType(StudentInLessonStatus)(StudentInLessonStatus);

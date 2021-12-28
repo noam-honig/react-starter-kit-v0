@@ -4,6 +4,13 @@ import { Group } from "../Courses/Course.entity";
 
 
 
+@ValueListFieldType()
+export class LessonType {
+    constructor(public id: number, public caption: string) { }
+    static m30 = new LessonType(30, "30 דקות");
+    static m45 = new LessonType(45, "45 דקות");
+}
+
 @Entity("students", {
     caption: 'תלמיד',
     allowApiCrud: true,
@@ -40,10 +47,3 @@ export class Student extends IdEntity {
 
 
 
-
-export class LessonType {
-    constructor(public id: number, public caption: string) { }
-    static m30 = new LessonType(30, "30 דקות");
-    static m45 = new LessonType(45, "45 דקות");
-}
-ValueListFieldType(LessonType)(LessonType)
