@@ -4,7 +4,7 @@ import { ValueListFieldType } from "remult";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-
+//@ValueListFieldType(StudentInLessonStatus)
 export class StudentInLessonStatus {
     static none: StudentInLessonStatus = new StudentInLessonStatus("", "טרם עודכן", () => StudentInLessonStatus.attended, <CheckBoxOutlineBlankIcon />);
     static attended = new StudentInLessonStatus("v", "נכח", () => StudentInLessonStatus.none, <CheckBoxIcon />);
@@ -19,13 +19,13 @@ export class StudentInLessonStatus {
         {
             const IconWithColor = () => {
                 const theme = useTheme();
-                const CustomizedSlider = styled(ListItemIcon)`
+                const CustomizedListItemIcon = styled(ListItemIcon)`
                 color:${theme.palette.primary.main}
                 `
                 return (
-                    <CustomizedSlider>
+                    <CustomizedListItemIcon>
                         {icon?icon:id.toUpperCase()}
-                    </CustomizedSlider>)
+                    </CustomizedListItemIcon>)
             }
             this.icon = <IconWithColor />
         }

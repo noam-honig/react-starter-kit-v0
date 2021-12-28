@@ -23,6 +23,7 @@ export class Student extends IdEntity {
     order: number = 0;
 
     @Field({
+        
         caption: 'סוג שעור', validate: (x, col) => {
             if (!col.value?.id) {
                 col.error = "חסר ערך";
