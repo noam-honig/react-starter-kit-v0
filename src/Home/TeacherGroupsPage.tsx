@@ -1,8 +1,8 @@
 import { AppBar, Avatar, Box, Button, Checkbox, Dialog, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Slide, TextField, Toolbar, Typography } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useMemo, useState } from "react";
 import { useRemult } from "../common";
-import { Group, StudentInLesson } from "../Courses/Course.entity";
+import { Group, StudentInLesson } from "../Courses/Group.entity";
 import { StudentInLessonStatus } from "../Courses/StudentInLessonStatus";
 import { Student } from "../Students/Student.entity";
 import { useEntityArray, useEntityQuery } from "../Utils/useEntityQuery";
@@ -18,12 +18,15 @@ import {
     ResponderProvided
 } from "react-beautiful-dnd";
 import { StudentInLessonElement } from "./StudentInLessonElement";
+import { FieldRef } from "remult";
+import { Action } from "../Utils/AugmentRemult";
+import { FullMenu } from "../Utils/Menu";
 
-export function Home() {
+export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
     const remult = useRemult();
-    const currentUser = useEntityQuery(() => remult.repo(User).findId(remult.user.id), [remult.user.id]);
+    const currentUser = useEntityQuery(() => remult.repo(User).findId(teacherId, { useCache: false }), [teacherId]);
     const groups = useEntityArray(() =>
-        !currentUser ? undefined :
+        !currentUser.data ? undefined :
             remult.repo(Group).find({
                 where: {
                     teacher: currentUser.data
@@ -47,6 +50,27 @@ export function Home() {
     const handleClose = () => {
         setSelectedGroup(undefined);
     };
+
+    const menuOptions =  [
+        {
+            caption: "עדכן בוטל על ידינו לכולם",
+            click: () => {
+                var s = remult.repo(StudentInLesson).create();
+                uiTools.formDialog({
+                    title: "עדכן בוטל על ידינו לכולם בתאריך " + DateOnlyValueConverter.displayValue!(date),
+                    fields: [s.$.note],
+                    ok: async () => {
+                        for (const st of studentsInLesson.data!) {
+                            st.note = s.note;
+                            st.status = StudentInLessonStatus.canceled;
+                            await st.save();
+                        }
+                        studentsInLesson.setData([...studentsInLesson.data!])
+                    }
+                })
+            }
+        }
+    ];
 
 
 
@@ -89,9 +113,12 @@ export function Home() {
 
         <Button variant="contained" onClick={async () => {
             const g = remult.repo(Group).create({ teacher: currentUser.data });
+            let fields: FieldRef<Group>[] = [g.$.name, g.$.town];
+            if (currentUser.data!.priceBand > 0)
+                fields.push(g.$.isBand);
             uiTools.formDialog({
                 title: "הוסף קבוצה חדשה",
-                fields: [g.$.name, g.$.town],
+                fields,
                 ok: async () => {
                     await g.save();
                     groups.add(g);
@@ -116,12 +143,13 @@ export function Home() {
                         <ChevronRightIcon />
                     </IconButton>
                     <TextField type="date" inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
-                        
+
                         label="תאריך השיעור"
                         value={DateOnlyValueConverter.toInput!(date, 'date')}
                         onChange={e => setDate(DateOnlyValueConverter.fromInput!(e.target.value, 'date'))}
 
                     />
+                    <FullMenu options={menuOptions} />
 
                 </Toolbar>
             </Box>
@@ -154,14 +182,7 @@ export function Home() {
             </DragDropContext>
             <Button variant="contained" onClick={async () => {
                 const student = remult.repo(Student).create({ group: selectedGroup!, order: students.data!.length });
-                uiTools.formDialog({
-                    title: "הוסף תלמיד ",
-                    fields: [student.$.firstName, student.$.lastName, student.$.parentName, student.$.parentPhone, student.$.lessonType],
-                    ok: async () => {
-                        await student.save();
-                        students.add(student);
-                    }
-                });
+                student.editDialog(() => students.add(student));
             }}>הוסף תלמיד</Button>
         </Dialog>
     </>)

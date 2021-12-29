@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
 import { Button, Menu, MenuItem } from '@mui/material';
@@ -22,7 +22,9 @@ import { Button, Menu, MenuItem } from '@mui/material';
 import { SignUp } from './Users/SignUp.controller';
 import { uiTools } from './Utils/FormDialog';
 import { SignIn } from './Users/SignIn.controller';
-import { AuthContext, RemultContext } from './common';
+import { AuthContext, RemultContext, useRemult } from './common';
+import { Roles } from './Users/Roles';
+import { TeacherGroupsPage } from './Home/TeacherGroupsPage';
 
 
 
@@ -79,22 +81,27 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function MainPage() {
   const location = useLocation();
-  const remult = React.useContext(RemultContext);
+  const remult = useRemult();
   const auth = React.useContext(AuthContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const userToken = searchParams.get("token");
+
+  React.useEffect(() => {
+    if (userToken) {
+      SignIn.validateUserToken(userToken).then(r => {
+        if (r.token) {
+          auth.setAuthToken(r.token);
+        }
+      });
+    }
+  }, [userToken, remult]);
 
   const allowedRoutes = routes.filter(r => r.allowed === undefined || remult.isAllowed(r.allowed));
   const title = React.useMemo(() => {
     return allowedRoutes.find(r => r.path === location.pathname.substring(1))?.title ?? ''
   }, [location])
 
-  const [, refresh] = React.useState({});
-  React.useEffect(() => {
-    let unobserve = () => { };
-    remult.userChange.observe(() => refresh({})).then(x => unobserve = x);
-    return () => {
-      unobserve();
-    }
-  }, []);
+
 
   const navigate = useNavigate();
   uiTools.navigate = (element, ...args: any[]) => {
@@ -123,7 +130,10 @@ export default function MainPage() {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-
+  const signOut = () => {
+    auth.signOut();
+    setSearchParams({ token: '' });
+  }
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -132,6 +142,20 @@ export default function MainPage() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  if (!remult.authenticated()) {
+
+    return (<Button color="inherit"
+      onClick={() => new SignIn(remult).show(uiTools)}>
+      כניסה
+    </Button>)
+  }
+  if (!remult.isAllowed(Roles.admin)) {
+    return <>
+      <Typography variant="h6">שלום {remult.user.name}</Typography>
+      <TeacherGroupsPage teacherId={remult.user.id} />
+      <Button onClick={signOut}>צא</Button>
+    </>
+  }
 
 
   return (
@@ -192,7 +216,7 @@ export default function MainPage() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={() => {
-                  auth.signOut();
+                  signOut();
                   handleClose();
                 }}>Sign Out</MenuItem>
               </Menu>

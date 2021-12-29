@@ -6,11 +6,13 @@ import { uiTools } from "./FormDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from "@mui/material";
+import { grid } from "@mui/system";
 
 declare type GridRowAction<entityType> = Action<{ row: entityType, utils: GridUtils<entityType> }>;
 
 export interface muiGridOptions<entityType> {
     fields?: (entity: FieldsMetadata<entityType>) => FieldMetadata[],
+    editFields?: (entity: FieldsMetadata<entityType>) => FieldMetadata[],
     editOnClick?: boolean,
     singular?: string,
     rowActions?: GridRowAction<entityType>[],
@@ -45,7 +47,8 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
             removeRow: row => set(s => ({ ...s, allRows: s.allRows.filter(x => x !== row), rows: s.rows.filter(x => x !== row) })),
             renderRows: () => set(s => ({ ...s, rows: [...s.rows] })),
             addRow: row => set(s => ({ ...s, allRows: [...s.allRows, row], rows: [...s.rows, row] })),
-            displayFields: [] as FieldMetadata[]
+            displayFields: [] as FieldMetadata[],
+            editFields: []
         }
 
         let map = new Map<FieldMetadata, GridColDef>();
@@ -54,7 +57,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 field: f.key,
                 headerName: f.caption,
                 width: 150,
-                valueGetter:({row})=>{
+                valueGetter: ({ row }) => {
                     return getEntityRef(row).fields.find(f).displayValue;
                 }
             }
@@ -70,6 +73,11 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
             gridUtils.displayFields = options?.fields(repo.metadata.fields);
         else
             gridUtils.displayFields = defaultEditFieldsMetaData(item);
+        if (options?.editFields)
+            gridUtils.editFields = options.editFields(repo.metadata.fields);
+        else
+            gridUtils.editFields = gridUtils.displayFields;
+
 
 
 
@@ -83,7 +91,8 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 getActions: (params: GridRowParams<User>) => {
                     return options.rowActions!.map(a => (
                         <GridActionsCellItem key={a.caption} onClick={async () => {
-                            await a.click({ row: params.row, utils: gridUtils });
+                            if (a.click)
+                                await a.click({ row: params.row, utils: gridUtils });
 
                         }} label={a.caption} showInMenu icon={a.icon ? React.createElement(a.icon) : undefined} />
                     ))
@@ -101,8 +110,8 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                             <Button key={a.caption} startIcon={a.icon ? React.createElement(a.icon) : undefined}
                                 size="small"
                                 onClick={async () => {
-
-                                    a.click(gridUtils);
+                                    if (a.click)
+                                        a.click(gridUtils);
                                 }}
                             >
                                 {a.caption}
@@ -224,7 +233,7 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
             let row = getEntityRef(x.row);
             uiTools.formDialog({
                 title: 'ערוך ' + config.singular,
-                fields: config.gridUtils.displayFields.map(f => row.fields.find(f)),
+                fields: config.gridUtils.editFields.map(f => row.fields.find(f)),
                 ok: async () => {
                     await row.save();
                     config.gridUtils.renderRows();
@@ -246,6 +255,7 @@ export interface GridUtils<entityType> {
     renderRows: () => void;
     create(): entityType;
     displayFields: FieldMetadata[];
+    editFields: FieldMetadata[];
 }
 
 
@@ -277,7 +287,7 @@ export const AddRowAction: Action<GridUtils<any>> = {
         let ref = getEntityRef(row);
         uiTools.formDialog({
             title: 'הוסף',
-            fields: utils.displayFields.map(x => ref.fields.find(x)),
+            fields: utils.editFields.map(x => ref.fields.find(x)),
             ok: async () => {
                 await ref.save();
                 utils.addRow(row);

@@ -7,7 +7,11 @@
     "admin": true,
     "instrument": "",
     "phone": "",
-    "email": ""
+    "email": "",
+    "price30": 0,
+    "price45": 0,
+    "priceBand": 0,
+    "priceTravel": 0
   },
   {
     "id": "bbc2b3b2-b9ef-4530-89c6-ba52fb5f1857",
@@ -17,7 +21,11 @@
     "admin": false,
     "instrument": "",
     "phone": "",
-    "email": ""
+    "email": "",
+    "price30": 0,
+    "price45": 0,
+    "priceBand": 0,
+    "priceTravel": 0
   },
   {
     "id": "fc16c69b-9a65-4b6c-987a-6113abb2dde5",
@@ -27,7 +35,11 @@
     "admin": false,
     "instrument": "",
     "phone": "",
-    "email": ""
+    "email": "",
+    "price30": 0,
+    "price45": 0,
+    "priceBand": 0,
+    "priceTravel": 0
   },
   {
     "id": "912eeb40-ea75-4f3b-9958-42b91acae3c5",
@@ -37,7 +49,11 @@
     "admin": false,
     "instrument": "",
     "phone": "",
-    "email": ""
+    "email": "",
+    "price30": 0,
+    "price45": 0,
+    "priceBand": 0,
+    "priceTravel": 0
   },
   {
     "id": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6",
@@ -47,6 +63,10 @@
     "admin": false,
     "instrument": "",
     "phone": "0507953019",
-    "email": "yaelkh@gmail.com"
+    "email": "yaelkh@gmail.com",
+    "price30": 60,
+    "price45": 90,
+    "priceBand": 100,
+    "priceTravel": 30
   }
 ]

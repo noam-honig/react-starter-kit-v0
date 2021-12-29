@@ -1,14 +1,15 @@
 import { Entity, Field, IdEntity, Validators, ValueListFieldType } from "remult";
-import { Group } from "../Courses/Course.entity";
+import { Group } from "../Courses/Group.entity";
+import { uiTools } from "../Utils/FormDialog";
 
 
 
 
 @ValueListFieldType()
-export class LessonType {
+export class LessonLength {
     constructor(public id: number, public caption: string) { }
-    static m30 = new LessonType(30, "30 דקות");
-    static m45 = new LessonType(45, "45 דקות");
+    static m30 = new LessonLength(30, "30 דקות");
+    static m45 = new LessonLength(45, "45 דקות");
 }
 
 @Entity("students", {
@@ -21,26 +22,37 @@ export class Student extends IdEntity {
     firstName: string = '';
     @Field({ caption: 'שם משפחה', validate: Validators.required.withMessage("חסר ערך") })
     lastName: string = '';
+    @Field({ caption: 'טלפון' })
+    phone: string = '';
     get fullName() { return this.firstName + " " + this.lastName; }
     @Field({ caption: 'שם הורה' })
     parentName: string = '';
-    @Field({ caption: 'טלפון הורה', validate: Validators.required.withMessage("חסר ערך") })
+    @Field({ caption: 'טלפון הורה' })
     parentPhone: string = '';
-    @Field({dbName:'theOrder'})
+    @Field({ dbName: 'theOrder' })
     order: number = 0;
-
+    @Field({ caption: 'סוג שעור' })
+    type: string = '';
     @Field({
-        
-        caption: 'סוג שעור', validate: (x, col) => {
-            if (!col.value?.id) {
-                col.error = "חסר ערך";
-            }
-        }
-    }, o => o.valueType = LessonType)
-    lessonType!: LessonType;
+        caption: 'אורך שעור'
+    }, o => o.valueType = LessonLength)
+    lessonLength: LessonLength = LessonLength.m30;
 
-    @Field({ caption: 'קבוצה' ,dbName:"theGroup"}, o => o.valueType = Group)
+    @Field({ caption: 'קבוצה', dbName: "theGroup" }, o => o.valueType = Group)
     group!: Group;
+
+    editDialog(ok: () => any) {
+        uiTools.formDialog({
+            title: (this.isNew() ? "הוסף" : "עדכן") + " תלמיד",
+            fields: [this.$.firstName, this.$.lastName, this.$.phone, this.$.type, this.$.lessonLength, this.$.parentName, this.$.parentPhone],
+            ok: async () => {
+                await this.save();
+                if (ok)
+                    ok();
+
+            }
+        });
+    }
 
 
 }

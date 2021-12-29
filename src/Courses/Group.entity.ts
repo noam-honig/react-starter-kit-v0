@@ -15,6 +15,11 @@ export class Group extends IdEntity {
     name: string = '';
     @Field({ caption: 'ישוב' })
     town: string = '';
+    @Field({
+        caption: "להקה?",
+        valueType: Boolean
+    })
+    isBand: boolean = false;
     students = new OneToMany(this.remult.repo(Student), {
         where: {
             group: this
@@ -42,5 +47,7 @@ export class StudentInLesson extends IdEntity {
     studentId: string = '';
     @Field(o => o.valueType = StudentInLessonStatus)
     status: StudentInLessonStatus = StudentInLessonStatus.none;
+    @Field({ caption: 'הערה',inputType:"area" })
+    note: string = '';
 }
 

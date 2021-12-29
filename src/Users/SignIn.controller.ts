@@ -1,4 +1,4 @@
-import { BackendMethod, Controller, ControllerBase, Field, Validators } from "remult";
+import { BackendMethod, Controller, ControllerBase, Field, Remult, Validators } from "remult";
 import { UITools } from "../Utils/AugmentRemult";
 import { User } from "./User.entity";
 
@@ -39,5 +39,16 @@ export class SignIn extends ControllerBase {
         if (!user || !user.passwordMatches(this.password))
             throw new Error("סיסמה שגויה");
         return user.getJwtToken();
+    }
+
+    @BackendMethod({ allowed: true })
+    static async validateUserToken(userToken: string, remult?: Remult) {
+        let user = await remult!.repo(User).findId(userToken);
+        if (user && !user.admin) {
+            return {
+                token: user.getJwtToken()
+            }
+        }
+        return { ok: false };
     }
 }

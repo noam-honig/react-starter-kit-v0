@@ -6,25 +6,45 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 @ValueListFieldType()
 export class StudentInLessonStatus {
-    static none: StudentInLessonStatus = new StudentInLessonStatus("", "טרם עודכן", () => StudentInLessonStatus.attended, <CheckBoxOutlineBlankIcon />);
-    static attended = new StudentInLessonStatus("v", "נכח", () => StudentInLessonStatus.none, <CheckBoxIcon />);
-    static missingOk = new StudentInLessonStatus("x", "הודיע שלא יגיע");
-    static mssingBad = new StudentInLessonStatus("xx", "ביטל ברגע האחרון");
-    static double = new StudentInLessonStatus("vv", "שעור כפול");
-    static canceled = new StudentInLessonStatus("vx", "בוטל על ידינו");
+    static none: StudentInLessonStatus = new StudentInLessonStatus("", "טרם עודכן", {
+        onClickChangeTo: () => StudentInLessonStatus.attended,
+        icon: <CheckBoxOutlineBlankIcon />
+    });
+    static attended = new StudentInLessonStatus("v", "נכח", {
+        onClickChangeTo: () => StudentInLessonStatus.none,
+        icon: <CheckBoxIcon />
+    });
+    static missingOk = new StudentInLessonStatus("x", "הודיע שלא יגיע", {
+        askForComment: true
+    });
+    static mssingBad = new StudentInLessonStatus("xx", "ביטל ברגע האחרון", {
+        askForComment: true
+    });
+    static double = new StudentInLessonStatus("vv", "שעור כפול", {
+        
+    });
+    static canceled = new StudentInLessonStatus("vx", "בוטל על ידינו", {
+        askForComment: true
+    });
 
 
-    constructor(public id: string, public caption: string, public onClickChangeTo: () => StudentInLessonStatus = () => this, public icon: ReactElement = undefined!) {
+
+    onClickChangeTo: () => StudentInLessonStatus = () => this;
+    icon: ReactElement = undefined!;
+    askForComment = false;
+    constructor(public id: string, public caption: string, args?: Partial<StudentInLessonStatus>) {
 
         {
+            if (args)
+                Object.assign(this, args);
             const IconWithColor = () => {
                 const theme = useTheme();
-                const CustomizedListItemIcon = styled(ListItemIcon)`
+                const CustomizedListItemIcon = styled('span')`
                 color:${theme.palette.primary.main}
                 `
                 return (
                     <CustomizedListItemIcon>
-                        {icon?icon:id.toUpperCase()}
+                        {args?.icon ? args.icon : id.toUpperCase()}
                     </CustomizedListItemIcon>)
             }
             this.icon = <IconWithColor />

@@ -3,6 +3,28 @@
     "id": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "name": "חמישי",
     "town": "גאולים",
-    "teacher": "0c9b45b8-b3de-406f-b62c-7edcbcc9c6d7"
+    "teacher": "0c9b45b8-b3de-406f-b62c-7edcbcc9c6d7",
+    "isBand": false
+  },
+  {
+    "id": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096",
+    "name": "שני",
+    "town": "משמרת",
+    "isBand": false,
+    "teacher": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6"
+  },
+  {
+    "id": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "name": "רביעי",
+    "town": "עין שריד",
+    "isBand": false,
+    "teacher": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6"
+  },
+  {
+    "id": "4a57b450-02a7-4957-b8bf-ccaa0f9df962",
+    "name": "חמישי - להקה",
+    "town": "אבן יהודה",
+    "isBand": true,
+    "teacher": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6"
   }
 ]

@@ -3,168 +3,546 @@
     "id": "7e80f291-9b16-4e45-b32d-9df88544ab5a",
     "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "studentId": "0442286c-2522-4068-9353-b66ea81b1b2a",
-    "attended": false
+    "attended": false,
+    "note": ""
   },
   {
     "id": "2f739483-a00f-4ec1-b0c9-8a3c026c7944",
     "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "studentId": "86789059-32ff-4a3d-97fb-f89c1b767388",
-    "attended": false
+    "attended": false,
+    "note": ""
   },
   {
     "id": "fafdba05-08db-4820-b7b7-e2adf6b876d2",
     "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "studentId": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
-    "attended": false
+    "attended": false,
+    "note": ""
   },
   {
     "id": "908e3901-bbd7-4716-814a-d273f97077a7",
     "lessonId": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "studentId": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
-    "attended": false
+    "attended": false,
+    "note": ""
   },
   {
     "id": "2f52c2b9-d314-498f-b925-fbec3775d10b",
     "date": "2021-12-20",
     "studentId": "86789059-32ff-4a3d-97fb-f89c1b767388",
-    "status": ""
+    "status": "",
+    "note": ""
   },
   {
     "id": "a3f54c55-3c74-4c76-a4ce-9b969db7146d",
     "date": "2021-12-20",
     "studentId": "0442286c-2522-4068-9353-b66ea81b1b2a",
-    "status": ""
+    "status": "",
+    "note": ""
   },
   {
     "id": "540dd5e9-2142-471a-af80-8fa203bc2983",
     "date": "2021-12-20",
     "studentId": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
-    "status": ""
+    "status": "",
+    "note": ""
   },
   {
     "id": "e9be6908-f021-42a8-9684-6d8343104b6b",
     "date": "2021-12-20",
     "studentId": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
-    "status": ""
+    "status": "",
+    "note": ""
   },
   {
     "id": "1a71f3f6-df4a-4ce7-8990-a36211b78625",
     "date": "2021-12-20",
     "studentId": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
-    "status": ""
+    "status": "",
+    "note": ""
   },
   {
     "id": "68c33d8e-c3f6-40b3-81a6-8bd3ee3e14ba",
     "date": "2021-12-20",
     "studentId": "1ce91388-da45-4578-90a5-b568434f0e47",
-    "status": ""
+    "status": "",
+    "note": ""
   },
   {
     "id": "f1d35117-37ac-4b1f-8e36-a1794cdbfcf7",
     "date": "2021-11-04",
     "studentId": "86789059-32ff-4a3d-97fb-f89c1b767388",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "b98218ac-6073-4c3a-b941-0b969768fbf2",
     "date": "2021-11-04",
     "studentId": "0442286c-2522-4068-9353-b66ea81b1b2a",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "04d8c844-ae39-4f33-aeea-8931d368ddf2",
     "date": "2021-11-04",
     "studentId": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "9525ae99-e158-4b24-8dc6-7528178137a4",
     "date": "2021-11-04",
     "studentId": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "5008baf6-507a-4594-84eb-1b489d5b5b09",
     "date": "2021-11-04",
     "studentId": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "f6af29b6-5661-49bb-a924-7930bbc5912b",
     "date": "2021-11-04",
     "studentId": "1ce91388-da45-4578-90a5-b568434f0e47",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "0c854787-f995-40e0-91bd-f8ccfda15a2e",
     "date": "2021-11-11",
     "studentId": "86789059-32ff-4a3d-97fb-f89c1b767388",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "ce7d93ea-39ba-4f2b-b639-f0c8c804a063",
     "date": "2021-11-11",
     "studentId": "0442286c-2522-4068-9353-b66ea81b1b2a",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "facca383-e5fc-497a-a0b6-cde86274f823",
     "date": "2021-11-11",
     "studentId": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "b650f237-6de6-4b73-bab9-38f95bf1e5c9",
     "date": "2021-11-11",
     "studentId": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "fc38d77d-ef11-4d00-8783-d991671350e7",
     "date": "2021-11-11",
     "studentId": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "9f6f6476-a2ab-4ebe-8f09-aafd5f6b992f",
     "date": "2021-11-11",
     "studentId": "1ce91388-da45-4578-90a5-b568434f0e47",
-    "status": "x"
+    "status": "x",
+    "note": ""
   },
   {
     "id": "91514fd2-b688-449a-a9f7-72178ff25dcf",
     "date": "2021-11-18",
     "studentId": "86789059-32ff-4a3d-97fb-f89c1b767388",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "016505c2-9cb2-4871-bde2-cc7d6fb09e2d",
     "date": "2021-11-18",
     "studentId": "0442286c-2522-4068-9353-b66ea81b1b2a",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "cfd2831d-bbe8-4446-8a5d-24881cedcef9",
     "date": "2021-11-18",
     "studentId": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "bef2f278-64ee-4382-bb72-201831221641",
     "date": "2021-11-18",
     "studentId": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "819c0699-f67a-44bb-a7ac-8ad92d102b0b",
     "date": "2021-11-18",
     "studentId": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
-    "status": "v"
+    "status": "v",
+    "note": ""
   },
   {
     "id": "b500acb2-8c9b-4aa0-8d1a-90ebb2dfd813",
     "date": "2021-11-18",
     "studentId": "1ce91388-da45-4578-90a5-b568434f0e47",
-    "status": "xx"
+    "status": "xx",
+    "note": ""
+  },
+  {
+    "id": "493f945b-ae36-4e34-a46e-29ddb3db891e",
+    "date": "2021-11-03",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "",
+    "note": ""
+  },
+  {
+    "id": "7878e5f9-39b3-462a-9bfd-27409dfce840",
+    "date": "2021-11-03",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "",
+    "note": ""
+  },
+  {
+    "id": "d296878e-4011-4afe-9b77-3f5346c412fc",
+    "date": "2021-11-03",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "",
+    "note": ""
+  },
+  {
+    "id": "87f95c38-4266-4609-aae9-f99a19b387bc",
+    "date": "2021-11-01",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "2656eacd-7aed-4c74-82d0-1be5ac9403af",
+    "date": "2021-11-01",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "c87f0898-4af4-4971-9f0a-a512af6eb55f",
+    "date": "2021-11-01",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "7eafc0ec-f198-43e0-a23d-458980ab8649",
+    "date": "2021-11-08",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "7b374227-bdea-4f5d-86d3-7b06cb196b61",
+    "date": "2021-11-08",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "7eb7a5a9-40e7-4a79-b29b-02e84a4fac94",
+    "date": "2021-11-08",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "x",
+    "note": "לא יכל לבוא"
+  },
+  {
+    "id": "df6ae330-7998-4a55-8487-9c1b3281e18d",
+    "date": "2021-11-15",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "c453c851-8653-4857-a0d5-5367552c225e",
+    "date": "2021-11-15",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "a1b43637-3189-4917-936c-9e0de77349ce",
+    "date": "2021-11-15",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "f3fd9c5d-e3fd-4f30-b6f3-e456b850240b",
+    "date": "2021-11-22",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "40cdce21-1300-4f8f-a32b-dbb03cdc1ba2",
+    "date": "2021-11-22",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "758ee727-074e-4004-b7f5-5e59417404c5",
+    "date": "2021-11-22",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "1a24bac0-4b60-4ea1-bbf3-5c3700381674",
+    "date": "2021-11-29",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "vv",
+    "note": ""
+  },
+  {
+    "id": "204d15e8-7e4d-4f71-b179-d17f897a9567",
+    "date": "2021-11-29",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "49dfc91e-ceeb-49b6-9b84-83ff060090ab",
+    "date": "2021-11-29",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "x",
+    "note": ""
+  },
+  {
+    "id": "47abf8c9-eabe-4138-8a7b-4366e82cff2e",
+    "date": "2021-11-03",
+    "studentId": "9de8bb26-d9d6-4757-b909-9292d818ef46",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "cc8e577b-9144-4d56-bacc-d4189d2f90a3",
+    "date": "2021-11-03",
+    "studentId": "892ecfd4-9467-4bea-b897-a7af68633833",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "e6ed796c-44c1-4abf-a7fe-7defe5b72d5c",
+    "date": "2021-11-03",
+    "studentId": "0ecc0ed8-e2d8-4e82-a98f-d2580056dd45",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "862b973c-9103-4bfa-89a9-15f08d315b0b",
+    "date": "2021-11-03",
+    "studentId": "b816a4ff-2cb4-485d-b44f-08f0f842fc67",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "e538b4a4-cb34-4756-ba9c-0fd06376b3ea",
+    "date": "2021-11-03",
+    "studentId": "b292b8cc-756e-4429-9cb9-0a0d1d965a3f",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "77496ae0-913c-4c3f-8c0c-84094fc82029",
+    "date": "2021-11-03",
+    "studentId": "2d9127bf-059b-4ca2-afdf-98bd3864a83d",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "a9b20b39-f88f-4e56-a168-72194b0dbda9",
+    "date": "2021-12-29",
+    "studentId": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
+    "status": "",
+    "note": ""
+  },
+  {
+    "id": "298ec7ca-d482-494a-ad8d-e1c1346f40cc",
+    "date": "2021-12-29",
+    "studentId": "aa899c50-c665-4b26-9494-257b711c8693",
+    "status": "",
+    "note": ""
+  },
+  {
+    "id": "8f3ee7a6-49d0-4040-8717-a40a90b1ff9e",
+    "date": "2021-12-29",
+    "studentId": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
+    "status": "",
+    "note": ""
+  },
+  {
+    "id": "1f149baf-d407-4251-b8b5-1b5763afe487",
+    "date": "2021-11-10",
+    "studentId": "38b68843-644d-4782-a5a6-34bb48f01c78",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "18c91f91-e669-4f27-9fb4-b0accd537ae0",
+    "date": "2021-11-10",
+    "studentId": "9de8bb26-d9d6-4757-b909-9292d818ef46",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "36d89163-bc96-496a-9439-cff2a4b00c7b",
+    "date": "2021-11-10",
+    "studentId": "892ecfd4-9467-4bea-b897-a7af68633833",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "bdffdacd-7614-47f0-8590-1db05b7d2a26",
+    "date": "2021-11-10",
+    "studentId": "0ecc0ed8-e2d8-4e82-a98f-d2580056dd45",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "b5f4065d-2786-4d08-9bdd-ccee43ff5c50",
+    "date": "2021-11-10",
+    "studentId": "b816a4ff-2cb4-485d-b44f-08f0f842fc67",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "04bc5830-1483-4ec5-bf82-35fb9134b5e5",
+    "date": "2021-11-10",
+    "studentId": "b292b8cc-756e-4429-9cb9-0a0d1d965a3f",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "3eef8f84-a00b-4a63-9a52-6a08b4f5f257",
+    "date": "2021-11-10",
+    "studentId": "2d9127bf-059b-4ca2-afdf-98bd3864a83d",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "dfbd85a7-061d-418f-92a2-fc0ce63e1627",
+    "date": "2021-11-10",
+    "studentId": "a5033e9c-1f0c-4e2f-9805-ef963c817871",
+    "status": "vx",
+    "note": ""
+  },
+  {
+    "id": "fbc9409b-1e06-4961-a213-0bd73d80473a",
+    "date": "2021-11-17",
+    "studentId": "9de8bb26-d9d6-4757-b909-9292d818ef46",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "81f12cce-e64a-4b2e-b1b4-5610381384f9",
+    "date": "2021-11-17",
+    "studentId": "892ecfd4-9467-4bea-b897-a7af68633833",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "aa331f8c-f4aa-452e-a9a5-e73593812609",
+    "date": "2021-11-17",
+    "studentId": "0ecc0ed8-e2d8-4e82-a98f-d2580056dd45",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "87018e20-01d0-4b93-a4fc-6ebb5c5d6d7f",
+    "date": "2021-11-17",
+    "studentId": "b816a4ff-2cb4-485d-b44f-08f0f842fc67",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "f909faa6-be02-45a3-ba0a-9b40887059b5",
+    "date": "2021-11-17",
+    "studentId": "b292b8cc-756e-4429-9cb9-0a0d1d965a3f",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "468e9336-b03c-4adc-91ef-41dfce260fe0",
+    "date": "2021-11-17",
+    "studentId": "2d9127bf-059b-4ca2-afdf-98bd3864a83d",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "936bf974-bef6-427c-bb58-2bbafaf4f089",
+    "date": "2021-11-24",
+    "studentId": "38b68843-644d-4782-a5a6-34bb48f01c78",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "d28e65d6-7501-420f-86b2-24e516bd4cb4",
+    "date": "2021-11-24",
+    "studentId": "9de8bb26-d9d6-4757-b909-9292d818ef46",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "e534ccdd-9e8b-4c97-b721-681594083326",
+    "date": "2021-11-24",
+    "studentId": "0ecc0ed8-e2d8-4e82-a98f-d2580056dd45",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "81363171-f210-4019-a2f0-592169cac925",
+    "date": "2021-11-24",
+    "studentId": "b816a4ff-2cb4-485d-b44f-08f0f842fc67",
+    "status": "v",
+    "note": ""
+  },
+  {
+    "id": "5d85e60a-b388-48d4-b426-76817a6deec9",
+    "date": "2021-12-29",
+    "studentId": "b292b8cc-756e-4429-9cb9-0a0d1d965a3f",
+    "status": "x",
+    "note": ""
+  },
+  {
+    "id": "baa89d4a-8ffa-4580-abdb-1e94746a6dd6",
+    "date": "2021-12-29",
+    "studentId": "2d9127bf-059b-4ca2-afdf-98bd3864a83d",
+    "status": "xx",
+    "note": ""
+  },
+  {
+    "id": "f4ad4cea-a63c-4071-b2e5-2c37c609f1fb",
+    "date": "2021-11-24",
+    "studentId": "2d9127bf-059b-4ca2-afdf-98bd3864a83d",
+    "status": "xx",
+    "note": ""
+  },
+  {
+    "id": "9362bad7-2c07-47cf-a6e3-d939184e38da",
+    "date": "2021-11-24",
+    "studentId": "a5033e9c-1f0c-4e2f-9805-ef963c817871",
+    "status": "x",
+    "note": ""
+  },
+  {
+    "id": "54b56895-01b8-45fa-ab9c-a4738b0bacc9",
+    "date": "2021-11-24",
+    "studentId": "b292b8cc-756e-4429-9cb9-0a0d1d965a3f",
+    "status": "v",
+    "note": ""
   }
 ]

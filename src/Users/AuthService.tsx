@@ -1,8 +1,9 @@
 import jwtDecode from 'jwt-decode';
-import {  Remult } from 'remult';
+import { BackendMethod, Remult } from 'remult';
+import { User } from './User.entity';
 
 export class AuthService {
-
+   
     setAuthToken(token: string) {
         this.remult.setUser(jwtDecode(token));
         sessionStorage.setItem(AUTH_TOKEN_KEY, token);

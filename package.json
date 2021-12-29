@@ -20,6 +20,7 @@
     "axios": "^0.24.0",
     "class-validator": "^0.13.2",
     "compression": "^1.7.4",
+    "copy-to-clipboard": "^3.3.1",
     "express": "^4.17.1",
     "express-jwt": "^6.1.0",
     "glob": "^7.2.0",

@@ -20,11 +20,15 @@ export interface UITools {
 export interface FormDialogArgs {
     title: string;
     fields: FieldRef<any>[];
-    ok: () => Promise<void>;
+    ok: () => Promise<any>;
     cancel?: () => Promise<void>
 }
-export interface Action<itemType> {
+export interface Action<itemType = never> {
     caption: string,
-    click: (item: itemType) => Promise<void>,
+    click: (item: itemType) => Promise<any> | any,
     icon?: FunctionComponent
 }
+export const DividerAction: Action<any> = {
+    caption: '',
+    click: undefined!
+};

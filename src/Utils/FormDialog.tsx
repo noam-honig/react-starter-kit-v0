@@ -93,6 +93,22 @@ function MyTextField({ field }: { field: FieldRef }) {
             />
         </FormControl>
     }
+    if (inputType === 'area')
+        return (
+
+            <TextField
+                multiline={true}
+                size="small"
+                value={value}
+                label={field.metadata.caption}
+                helperText={field.error}
+                error={!!field.error}
+                onChange={e => {
+                    setValue(field.value = e.target.value);
+                }} />
+
+
+        )
     return (
 
         <TextField

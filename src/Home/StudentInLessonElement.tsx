@@ -1,13 +1,17 @@
 import { Avatar, Checkbox, Divider, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import { Draggable } from "react-beautiful-dnd";
 
-import { StudentInLesson } from "../Courses/Course.entity";
+import { StudentInLesson } from "../Courses/Group.entity";
 import { StudentInLessonStatus } from "../Courses/StudentInLessonStatus";
 import { Student } from "../Students/Student.entity";
 import { useRender } from "../Utils/useEntityQuery";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useMemo, useState } from "react";
 import { ValueListValueConverter } from "remult/valueConverters";
+import { uiTools, useField } from "../Utils/FormDialog";
+import { Action, DividerAction } from "../Utils/AugmentRemult";
+import { FullMenu } from "../Utils/Menu";
+import React from "react";
 
 export function StudentInLessonElement({ student, studentInLesson, index }: {
     studentInLesson: StudentInLesson,
@@ -16,28 +20,54 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
 }) {
 
     const render = useRender();
+    useField(studentInLesson.$.status);
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+
+    const editNote = () => {
+        uiTools.formDialog({
+            title: student.fullName,
+            fields: [studentInLesson.$.note],
+            ok: async () => studentInLesson.save(),
+            cancel: () =>
+                studentInLesson._.undoChanges()
+
+        })
+    }
+
 
     const changeStatus = async (status: StudentInLessonStatus) => {
+        if (status === studentInLesson.status)
+            return;
         studentInLesson.status = status;
-
-        studentInLesson.save();
-        handleClose();
         render();
+
+        if (status.askForComment) {
+            editNote();
+        }
+        else
+            studentInLesson.save();
     }
 
     const lineClicked = async () => {
         changeStatus(studentInLesson.status.onClickChangeTo());
     }
-    const options = useMemo(() => (studentInLesson.$.status.metadata.valueConverter as unknown as ValueListValueConverter<StudentInLessonStatus>).getOptions(), []);
+    const options = useMemo(() => {
+        const statuses = (studentInLesson.$.status.metadata.valueConverter as unknown as ValueListValueConverter<StudentInLessonStatus>).getOptions();
+        const menuOptions: Action[] = statuses.map((status) => ({
+            caption: status.caption,
+            icon: () => status.icon,
+            click: () => changeStatus(status)
+        }));
+        menuOptions.push(DividerAction, {
+            caption: "עדכן הערה",
+            click: () => editNote()
+        }, {
+            caption: "פרטי תלמיד",
+            click: () => student.editDialog(() => render())
+        })
+
+        return menuOptions;
+    }, []);
 
 
     return (
@@ -52,29 +82,15 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     secondaryAction={
-                        <>
-                            <IconButton edge="end" onClick={handleClick}>
-                                <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                {options.map(option =>
-                                (<MenuItem onClick={() => changeStatus(option)}>
-                                    {option.icon}
-                                    <ListItemText>{option.caption}</ListItemText>
-                                </MenuItem>))}
-
-                            </Menu>
-                        </>
+                        <FullMenu options={options} />
                     }
                     disablePadding
                 >
                     <ListItemButton role={undefined} onClick={(e) => lineClicked()} dense>
-                        {studentInLesson.status.icon}
-                        <ListItemText primary={student.fullName} secondary={student.$.lessonType.displayValue} />
+                        <ListItemIcon>
+                            {studentInLesson.status.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={student.fullName} secondary={student.type + ', ' + student.$.lessonLength.displayValue + (studentInLesson.note ? " - " + studentInLesson.note : "")} />
                     </ListItemButton>
                 </ListItem>
                 <Divider component="li" />

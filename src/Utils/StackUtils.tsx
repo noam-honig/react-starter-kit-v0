@@ -1,21 +1,49 @@
-import { Dialog, Slide } from "@mui/material";
+import { Button, Dialog, IconButton, Slide, Snackbar } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { makeAutoObservable } from "mobx";
 import { observer } from "mobx-react-lite";
+import React from "react";
 import { forwardRef, ReactNode, useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 class Application {
     dialogs: ReactNode[] = [];
+    snackText?: string;
+    closeSnack() {
+        this.snackText = '';
+    }
     constructor() {
         makeAutoObservable(this);
     }
 }
 export const StackUtilsComponent = observer(({ children }) => {
     const y = [...app.dialogs];
+    const action = (
+        <React.Fragment>
+
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => app.closeSnack()}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment >
+    );
+
     return <>
         {children}
         {y}
+        <Snackbar
+            open={!!app.snackText}
+            autoHideDuration={3000}
+            onClick={() => app.closeSnack()}
+            onClose={() => app.closeSnack()}
+            message={app.snackText}
+            action={action}
+        />
 
     </>
 })
@@ -52,3 +80,6 @@ export function openDialog(whatToShow: (callMeToClose: (() => void)) => ReactNod
 
 }
 
+export function showInfo(what: string) {
+    app.snackText = what;
+}

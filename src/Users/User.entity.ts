@@ -1,5 +1,5 @@
 
-import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType } from "remult";
+import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType, IntegerField } from "remult";
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
@@ -86,6 +86,14 @@ export class User extends IdEntity {
     phone: string = '';
     @Field({ caption: 'דוא"ל' })
     email: string = '';
+    @IntegerField({ caption: "מחיר לשעור 30 דק" })
+    price30: number=0;
+    @IntegerField({ caption: "מחיר לשעור 45 דק" })
+    price45: number=0;
+    @IntegerField({ caption: "מחיר לשעור להקה" })
+    priceBand: number=0;
+    @IntegerField({ caption: "מחיר נסיעות ליום" })
+    priceTravel: number=0;
 
 }
 export function getJwtTokenSignKey() {
