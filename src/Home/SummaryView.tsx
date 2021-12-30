@@ -1,27 +1,47 @@
-import { Box, Paper, styled, TextField, Toolbar, Typography } from "@mui/material";
+import { Box, CircularProgress, Dialog, Divider, IconButton, Paper, Slide, Stack, styled, TextField, Toolbar, Typography } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import React from "react";
 import { Fragment, useState } from "react";
 import { DateOnlyValueConverter } from "remult/valueConverters";
 import { useRemult } from "../common";
 import { Group, StudentInLesson } from "../Courses/Group.entity";
 import { User } from "../Users/User.entity";
 import { useEntityQuery } from "../Utils/useEntityQuery";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-export function SummaryView({ teacher }: { teacher: User }) {
+export function SummaryView({ teacher, ...props }: { teacher: User, open: boolean, onClose: () => void }) {
     const [month, setMonth] = useState(() => DateOnlyValueConverter.toInput!(new Date(), 'date').substring(0, 7));
 
-    return <Box sx={{ position: 'relative' }}>
-        <Toolbar variant="dense">
+    return (
+        <Dialog
+            fullScreen
+            open={props.open}
+            onClose={(props.onClose)}
+            TransitionComponent={Transition}
+        >
+            <Box sx={{ position: 'relative' }}>
+                <Toolbar variant="dense">
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={props.onClose}
+                        aria-label="close"
+                    >
+                        <ChevronRightIcon />
+                    </IconButton>
 
-            <TextField type="month"
-                inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
-                label="חודש"
-                value={month}
-                onChange={e => setMonth(e.target.value)}
-            />
-        </Toolbar>
-        <Info teacher={teacher} month={month} />
+                    <TextField type="month"
+                        inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
+                        label="חודש"
+                        value={month}
+                        onChange={e => setMonth(e.target.value)}
+                    />
+                </Toolbar>
+                <Divider />
+                <Info teacher={teacher} month={month} />
 
-    </Box>;
+            </Box>
+        </Dialog>);
 }
 const StyledTable = styled("table")`
 border: 1px solid #ddd;
@@ -43,8 +63,13 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
         }
     }).then(x => Promise.all(x.map(y => y.students.load().then(() => y)))), [teacher]);
     if (stats.loading || groups.loading)
-        return <span>loading...</span>;
+        return (
+            <Stack alignItems="center" spacing={2}>
+                <CircularProgress color="primary" />
+            </Stack>
+        )
     return (
+
         <Typography variant="body1">
             <Paper sx={{ p: 1, m: 1 }}>
                 <Typography variant="h6">סה"כ</Typography>
@@ -117,3 +142,11 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
         </Typography >
     )
 }
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="right" ref={ref} {...props} />;
+});

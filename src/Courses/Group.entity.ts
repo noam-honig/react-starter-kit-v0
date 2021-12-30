@@ -59,19 +59,13 @@ export class StudentInLesson extends IdEntity {
         const fromDate = DateOnlyValueConverter.fromInput!(month + '-01', 'date');
         const toDate = new Date(fromDate);
         toDate.setMonth(toDate.getMonth() + 1);
-        console.log(fromDate, toDate);
         const counters = new Map<LessonLength, number>();
         let band = 0;
         let totalDates = 0;
         const studentStats: MonthStatisticsResult[] = [];
         const groupStats: GroupDates[] = [];
 
-        for (const g of await remult!.repo(Group).find({
-            where: {
-                teacher: { $id: [teacherId] }
-            }
-
-        })) {
+        for (const g of await remult!.repo(Group).find({ where: { teacher: { $id: [teacherId] } } })) {
             const gStats: GroupDates = {
                 groupId: g.id,
                 dates: 0
@@ -86,12 +80,7 @@ export class StudentInLesson extends IdEntity {
                     missingOk: 0
                 };
                 studentStats.push(stats);
-                for (const l of await remult!.repo(StudentInLesson).find({
-                    where: {
-                        studentId: s.id,
-                        date: { ">=": fromDate, "<": toDate }
-                    }
-                })) {
+                for (const l of await remult!.repo(StudentInLesson).find({ where: { studentId: s.id, date: { ">=": fromDate, "<": toDate } } })) {
                     l.status.stats(stats);
                     if (l.status != StudentInLessonStatus.none)
                         if (!dates[l.date.valueOf()]) {
@@ -114,7 +103,7 @@ export class StudentInLesson extends IdEntity {
         for (const t of new ValueListValueConverter(LessonLength).getOptions()) {
             totals.push({
                 caption: t.caption,
-                count: counters.get(t)!,
+                count: counters.get(t)||0,
                 price: t.getPrice(teacher)
             })
         }

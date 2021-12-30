@@ -38,10 +38,8 @@ export class StudentInLessonStatus {
     onClickChangeTo: () => StudentInLessonStatus = () => this;
     icon: ReactElement = undefined!;
     askForComment = false;
+    stats = (stats: MonthStatisticsResult) => { }
 
-    stats = (stats: MonthStatisticsResult) => {
-
-    }
     constructor(public id: string, public caption: string, args?: Partial<StudentInLessonStatus>) {
 
         {

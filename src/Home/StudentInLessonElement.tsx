@@ -5,13 +5,11 @@ import { StudentInLesson } from "../Courses/Group.entity";
 import { StudentInLessonStatus } from "../Courses/StudentInLessonStatus";
 import { Student } from "../Students/Student.entity";
 import { useRender } from "../Utils/useEntityQuery";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useMemo, useState } from "react";
 import { ValueListValueConverter } from "remult/valueConverters";
 import { uiTools, useField } from "../Utils/FormDialog";
 import { Action, DividerAction } from "../Utils/AugmentRemult";
 import { FullMenu } from "../Utils/Menu";
-import React from "react";
 
 export function StudentInLessonElement({ student, studentInLesson, index }: {
     studentInLesson: StudentInLesson,
