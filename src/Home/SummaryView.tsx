@@ -127,7 +127,7 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
                                         {group.students.lazyItems.map(student => {
                                             let s = stats.data?.studentStats!.find(s => s.studentId == student.id);
                                             return (<tr key={student.id}>
-                                                <td>{student.fullName}<div><Typography variant="body2" color="text.secondary">{student.type + ", " + student.lessonLength.caption}</Typography></div></td>
+                                                <td>{student.fullName}<div><Typography variant="body2" color="text.secondary">{student.type + ", " + student.lessonLength?.caption}</Typography></div></td>
                                                 <td>{s?.lessons}</td>
                                                 <td>{s?.missingOk}</td>
                                                 <td>{s?.canceled}</td>
