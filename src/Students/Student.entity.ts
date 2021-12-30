@@ -1,5 +1,6 @@
 import { Entity, Field, IdEntity, Validators, ValueListFieldType } from "remult";
 import { Group } from "../Courses/Group.entity";
+import { User } from "../Users/User.entity";
 import { uiTools } from "../Utils/FormDialog";
 
 
@@ -7,9 +8,10 @@ import { uiTools } from "../Utils/FormDialog";
 
 @ValueListFieldType()
 export class LessonLength {
-    constructor(public id: number, public caption: string) { }
-    static m30 = new LessonLength(30, "30 דקות");
-    static m45 = new LessonLength(45, "45 דקות");
+
+    constructor(public id: number, public caption: string, public getPrice: (teacher: User) => number) { }
+    static m30 = new LessonLength(30, "30 דקות", t => t.price30);
+    static m45 = new LessonLength(45, "45 דקות", t => t.price45);
 }
 
 @Entity("students", {

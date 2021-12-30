@@ -21,6 +21,7 @@ import { StudentInLessonElement } from "./StudentInLessonElement";
 import { FieldRef } from "remult";
 import { Action } from "../Utils/AugmentRemult";
 import { FullMenu } from "../Utils/Menu";
+import { SummaryView } from "./SummaryView";
 
 export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
     const remult = useRemult();
@@ -51,7 +52,7 @@ export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
         setSelectedGroup(undefined);
     };
 
-    const menuOptions =  [
+    const menuOptions = [
         {
             caption: "עדכן בוטל על ידינו לכולם",
             click: () => {
@@ -95,7 +96,8 @@ export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
         }
     };
 
-
+    if (currentUser.data)
+        return <SummaryView teacher={currentUser.data} />
 
     return (<>
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
