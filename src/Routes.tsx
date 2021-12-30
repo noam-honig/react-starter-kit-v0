@@ -12,8 +12,7 @@ const routes: {
     title?: string,
     allowed?: Allowed
 }[] = [
-        { path: 'Users', element: UsersPage, title: 'מורים', allowed: Roles.admin },
-        { path: 'Students', element: StudentsPage, title: 'תלמידים', allowed: Roles.admin },
+        { path: '', element: UsersPage, title: 'מורים', allowed: Roles.admin }
     ]
 
 for (const route of routes) {
