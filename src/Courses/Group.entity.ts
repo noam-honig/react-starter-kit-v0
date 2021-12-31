@@ -1,17 +1,24 @@
-import { DateOnlyField, Entity, Field, Filter, IdEntity, OneToMany, Remult, EntityFilter, ValueListFieldType, BackendMethod } from "remult";
+
+import { DateOnlyField, Entity, Field, Filter, IdEntity, OneToMany, Remult, EntityFilter, ValueListFieldType, BackendMethod, Allow } from "remult";
 import { DateOnlyValueConverter, ValueListValueConverter } from "remult/valueConverters";
 import { LessonLength, Student } from "../Students/Student.entity";
+import { Roles } from "../Users/Roles";
 import { User } from "../Users/User.entity";
 import { StackUtilsComponent } from "../Utils/StackUtils";
 import { MonthStatisticsResult, StudentInLessonStatus } from "./StudentInLessonStatus";
 
 
 
-@Entity("Groups", {
-    allowApiCrud: true,
-    caption: 'חוג',
+@Entity<Group>("Groups", {
+    allowApiCrud: Allow.authenticated,
+    caption: 'חוג'
+}, (options, remult) => options.backendPrefilter = () => {
+    if (remult.isAllowed(Roles.admin))
+        return {};
+    return { teacher: { $id: [remult.user.id] } }
+}
 
-})
+)
 export class Group extends IdEntity {
     @Field({ caption: 'שם הקבוצה' })
     name: string = '';
@@ -35,13 +42,18 @@ export class Group extends IdEntity {
     constructor(private remult: Remult) {
         super();
     }
-
 }
 
-@Entity("studentsInDate", {
+@Entity<StudentInLesson>("studentsInDate", {
     allowApiCrud: true,
     caption: "תלמיד בשיעור"
-})
+},
+    (options, remult) => options.backendPrefilter = async () => {
+        if (remult.isAllowed(Roles.admin))
+            return {};
+        return { studentId: await remult.repo(Student).find().then(r => r.map(s => s.id)) }
+    }
+)
 export class StudentInLesson extends IdEntity {
     @DateOnlyField()
     date!: Date;
@@ -53,7 +65,7 @@ export class StudentInLesson extends IdEntity {
     note: string = '';
 
 
-    @BackendMethod({ allowed: true })
+    @BackendMethod({ allowed: Allow.authenticated })
     static async monthStatistics(teacherId: string, month: string, remult?: Remult) {
         const teacher = await remult!.repo(User).findId(teacherId);
         const fromDate = DateOnlyValueConverter.fromInput!(month + '-01', 'date');
@@ -103,7 +115,7 @@ export class StudentInLesson extends IdEntity {
         for (const t of new ValueListValueConverter(LessonLength).getOptions()) {
             totals.push({
                 caption: t.caption,
-                count: counters.get(t)||0,
+                count: counters.get(t) || 0,
                 price: t.getPrice(teacher)
             })
         }

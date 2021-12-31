@@ -19,7 +19,7 @@ import { SelectEntityDialog } from "../Utils/SelectDialog";
 },
     (options, remult) => {
         //only admin can see all users, a regular user can only see their own details
-        options.apiPrefilter = !remult.isAllowed(Roles.admin) ? { id: remult.user.id } : {};
+        options.apiPrefilter = !remult.isAllowed(Roles.admin) ? { id: [remult.user.id] } : {};
 
         options.saving = async (user) => {
             if (user._.isNew()) {

@@ -1,5 +1,7 @@
-import { Entity, Field, IdEntity, Validators, ValueListFieldType } from "remult";
+import { group } from "console";
+import { Entity, Field, Filter, IdEntity, Validators, ValueListFieldType } from "remult";
 import { Group } from "../Courses/Group.entity";
+import { Roles } from "../Users/Roles";
 import { User } from "../Users/User.entity";
 import { uiTools } from "../Utils/FormDialog";
 
@@ -14,11 +16,18 @@ export class LessonLength {
     static m45 = new LessonLength(45, "45 דקות", t => t.price45);
 }
 
-@Entity("students", {
+@Entity<Student>("students", {
     caption: 'תלמיד',
     allowApiCrud: true,
     defaultOrderBy: { order: 'asc' }
-})
+},
+    (options, remult) => options.backendPrefilter = async () => {
+        if (remult.isAllowed(Roles.admin))
+            return {};
+        else return { group: await remult.repo(Group).find() }
+    }
+)
+
 export class Student extends IdEntity {
     @Field({ caption: 'שם פרטי', validate: Validators.required.withMessage("חסר ערך") })
     firstName: string = '';
@@ -55,8 +64,6 @@ export class Student extends IdEntity {
             }
         });
     }
-
-
 }
 
 
