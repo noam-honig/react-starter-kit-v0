@@ -58,6 +58,8 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
                 headerName: f.caption,
                 width: 150,
                 valueGetter: ({ row }) => {
+                    if (field.type == "boolean")
+                        return getEntityRef(row).fields.find(f).value;
                     return getEntityRef(row).fields.find(f).displayValue;
                 }
             }
