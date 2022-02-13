@@ -1,20 +1,16 @@
-import { Avatar, ListItemAvatar, ListItemIcon, styled, useTheme } from "@mui/material";
-import { ReactElement } from "react";
 import { ValueListFieldType } from "remult";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import { Student } from "../Students/Student.entity";
+
 
 @ValueListFieldType()
 export class StudentInLessonStatus {
 
     static none: StudentInLessonStatus = new StudentInLessonStatus("", "טרם עודכן", {
         onClickChangeTo: () => StudentInLessonStatus.attended,
-        icon: <CheckBoxOutlineBlankIcon />
+        icon: c => c.uncheckedBox()
     });
     static attended = new StudentInLessonStatus("v", "נכח", {
         onClickChangeTo: () => StudentInLessonStatus.none,
-        icon: <CheckBoxIcon />,
+        icon: c => c.checkedBox(),
         stats: s => s.lessons++,
     });
     static missingOk = new StudentInLessonStatus("x", "הודיע שלא יגיע", {
@@ -36,7 +32,7 @@ export class StudentInLessonStatus {
 
 
     onClickChangeTo: () => StudentInLessonStatus = () => this;
-    icon: ReactElement = undefined!;
+    icon: (select: StatusIcon) => void = s => s.chars(this.id);
     askForComment = false;
     stats = (stats: MonthStatisticsResult) => { }
 
@@ -45,17 +41,6 @@ export class StudentInLessonStatus {
         {
             if (args)
                 Object.assign(this, args);
-            const IconWithColor = () => {
-                const theme = useTheme();
-                const CustomizedListItemIcon = styled('span')`
-                color:${theme.palette.primary.main}
-                `
-                return (
-                    <CustomizedListItemIcon>
-                        {args?.icon ? args.icon : id.toUpperCase()}
-                    </CustomizedListItemIcon>)
-            }
-            this.icon = <IconWithColor />
         }
     }
 }
@@ -65,4 +50,10 @@ export interface MonthStatisticsResult {
     lessons: number;
     missingOk: number;
     canceled: number;
+}
+
+export interface StatusIcon {
+    checkedBox(): void;
+    uncheckedBox(): void;
+    chars(chars: string): void;
 }

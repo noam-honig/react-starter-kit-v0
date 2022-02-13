@@ -1,6 +1,5 @@
 import { Avatar, Checkbox, Divider, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import { Draggable } from "react-beautiful-dnd";
-
 import { StudentInLesson } from "../Courses/Group.entity";
 import { StudentInLessonStatus } from "../Courses/StudentInLessonStatus";
 import { Student } from "../Students/Student.entity";
@@ -10,6 +9,7 @@ import { ValueListValueConverter } from "remult/valueConverters";
 import { uiTools, useField } from "../Utils/FormDialog";
 import { Action, DividerAction } from "../Utils/AugmentRemult";
 import { FullMenu } from "../Utils/Menu";
+import { StatusIcon } from "./StatusIcon";
 
 export function StudentInLessonElement({ student, studentInLesson, index }: {
     studentInLesson: StudentInLesson,
@@ -53,7 +53,7 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
         const statuses = (studentInLesson.$.status.metadata.valueConverter as unknown as ValueListValueConverter<StudentInLessonStatus>).getOptions();
         const menuOptions: Action[] = statuses.map((status) => ({
             caption: status.caption,
-            icon: () => status.icon,
+            icon: () => (<StatusIcon status={status} />),
             click: () => changeStatus(status)
         }));
         menuOptions.push(DividerAction, {
@@ -86,7 +86,7 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
                 >
                     <ListItemButton role={undefined} onClick={(e) => lineClicked()} dense>
                         <ListItemIcon>
-                            {studentInLesson.status.icon}
+                            <StatusIcon status={studentInLesson.status} />
                         </ListItemIcon>
                         <ListItemText primary={student.fullName} secondary={student.type + ', ' + student.$.lessonLength.displayValue + (studentInLesson.note ? " - " + studentInLesson.note : "")} />
                     </ListItemButton>
