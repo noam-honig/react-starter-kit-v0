@@ -37,11 +37,8 @@ export class StudentInLessonStatus {
     stats = (stats: MonthStatisticsResult) => { }
 
     constructor(public id: string, public caption: string, args?: Partial<StudentInLessonStatus>) {
-
-        {
-            if (args)
-                Object.assign(this, args);
-        }
+        if (args)
+            Object.assign(this, args);
     }
 }
 

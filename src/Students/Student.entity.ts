@@ -36,32 +36,33 @@ export class Student extends IdEntity {
     @Field({ caption: 'טלפון' })
     phone: string = '';
     get fullName() { return this.firstName + " " + this.lastName; }
-    @Field({ caption: 'שם הורה' })
-    parentName: string = '';
-    @Field({ caption: 'טלפון הורה' })
-    parentPhone: string = '';
-    @Field({ dbName: 'theOrder' })
-    order: number = 0;
     @Field({ caption: 'סוג שעור' })
     type: string = '';
     @Field({
         caption: 'אורך שעור'
     }, o => o.valueType = LessonLength)
     lessonLength: LessonLength = LessonLength.m30;
+    @Field({ caption: 'שם הורה' })
+    parentName: string = '';
+    @Field({ caption: 'טלפון הורה' })
+    parentPhone: string = '';
 
+    @Field({ dbName: 'theOrder' })
+    order: number = 0;
     @Field({ caption: 'קבוצה', dbName: "theGroup" }, o => o.valueType = Group)
     group!: Group;
 
     editDialog(ok: () => any) {
         uiTools.formDialog({
             title: (this.isNew() ? "הוסף" : "עדכן") + " תלמיד",
-            fields: [this.$.firstName, this.$.lastName, this.$.phone, this.$.type, this.$.lessonLength, this.$.parentName, this.$.parentPhone],
+            fields: this.$.toArray().filter(f => ![this.$.order, this.$.group, this.$.id].find(x => x === f)),
             ok: async () => {
                 await this.save();
                 if (ok)
                     ok();
 
-            }
+            },
+            cancel: () => this._.undoChanges()
         });
     }
 }
