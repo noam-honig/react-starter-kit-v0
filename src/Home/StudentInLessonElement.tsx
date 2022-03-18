@@ -21,6 +21,7 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
     useField(studentInLesson.$.status);
 
 
+
     const editNote = () => {
         uiTools.formDialog({
             title: student.fullName,
@@ -62,10 +63,36 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
         }, {
             caption: "פרטי תלמיד",
             click: () => student.editDialog(() => render())
-        })
+        });
+        if (student.frozen) {
+            menuOptions.push({
+                caption: "בטל הקפאת תלמיד",
+                click: async () => {
+                    student.frozen = false;
+                    await student.save();
+                    render();
+                }
+            });
+        }
+        else menuOptions.push({
+            caption: "הקפא תלמיד",
+            click: () => {
+
+                uiTools.formDialog({
+                    title: "הקפא תלמיד",
+                    fields: [student.$.freezeReason],
+                    ok: async () => {
+                        student.frozen = true;
+                        await student.save();
+                        render();
+                    },
+                    cancel: () => student._.undoChanges()
+                });
+            }
+        });
 
         return menuOptions;
-    }, []);
+    }, [student.frozen]);
 
 
     return (
@@ -88,7 +115,7 @@ export function StudentInLessonElement({ student, studentInLesson, index }: {
                         <ListItemIcon>
                             <StatusIcon status={studentInLesson.status} />
                         </ListItemIcon>
-                        <ListItemText primary={student.fullName} secondary={student.type + ', ' + student.$.lessonLength.displayValue + (studentInLesson.note ? " - " + studentInLesson.note : "")} />
+                        <ListItemText sx={{ textDecoration: student.frozen ? 'line-through' : '' }} primary={student.fullName} secondary={student.type + ', ' + student.$.lessonLength.displayValue + (studentInLesson.note ? " - " + studentInLesson.note : "")} />
                     </ListItemButton>
                 </ListItem>
                 <Divider component="li" />

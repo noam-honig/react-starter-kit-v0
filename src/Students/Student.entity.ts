@@ -1,5 +1,5 @@
 import { group } from "console";
-import { Entity, Field, Filter, IdEntity, Validators, ValueListFieldType } from "remult";
+import { Entity, Field, FieldRef, Filter, IdEntity, Validators, ValueListFieldType } from "remult";
 import { Group } from "../Courses/Group.entity";
 import { Roles } from "../Users/Roles";
 import { User } from "../Users/User.entity";
@@ -51,11 +51,18 @@ export class Student extends IdEntity {
     order: number = 0;
     @Field({ caption: 'קבוצה', dbName: "theGroup" }, o => o.valueType = Group)
     group!: Group;
+    @Field({ caption: 'מוקפא', valueType: Boolean })
+    frozen: boolean = false;
+    @Field({ caption: 'סיבת הקפאה' })
+    freezeReason: string = '';
 
     editDialog(ok: () => any) {
+        const excludeFields: FieldRef<any>[] = [this.$.order, this.$.group, this.$.id];
+        if (this.isNew())
+            excludeFields.push(this.$.freezeReason, this.$.frozen);
         uiTools.formDialog({
             title: (this.isNew() ? "הוסף" : "עדכן") + " תלמיד",
-            fields: this.$.toArray().filter(f => ![this.$.order, this.$.group, this.$.id].find(x => x === f)),
+            fields: this.$.toArray().filter(f => !excludeFields.includes(f)),
             ok: async () => {
                 await this.save();
                 if (ok)

@@ -9,7 +9,9 @@
     "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "order": 0,
     "phone": "",
-    "type": ""
+    "type": "",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "0442286c-2522-4068-9353-b66ea81b1b2a",
@@ -21,7 +23,9 @@
     "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "order": 1,
     "phone": "",
-    "type": ""
+    "type": "",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "55b84d0c-4095-4899-822b-270c5e3c7a9a",
@@ -33,7 +37,9 @@
     "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "order": 2,
     "phone": "",
-    "type": ""
+    "type": "",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "6b46a1b0-0dd7-4f6d-b38d-97649b0a6e8b",
@@ -45,7 +51,9 @@
     "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "order": 3,
     "phone": "",
-    "type": ""
+    "type": "",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "dc6eb86c-8a66-4de6-846d-45ab69818fe4",
@@ -57,7 +65,9 @@
     "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "order": 4,
     "phone": "",
-    "type": ""
+    "type": "",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "1ce91388-da45-4578-90a5-b568434f0e47",
@@ -69,7 +79,9 @@
     "group": "72ba646b-d98e-4188-ac00-9327a4ebb830",
     "order": 5,
     "phone": "",
-    "type": ""
+    "type": "",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "69bec3ed-2ee7-4496-bb62-e9c0efaa3889",
@@ -81,7 +93,9 @@
     "order": 0,
     "type": "פסנתר",
     "lessonLength": 45,
-    "group": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096"
+    "group": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "aa899c50-c665-4b26-9494-257b711c8693",
@@ -93,7 +107,9 @@
     "order": 1,
     "type": "פסנתר",
     "lessonLength": 30,
-    "group": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096"
+    "group": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "7bb2f2b5-c39a-4313-922f-f3fd99ef6cc8",
@@ -105,7 +121,9 @@
     "order": 2,
     "type": "פסנטר",
     "lessonLength": 45,
-    "group": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096"
+    "group": "eb81626c-e9e6-4bf3-bb08-24c0b6b7b096",
+    "frozen": true,
+    "freezeReason": ""
   },
   {
     "id": "38b68843-644d-4782-a5a6-34bb48f01c78",
@@ -117,7 +135,9 @@
     "order": 0,
     "type": "פיתוח קול",
     "lessonLength": 30,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "9de8bb26-d9d6-4757-b909-9292d818ef46",
@@ -129,7 +149,9 @@
     "order": 1,
     "type": "פיתוח קול",
     "lessonLength": 30,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "892ecfd4-9467-4bea-b897-a7af68633833",
@@ -141,7 +163,9 @@
     "order": 2,
     "type": "פסנתר",
     "lessonLength": 45,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "0ecc0ed8-e2d8-4e82-a98f-d2580056dd45",
@@ -153,7 +177,9 @@
     "order": 3,
     "type": "פיתוח קול",
     "lessonLength": 45,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "b816a4ff-2cb4-485d-b44f-08f0f842fc67",
@@ -165,7 +191,9 @@
     "order": 4,
     "type": "פסנתר",
     "lessonLength": 45,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "b292b8cc-756e-4429-9cb9-0a0d1d965a3f",
@@ -177,7 +205,9 @@
     "order": 5,
     "type": "פיתוח קול",
     "lessonLength": 30,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "2d9127bf-059b-4ca2-afdf-98bd3864a83d",
@@ -189,7 +219,9 @@
     "order": 6,
     "type": "פיתוח קול",
     "lessonLength": 30,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   },
   {
     "id": "a5033e9c-1f0c-4e2f-9805-ef963c817871",
@@ -201,6 +233,8 @@
     "order": 7,
     "type": "פיתוח קול",
     "lessonLength": 30,
-    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a"
+    "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
+    "frozen": false,
+    "freezeReason": ""
   }
 ]

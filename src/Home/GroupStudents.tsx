@@ -21,8 +21,14 @@ import { Loading } from "./Loading";
 export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: Group; handleClose: () => void; }) {
     const remult = useRemult();
     const [date, setDate] = useState(new Date());
-    const students = useEntityArray(async () => selectedGroup ? remult.repo(Student).find({ where: { group: selectedGroup } }) :
-        [], [selectedGroup?.id]);
+    const [showFrozen, setShowFrozen] = useState(false);
+    const students = useEntityArray(async () => selectedGroup ? remult.repo(Student).find({
+        where: {
+            group: selectedGroup,
+            frozen: showFrozen ? undefined : false
+        }
+    }) :
+        [], [selectedGroup?.id, showFrozen]);
     const studentsInLesson = useEntityArray(async () => {
         if (!selectedGroup || !students.data)
             return [];
@@ -52,6 +58,16 @@ export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: 
             }
         }
     ];
+    if (!showFrozen)
+        menuOptions.push({
+            caption: 'הצג תלמידי קפואים',
+            click: () => setShowFrozen(true)
+        })
+    else
+        menuOptions.push({
+            caption: 'הסתר תלמידי קפואים',
+            click: () => setShowFrozen(false)
+        })
 
 
 
