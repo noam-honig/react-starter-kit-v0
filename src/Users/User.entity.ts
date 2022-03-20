@@ -14,6 +14,7 @@ import { SelectEntityDialog } from "../Utils/SelectDialog";
     allowApiInsert: Roles.admin,
     caption: 'מורה',
     defaultOrderBy: {
+        removed: "asc",
         name: 'asc'
     }
 },
@@ -87,13 +88,15 @@ export class User extends IdEntity {
     @Field({ caption: 'דוא"ל' })
     email: string = '';
     @IntegerField({ caption: "מחיר לשעור 30 דק" })
-    price30: number=0;
+    price30: number = 0;
     @IntegerField({ caption: "מחיר לשעור 45 דק" })
-    price45: number=0;
+    price45: number = 0;
     @IntegerField({ caption: "מחיר לשעור להקה" })
-    priceBand: number=0;
+    priceBand: number = 0;
     @IntegerField({ caption: "מחיר נסיעות ליום" })
-    priceTravel: number=0;
+    priceTravel: number = 0;
+    @Field({ caption: 'הוסר', valueType: Boolean })
+    removed: boolean = false;
 
 }
 export function getJwtTokenSignKey() {

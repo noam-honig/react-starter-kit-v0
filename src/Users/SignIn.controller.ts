@@ -44,7 +44,7 @@ export class SignIn extends ControllerBase {
     @BackendMethod({ allowed: true })
     static async validateUserToken(userToken: string, remult?: Remult) {
         let user = await remult!.repo(User).findId(userToken);
-        if (user && !user.admin) {
+        if (user && !user.admin && !user.removed) {
             return {
                 token: user.getJwtToken()
             }

@@ -11,7 +11,8 @@
     "price30": 0,
     "price45": 0,
     "priceBand": 0,
-    "priceTravel": 0
+    "priceTravel": 0,
+    "removed": false
   },
   {
     "id": "bbc2b3b2-b9ef-4530-89c6-ba52fb5f1857",
@@ -25,7 +26,8 @@
     "price30": 0,
     "price45": 0,
     "priceBand": 0,
-    "priceTravel": 0
+    "priceTravel": 0,
+    "removed": true
   },
   {
     "id": "fc16c69b-9a65-4b6c-987a-6113abb2dde5",
@@ -39,7 +41,8 @@
     "price30": 0,
     "price45": 0,
     "priceBand": 0,
-    "priceTravel": 0
+    "priceTravel": 0,
+    "removed": false
   },
   {
     "id": "912eeb40-ea75-4f3b-9958-42b91acae3c5",
@@ -53,7 +56,8 @@
     "price30": 0,
     "price45": 0,
     "priceBand": 0,
-    "priceTravel": 0
+    "priceTravel": 0,
+    "removed": false
   },
   {
     "id": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6",
@@ -67,6 +71,7 @@
     "price30": 60,
     "price45": 90,
     "priceBand": 100,
-    "priceTravel": 30
+    "priceTravel": 30,
+    "removed": false
   }
 ]

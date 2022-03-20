@@ -36,8 +36,8 @@ export function UsersPage() {
             }
         }
         ],
-        fields: u => [u.name, u.instrument, u.phone, u.email, u.admin],
-        editFields: u => [u.name, u.instrument, u.phone, u.email, u.price30, u.price45, u.priceBand, u.priceTravel, u.admin]
+        fields: u => [u.name, u.instrument, u.phone, u.email, u.admin, u.removed],
+        editFields: u => [u.name, u.instrument, u.phone, u.email, u.price30, u.price45, u.priceBand, u.priceTravel, u.admin, u.removed]
     });
 }
 
