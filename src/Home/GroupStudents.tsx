@@ -24,11 +24,10 @@ export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: 
     const [showFrozen, setShowFrozen] = useState(false);
     const students = useEntityArray(async () => selectedGroup ? remult.repo(Student).find({
         where: {
-            group: selectedGroup,
-            frozen: showFrozen ? undefined : false
+            group: selectedGroup
         }
     }) :
-        [], [selectedGroup?.id, showFrozen]);
+        [], [selectedGroup?.id]);
     const studentsInLesson = useEntityArray(async () => {
         if (!selectedGroup || !students.data)
             return [];
@@ -60,12 +59,12 @@ export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: 
     ];
     if (!showFrozen)
         menuOptions.push({
-            caption: 'הצג תלמידי קפואים',
+            caption: 'הצג תלמידים קפואים',
             click: () => setShowFrozen(true)
         })
     else
         menuOptions.push({
-            caption: 'הסתר תלמידי קפואים',
+            caption: 'הסתר תלמידים קפואים',
             click: () => setShowFrozen(false)
         })
 
@@ -126,7 +125,7 @@ export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: 
                             <List
                                 ref={provided.innerRef}
                                 sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                                {students.data?.map((student, index) => {
+                                {students.data?.filter(x => showFrozen || !x.frozen).map((student, index) => {
                                     let sl = studentsInLesson.data!.find(x => x.studentId === student.id);
                                     if (!sl) {
                                         return <Fragment key={student.id} />;
