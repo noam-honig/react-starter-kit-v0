@@ -40,13 +40,13 @@ export async function versionUpdate(remult: Remult) {
     })
 
 
-    version(1, async () => {
+    await version(1, async () => {
         for (const group of await remult.repo(Group).find()) {
             group.groupType = group.isBand ? GroupType.band60 : GroupType.oneOnOne;
             await group.save();
         }
     });
-    version(2, async () => {
+    await version(2, async () => {
         for (const user of await remult.repo(User).find()) {
             if (user.priceBand > 0) {
                 await remult.repo(TeacherRate).insert({ teacherId: user.id, groupType: GroupType.band60, price: user.priceBand });

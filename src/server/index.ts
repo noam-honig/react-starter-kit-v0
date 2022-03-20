@@ -9,7 +9,9 @@ import { getJwtTokenSignKey, TeacherRate } from '../Users/User.entity';
 import '../Utils/AugmentRemult';
 import glob from 'glob';
 import path from 'path';
-import { versionUpdate } from './versionUpdates';
+import { VersionInfo, versionUpdate } from './versionUpdates';
+import { Groups } from '@mui/icons-material';
+import { Group } from '../Courses/Group.entity';
 
 let ext = "ts";
 let dir = "src";
@@ -43,7 +45,6 @@ app.use(remultExpress({
     dataProvider,
     initApi: async remult => {
         await versionUpdate(remult);
-        console.table(await remult.repo(TeacherRate).find());
     }
 }));
 app.use(express.static('build'));
