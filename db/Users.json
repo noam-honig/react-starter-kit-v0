@@ -73,5 +73,35 @@
     "priceBand": 100,
     "priceTravel": 30,
     "removed": false
+  },
+  {
+    "id": "2cd46832-11f1-4659-972e-faad603baf33",
+    "name": "מורה חדש",
+    "password": "",
+    "createDate": "2022-03-20T07:23:46.741Z",
+    "admin": false,
+    "instrument": "",
+    "phone": "",
+    "email": "",
+    "price30": 0,
+    "price45": 0,
+    "priceBand": 0,
+    "priceTravel": 0,
+    "removed": false
+  },
+  {
+    "id": "d9140882-77d5-486f-9c31-10669eab1623",
+    "name": "עוד מורה חדש",
+    "password": "",
+    "createDate": "2022-03-20T12:30:34.672Z",
+    "admin": false,
+    "instrument": "",
+    "phone": "",
+    "email": "",
+    "price30": 0,
+    "price45": 0,
+    "priceBand": 0,
+    "priceTravel": 0,
+    "removed": false
   }
 ]

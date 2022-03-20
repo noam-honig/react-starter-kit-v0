@@ -1,12 +1,22 @@
 
-import { DateOnlyField, Entity, Field, IdEntity, OneToMany, Remult, BackendMethod, Allow } from "remult";
+import { DateOnlyField, Entity, Field, IdEntity, OneToMany, Remult, BackendMethod, Allow, ValueListFieldType } from "remult";
 import { DateOnlyValueConverter, ValueListValueConverter } from "remult/valueConverters";
 import { LessonLength, Student } from "../Students/Student.entity";
 import { Roles } from "../Users/Roles";
-import { User } from "../Users/User.entity";
+import { TeacherRate, User } from "../Users/User.entity";
 import { MonthStatisticsResult, StudentInLessonStatus } from "./StudentInLessonStatus";
 
+@ValueListFieldType()
+export class GroupType {
+    static oneOnOne = new GroupType("oneOnOne", "פרטני", false);
+    static band60 = new GroupType("band60", "להקה 60 דק'");
+    static band90 = new GroupType("band90", "להקה 90 דק'")
+    static special = new GroupType("special", "צרכים מיוחדים");
+    constructor(public id: string, public caption: string, public isGroup = true) {
 
+    }
+    static helper = new ValueListValueConverter(GroupType);
+}
 
 @Entity<Group>("Groups", {
     allowApiCrud: Allow.authenticated,
@@ -15,9 +25,7 @@ import { MonthStatisticsResult, StudentInLessonStatus } from "./StudentInLessonS
     if (remult.isAllowed(Roles.admin))
         return {};
     return { teacher: { $id: [remult.user.id] } }
-}
-
-)
+})
 export class Group extends IdEntity {
     @Field({ caption: 'שם הקבוצה' })
     name: string = '';
@@ -28,6 +36,12 @@ export class Group extends IdEntity {
         valueType: Boolean
     })
     isBand: boolean = false;
+
+    @Field({
+        caption: 'סוג קבוצה',
+
+    }, x => x.valueType = GroupType)
+    groupType: GroupType = GroupType.oneOnOne;
     students = new OneToMany(this.remult.repo(Student), {
         where: {
             group: this
@@ -67,11 +81,12 @@ export class StudentInLesson extends IdEntity {
     @BackendMethod({ allowed: Allow.authenticated })
     static async monthStatistics(teacherId: string, month: string, remult?: Remult) {
         const teacher = await remult!.repo(User).findId(teacherId);
+        const teacherRates = await remult!.repo(TeacherRate).find({ where: { teacherId } });
         const fromDate = DateOnlyValueConverter.fromInput!(month + '-01', 'date');
         const toDate = new Date(fromDate);
         toDate.setMonth(toDate.getMonth() + 1);
         const counters = new Map<LessonLength, number>();
-        let band = 0;
+        const bands = new Map<GroupType, number>();
         let totalDates = 0;
         const studentStats: MonthStatisticsResult[] = [];
         const groupStats: GroupDates[] = [];
@@ -99,14 +114,16 @@ export class StudentInLesson extends IdEntity {
                             gStats.dates++;
                         }
                 }
-                if (!g.isBand) {
+                if (!g.groupType.isGroup) {
                     let total = counters.get(s.lessonLength) ?? 0;
                     total += stats.lessons;
                     counters.set(s.lessonLength, total);
                 }
             }
-            if (g.isBand)
-                band += gStats.dates;
+            if (g.groupType.isGroup) {
+                var x = bands.get(g.groupType) || 0;
+                bands.set(g.groupType, x + gStats.dates);
+            }
             totalDates += gStats.dates;
 
         }
@@ -118,13 +135,17 @@ export class StudentInLesson extends IdEntity {
                 price: t.getPrice(teacher)
             })
         }
-        if (band > 0) {
-            totals.push({
-                caption: "להקות",
-                count: band,
-                price: teacher.priceBand
-            })
+        for (const b of bands.keys()) {
+            const val = bands.get(b)!;
+            if (val > 0) {
+                totals.push({
+                    caption: b.caption,
+                    count: val,
+                    price: teacherRates.find(g => g.groupType === b)?.price || 0
+                })
+            }
         }
+
         if (teacher.priceTravel > 0) {
             totals.push({
                 caption: "נסיעות",
@@ -149,3 +170,4 @@ export interface Totals {
     count: number,
     price: number
 }
+

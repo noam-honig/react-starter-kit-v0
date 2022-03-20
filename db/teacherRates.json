@@ -1,0 +1,20 @@
+[
+  {
+    "id": "a25a0963-4097-4cb6-a01c-0f6ed03e7c05",
+    "teacherId": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6",
+    "groupType": "band60",
+    "price": 100
+  },
+  {
+    "id": "cd28fc06-a1c9-4e45-b70a-50e63343d793",
+    "teacherId": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6",
+    "groupType": "band90",
+    "price": 20
+  },
+  {
+    "id": "9eb5f885-2c1a-4981-a3e8-fe1fe6cc062f",
+    "teacherId": "d9140882-77d5-486f-9c31-10669eab1623",
+    "groupType": "band60",
+    "price": 10
+  }
+]

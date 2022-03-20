@@ -1,7 +1,7 @@
 import { DataGrid, GridActionsCellItem, GridColDef, GridFeatureMode, GridFilterModel, GridRowParams, GridSlotsComponent, GridSortModel, GridToolbarContainer } from "@mui/x-data-grid";
 import React, { useEffect, useMemo, useState } from "react";
 import { Repository, EntityFilter, IdEntity, ContainsStringValueFilter, EntityBase, ValueFilter, Paginator, FieldMetadata, getEntityRef, FieldsMetadata, FieldRef } from "remult";
-import { Action } from "./AugmentRemult";
+import { Action, UITools } from "./AugmentRemult";
 import { uiTools } from "./FormDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,6 +13,7 @@ declare type GridRowAction<entityType> = Action<{ row: entityType, utils: GridUt
 export interface muiGridOptions<entityType> {
     fields?: (entity: FieldsMetadata<entityType>) => FieldMetadata[],
     editFields?: (entity: FieldsMetadata<entityType>) => FieldMetadata[],
+    customEdit?: (entity: entityType, tools: UITools) => Promise<void>,
     editOnClick?: boolean,
     singular?: string,
     rowActions?: GridRowAction<entityType>[],
@@ -48,7 +49,21 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
             renderRows: () => set(s => ({ ...s, rows: [...s.rows] })),
             addRow: row => set(s => ({ ...s, allRows: [...s.allRows, row], rows: [...s.rows, row] })),
             displayFields: [] as FieldMetadata[],
-            editFields: []
+            editFields: [],
+            customEdit: async row => {
+                var ref = getEntityRef(row);
+                await uiTools.formDialog({
+                    title: ref.isNew() ?
+                        "הוסף" :
+                        'ערוך ' + config.singular,
+                    fields: config.gridUtils.editFields.map(f => ref.fields.find(f)),
+                    ok: async () => {
+                        await ref.save();
+                        config.gridUtils.renderRows();
+                    },
+                    cancel: () => ref.undoChanges()
+                });
+            }
         }
 
         let map = new Map<FieldMetadata, GridColDef>();
@@ -79,7 +94,8 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
             gridUtils.editFields = options.editFields(repo.metadata.fields);
         else
             gridUtils.editFields = gridUtils.displayFields;
-
+        if (options?.customEdit)
+            gridUtils.customEdit = options.customEdit;
 
 
 
@@ -233,15 +249,9 @@ export function useMuiGrid<entityType>(repo: Repository<entityType>, options?: m
         disableSelectionOnClick: true,
         onRowClick: options?.editOnClick ? (x: GridRowParams) => {
             let row = getEntityRef(x.row);
-            uiTools.formDialog({
-                title: 'ערוך ' + config.singular,
-                fields: config.gridUtils.editFields.map(f => row.fields.find(f)),
-                ok: async () => {
-                    await row.save();
-                    config.gridUtils.renderRows();
-                },
-                cancel: () => row.undoChanges()
-            });
+            config.gridUtils.customEdit!(x.row as entityType, uiTools);
+            config.gridUtils.renderRows();
+
         } : undefined
     }
 }
@@ -258,6 +268,7 @@ export interface GridUtils<entityType> {
     create(): entityType;
     displayFields: FieldMetadata[];
     editFields: FieldMetadata[];
+    customEdit: (entity: entityType, ui: UITools) => Promise<void>;
 }
 
 
@@ -286,16 +297,9 @@ export const AddRowAction: Action<GridUtils<any>> = {
     caption: 'הוסף',
     click: async (utils) => {
         let row = utils.create();
-        let ref = getEntityRef(row);
-        uiTools.formDialog({
-            title: 'הוסף',
-            fields: utils.editFields.map(x => ref.fields.find(x)),
-            ok: async () => {
-                await ref.save();
-                utils.addRow(row);
-            },
-            cancel: () => ref.undoChanges()
-        });
+        await utils.customEdit(row, uiTools);
+        if (!getEntityRef(row).isNew())
+            utils.addRow(row);
     },
     icon: AddIcon
 };

@@ -4,6 +4,7 @@ import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
 import { SelectEntityDialog } from "../Utils/SelectDialog";
+import { GroupType } from "../Courses/Group.entity";
 
 
 
@@ -105,3 +106,17 @@ export function getJwtTokenSignKey() {
     return "my secret key";
 }
 
+
+
+@Entity("teacherRates", {
+    allowApiCrud: Roles.admin,
+    allowApiRead: Allow.authenticated
+})
+export class TeacherRate extends IdEntity {
+    @Field()
+    teacherId: string = '';
+    @Field(o => o.valueType = GroupType)
+    groupType: GroupType = GroupType.band60;
+    @Field({ includeInApi: Roles.admin })
+    price: number = 0;
+}

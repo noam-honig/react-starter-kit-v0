@@ -1,17 +1,19 @@
-import { AppBar, Avatar, Button, Checkbox, Divider, Grid, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Slide, Stack, Typography } from "@mui/material";
+import { AppBar, Avatar, Button, Checkbox, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Slide, Stack, Typography } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { Fragment, useMemo, useState } from "react";
 import { useRemult } from "../common";
-import { Group } from "../Courses/Group.entity";
+import { Group, GroupType } from "../Courses/Group.entity";
 import { useEntityArray, useEntityQuery } from "../Utils/useEntityQuery";
-import { User } from "../Users/User.entity";
+import { TeacherRate, User } from "../Users/User.entity";
 import { uiTools } from "../Utils/FormDialog";
+import EditIcon from '@mui/icons-material/Edit';
 
 import { FieldRef } from "remult";
 
 import { SummaryView } from "./SummaryView";
 import { GroupStudents } from "./GroupStudents";
 import { Loading } from "./Loading";
+import { FormField } from "../Utils/AugmentRemult";
 
 export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
     const remult = useRemult();
@@ -27,6 +29,24 @@ export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
 
     const [selectedGroup, setSelectedGroup] = useState<Group | undefined>(undefined);
     const [showStats, setShowStats] = useState(false);
+    const editGroup = async (g: Group) => {
+        let fields: (FieldRef<Group> | FormField)[] = [g.$.name, g.$.town];
+        const rates = await remult.repo(TeacherRate).find({ where: { teacherId: currentUser.data?.id, price: { ">": 0 } } });
+        if (rates.length > 0) {
+            fields.push({
+                field: g.$.groupType,
+                options: [GroupType.oneOnOne, ...rates.map(x => x.groupType)]
+            })
+        }
+        await uiTools.formDialog({
+            title: g.isNew() ? "הוסף קבוצה חדשה" :
+                "עדכן קבוצה",
+            fields,
+            ok: async () => {
+                await g.save();
+            }
+        });
+    }
 
 
 
@@ -34,11 +54,16 @@ export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {groups.data?.map(group => (
                 <Fragment key={group.id}>
-                    <ListItemButton role={undefined} onClick={() => setSelectedGroup(group)}>
-                        <ListItem >
-                            <ListItemText primary={group.name} secondary={group.town} />
-                        </ListItem>
-                    </ListItemButton>
+                    <ListItem
+                        secondaryAction={
+                            <IconButton edge="end" onClick={(e) => editGroup(group)}>
+                                <EditIcon />
+                            </IconButton>
+                        }>
+                        <ListItemButton role={undefined} onClick={() => setSelectedGroup(group)}>
+                            <ListItemText primary={group.name} secondary={group.groupType.caption + ', ' + group.town} />
+                        </ListItemButton>
+                    </ListItem>
                     <Divider component="li" />
                 </Fragment>
             ))}
@@ -48,17 +73,9 @@ export function TeacherGroupsPage({ teacherId }: { teacherId: string }) {
             <Button variant="contained" color="success" onClick={() => setShowStats(true)}>הצג סיכום חודשי</Button>
             <Button variant="contained" onClick={async () => {
                 const g = remult.repo(Group).create({ teacher: currentUser.data });
-                let fields: FieldRef<Group>[] = [g.$.name, g.$.town];
-                if (currentUser.data!.priceBand > 0)
-                    fields.push(g.$.isBand);
-                uiTools.formDialog({
-                    title: "הוסף קבוצה חדשה",
-                    fields,
-                    ok: async () => {
-                        await g.save();
-                        groups.add(g);
-                    }
-                });
+                await editGroup(g);
+                if (!g.isNew())
+                    groups.add(g);
             }}>הוסף קבוצה חדשה</Button>
         </Stack>
 

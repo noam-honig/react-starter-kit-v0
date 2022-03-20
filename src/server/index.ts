@@ -5,10 +5,11 @@ import expressJwt from 'express-jwt';
 import sslRedirect from 'heroku-ssl-redirect'
 import { createPostgresConnection } from 'remult/postgres';
 import { remultExpress } from 'remult/remult-express';
-import { getJwtTokenSignKey } from '../Users/User.entity';
+import { getJwtTokenSignKey, TeacherRate } from '../Users/User.entity';
 import '../Utils/AugmentRemult';
 import glob from 'glob';
 import path from 'path';
+import { versionUpdate } from './versionUpdates';
 
 let ext = "ts";
 let dir = "src";
@@ -39,7 +40,11 @@ const dataProvider = async () => {
     return undefined;
 }
 app.use(remultExpress({
-    dataProvider
+    dataProvider,
+    initApi: async remult => {
+        await versionUpdate(remult);
+        console.table(await remult.repo(TeacherRate).find());
+    }
 }));
 app.use(express.static('build'));
 app.use('/*', async (req, res) => {

@@ -3,7 +3,7 @@ import { Backdrop, Box, Button, Checkbox, CircularProgress, DialogActions, Dialo
 import { useEffect, useState } from 'react';
 import { FieldRef, ValueListItem } from 'remult';
 
-import { FormDialogArgs, UITools } from './AugmentRemult';
+import { FormDialogArgs, FormField, UITools } from './AugmentRemult';
 import { openDialog } from './StackUtils';
 import { useTheme } from '@mui/material/styles';
 
@@ -14,9 +14,19 @@ import { SelectDialog } from './SelectDialog';
 
 
 
+export function getFormField(f: FieldRef | FormField): FormField {
+    const z = f as FieldRef;
+    if (z.metadata)
+        return {
+            field: z,
+            caption: z.metadata.caption
+        }
+    else
+        return f as FormField
+}
 
 
-export function FieldsInput(args: { fields: FieldRef[] }) {
+export function FieldsInput(args: { fields: (FieldRef<any> | FormField)[] }) {
     return (
 
         <Box sx={{
@@ -26,7 +36,10 @@ export function FieldsInput(args: { fields: FieldRef[] }) {
             pt: 1,
             pb: 1
         }}>
-            {args.fields.map(f => (<MyTextField key={f.metadata.key} field={f} />))}
+            {args.fields.map((item, index) => {
+                const f = getFormField(item);
+                return (<MyTextField key={index} formField={f} />);
+            })}
         </Box >
 
 
@@ -35,20 +48,24 @@ export function FieldsInput(args: { fields: FieldRef[] }) {
     );
 }
 
-function MyTextField({ field }: { field: FieldRef }) {
+function MyTextField({ formField }: { formField: FormField }) {
+    const field = formField.field;
     useField(field);
     const theme = useTheme();
     const [value, setValue] = useState(field.inputValue);
+    const caption = formField.caption!;
     let inputType = field.metadata.inputType;
     let click = field.metadata.options.userClickToSelectValue;
-    if (field.metadata.valueConverter instanceof ValueListValueConverter) {
+    let options = formField.options;
+    if (!options && field.metadata.valueConverter instanceof ValueListValueConverter) {
+        options = field.metadata.valueConverter.getOptions();
+    }
+    if (options) {
         inputType = 'custom';
-        let con = field.metadata.valueConverter;
         click = ref => {
-            let options: ValueListItem[] = con.getOptions();
             SelectDialog({
-                title: 'בחר ' + field.metadata.caption,
-                find: async search => options.filter(x => x.caption.indexOf(search) >= 0),
+                title: 'בחר ' + caption,
+                find: async search => options!.filter(x => x.caption.indexOf(search) >= 0),
                 select: x => ref.value = x
             });
         }
@@ -67,13 +84,13 @@ function MyTextField({ field }: { field: FieldRef }) {
                     onChange={e => {
                         field.value = e.target.checked;
                     }}
-                />} label={field.metadata.caption} />
+                />} label={caption} />
             <Typography fontSize={"small"}>{field.error}</Typography>
         </Box>
     }
     if (inputType === "custom") {
         return <FormControl variant="outlined" size="small" error={!!field.error}>
-            <InputLabel htmlFor="custom-input">{field.metadata.caption}</InputLabel>
+            <InputLabel htmlFor="custom-input">{caption}</InputLabel>
             <OutlinedInput readOnly
                 id="custom-input"
                 value={field.displayValue}
@@ -89,7 +106,7 @@ function MyTextField({ field }: { field: FieldRef }) {
                         </IconButton>
                     </InputAdornment>
                 }
-                label={field.metadata.caption}
+                label={caption}
             />
         </FormControl>
     }
@@ -100,7 +117,7 @@ function MyTextField({ field }: { field: FieldRef }) {
                 multiline={true}
                 size="small"
                 value={value}
-                label={field.metadata.caption}
+                label={caption}
                 helperText={field.error}
                 error={!!field.error}
                 onChange={e => {
@@ -115,7 +132,7 @@ function MyTextField({ field }: { field: FieldRef }) {
             type={inputType}
             size="small"
             value={value}
-            label={field.metadata.caption}
+            label={caption}
             helperText={field.error}
             error={!!field.error}
             onChange={e => {

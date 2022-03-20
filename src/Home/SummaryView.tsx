@@ -119,7 +119,7 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
                                 return (
                                     <Fragment key={group.id}>
                                         <tr>
-                                            <th>{group.name}<Typography variant="body2" color="text.secondary">{group.town}</Typography></th>
+                                            <th>{group.name}<Typography variant="body2" color="text.secondary">{group.groupType.caption + ', ' + group.town}</Typography></th>
                                             <th colSpan={3}>
                                                 {gStats?.dates} ימי לימוד
                                             </th>

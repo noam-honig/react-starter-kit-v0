@@ -236,5 +236,33 @@
     "group": "b32070ba-db6e-4fe3-a136-eb7b90f17e8a",
     "frozen": false,
     "freezeReason": ""
+  },
+  {
+    "id": "1c3ae478-142a-4441-a235-50cc24e70bd3",
+    "firstName": "נועם",
+    "lastName": "הניג",
+    "phone": "",
+    "type": "",
+    "lessonLength": 30,
+    "parentName": "",
+    "parentPhone": "",
+    "order": 0,
+    "group": "4a57b450-02a7-4957-b8bf-ccaa0f9df962",
+    "frozen": false,
+    "freezeReason": ""
+  },
+  {
+    "id": "682980be-9e56-4669-9154-295687c83c6b",
+    "firstName": "גם נועם",
+    "lastName": "חלךחףלח",
+    "phone": "",
+    "type": "",
+    "lessonLength": 30,
+    "parentName": "",
+    "parentPhone": "",
+    "order": 0,
+    "group": "e02b7f85-5d41-4945-9484-7839415de89a",
+    "frozen": false,
+    "freezeReason": ""
   }
 ]

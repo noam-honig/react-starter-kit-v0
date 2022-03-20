@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { FieldRef } from "remult";
+import { FieldRef, ValueListItem } from "remult";
 
 declare module 'remult' {
     export interface Remult {
@@ -19,9 +19,14 @@ export interface UITools {
 }
 export interface FormDialogArgs {
     title: string;
-    fields: FieldRef<any>[];
+    fields: (FieldRef<any> | FormField)[];
     ok: () => Promise<any>;
     cancel?: () => Promise<void>
+}
+export interface FormField {
+    field: FieldRef<any>;
+    caption?: string;
+    options?: ValueListItem[]
 }
 export interface Action<itemType = never> {
     caption: string,
