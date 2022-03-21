@@ -59,17 +59,17 @@ function Info({ month }: { month: string }) {
                 <StyledTable>
                     <thead>
                         <th></th>
+                        <th>סה"כ</th>
                         {titles.map(t => (<th key={t}>{t}</th>))}
 
-                        <th>סה"כ</th>
                     </thead>
                     <tbody>
                         {teachersStats.data!.map(t => (<tr key={t.id} onClick={() => remult.repo(User).findId(t.id).then(setZoomTeacher)}>
                             <td>
                                 {t.name}
                             </td>
-                            {titles.map(total => (<th key={total}>{t.stats.find(s => s.caption === total)?.count}</th>))}
                             <th>{t.stats.reduce((x, t) => x + t.price * t.count, 0)}</th>
+                            {titles.map(total => (<td key={total}>{t.stats.find(s => s.caption === total)?.count}</td>))}
                         </tr>))}
 
                     </tbody>
