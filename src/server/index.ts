@@ -26,7 +26,6 @@ for (const type of ["entity", "controller"]) {
     }
 }
 
-
 const app = express();
 app.use(sslRedirect());
 app.use(helmet({ contentSecurityPolicy: false }));

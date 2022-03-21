@@ -54,7 +54,7 @@ export class User extends IdEntity {
     hashAndSetPassword(password: string) {
         this.password = generate(password);
     }
-    async passwordMatches(password: string) {
+    passwordMatches(password: string) {
         return !this.password || verify(password, this.password);
     }
 

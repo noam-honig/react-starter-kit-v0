@@ -2,7 +2,7 @@
   {
     "id": "0c9b45b8-b3de-406f-b62c-7edcbcc9c6d7",
     "name": "נועם",
-    "password": "123",
+    "password": "sha1$64f7ed0b$1$cb0f10c311c689162dc091244d976ff6628ab0bb",
     "createDate": "2021-12-13T10:41:36.403Z",
     "admin": true,
     "instrument": "",

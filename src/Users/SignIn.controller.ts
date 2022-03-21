@@ -23,11 +23,6 @@ export class SignIn extends ControllerBase {
             title: "כניסה",
             fields: [...this.$],
             ok: async () => {
-                await new Promise(res => {
-                    setTimeout(() => {
-                        res({});
-                    }, 1000);
-                })
                 ui.setAuthToken(await this.signIn());
             }
         });
@@ -39,6 +34,7 @@ export class SignIn extends ControllerBase {
         })
         if (!user)
             throw new Error("משתמש לא נמצא");
+        console.log({ p: user.password, tp: this.password, matches: user.passwordMatches(this.password) })
         if (user.password && !user.passwordMatches(this.password))
             throw new Error("סיסמה שגויה");
         if (!user.password) {

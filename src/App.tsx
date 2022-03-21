@@ -23,6 +23,7 @@ import { SignIn } from './Users/SignIn.controller';
 import { AuthContext, RemultContext, useRemult } from './common';
 import { Roles } from './Users/Roles';
 import { TeacherGroupsPage } from './Home/TeacherGroupsPage';
+import { ChangePassword } from './Users/ChangePassword.controller';
 
 
 
@@ -180,7 +181,7 @@ export default function MainPage() {
                   onClick={() => new SignIn(remult).show(uiTools)}>
                   כניסה
                 </Button>
-                
+
               </>)
             }
             {remult.authenticated() && (<>
@@ -209,7 +210,10 @@ export default function MainPage() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>עדכן סיסמה</MenuItem>
+                <MenuItem onClick={() => {
+                  new ChangePassword(remult).show(uiTools);
+                  handleClose();
+                }}>עדכן סיסמה</MenuItem>
                 <MenuItem onClick={() => {
                   signOut();
                   handleClose();
