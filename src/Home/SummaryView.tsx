@@ -9,8 +9,15 @@ import { User } from "../Users/User.entity";
 import { useEntityQuery } from "../Utils/useEntityQuery";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-export function SummaryView({ teacher, ...props }: { teacher: User, open: boolean, onClose: () => void }) {
+export function SummaryView({ teacher, inMonth, ...props }: {
+    teacher: User,
+    open: boolean,
+    onClose: () => void,
+    inMonth?: string
+}) {
     const [month, setMonth] = useState(() => DateOnlyValueConverter.toInput!(new Date(), 'date').substring(0, 7));
+    if (inMonth && inMonth != month)
+        setMonth(inMonth)
 
     return (
         <Dialog
@@ -29,13 +36,14 @@ export function SummaryView({ teacher, ...props }: { teacher: User, open: boolea
                     >
                         <ChevronRightIcon />
                     </IconButton>
+                    {!!inMonth ? (
+                        <TextField type="month"
+                            inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
+                            label="חודש"
+                            value={month}
+                            onChange={e => setMonth(e.target.value)}
+                        />) : teacher?.name}
 
-                    <TextField type="month"
-                        inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
-                        label="חודש"
-                        value={month}
-                        onChange={e => setMonth(e.target.value)}
-                    />
                 </Toolbar>
                 <Divider />
                 <Info teacher={teacher} month={month} />
@@ -43,7 +51,7 @@ export function SummaryView({ teacher, ...props }: { teacher: User, open: boolea
             </Box>
         </Dialog>);
 }
-const StyledTable = styled("table")`
+export const StyledTable = styled("table")`
 border: 1px solid #ddd;
 border-spacing: 0;
 border-collapse: collapse;

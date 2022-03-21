@@ -77,7 +77,23 @@ export class StudentInLesson extends IdEntity {
     @Field({ caption: 'הערה', inputType: "area" })
     note: string = '';
 
+    @BackendMethod({ allowed: Roles.admin })
+    static async allStatistics(month: string, remult?: Remult) {
+        const result: TeacherStats[] = [];
+        for (const teacher of await remult!.repo(User).find()) {
+            const stats = await StudentInLesson.monthStatistics(teacher.id, month, remult);
+            if (!teacher.removed || stats.totals.length > 0) {
+                result.push({
+                    id: teacher.id,
+                    name: teacher.name,
+                    removed: teacher.removed,
+                    stats: stats.totals
+                })
+            }
+        }
+        return result;
 
+    }
     @BackendMethod({ allowed: Allow.authenticated })
     static async monthStatistics(teacherId: string, month: string, remult?: Remult) {
         const teacher = await remult!.repo(User).findId(teacherId);
@@ -159,6 +175,13 @@ export class StudentInLesson extends IdEntity {
             totals
         };
     }
+}
+
+export interface TeacherStats {
+    id: string;
+    name: string;
+    removed: boolean;
+    stats: Totals[];
 }
 
 export interface GroupDates {
