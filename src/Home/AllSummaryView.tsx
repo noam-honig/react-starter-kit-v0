@@ -53,15 +53,15 @@ function Info({ month }: { month: string }) {
         )
     return (
 
-        <Typography variant="body1">
+        <Typography variant="body1" component="div">
             <Paper sx={{ p: 1, m: 1 }}>
                 <Typography variant="h6">סה"כ</Typography>
                 <StyledTable>
-                    <thead>
+                    <thead><tr>
                         <th></th>
                         <th>סה"כ</th>
                         {titles.map(t => (<th key={t}>{t}</th>))}
-
+                    </tr>
                     </thead>
                     <tbody>
                         {teachersStats.data!.map(t => (<tr key={t.id} onClick={() => remult.repo(User).findId(t.id).then(setZoomTeacher)}>

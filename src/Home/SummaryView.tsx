@@ -78,15 +78,17 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
         )
     return (
 
-        <Typography variant="body1">
+        <Typography variant="body1" component="div">
             <Paper sx={{ p: 1, m: 1 }}>
-                <Typography variant="h6">סה"כ</Typography>
+                <Typography variant="h6" >סה"כ</Typography>
                 <StyledTable>
                     <thead>
-                        <th></th>
-                        <th>מספר</th>
-                        <th>תעריף</th>
-                        <th>סה"כ</th>
+                        <tr>
+                            <th></th>
+                            <th>מספר</th>
+                            <th>תעריף</th>
+                            <th>סה"כ</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {stats.data!.totals.map(t => (<tr key={t.caption}>
@@ -111,7 +113,7 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
                 </StyledTable>
             </Paper>
             <Paper sx={{ p: 1, m: 1 }}>
-                <Typography variant="h6">לפי תלמידים:</Typography>
+                <Typography variant="h6" >לפי תלמידים:</Typography>
                 <StyledTable><thead>
                     <tr>
                         <th>שם</th>
