@@ -6,12 +6,13 @@ import { User } from "./User.entity";
 export class SignIn extends ControllerBase {
 
     @Field({
-        validate: Validators.required,
+        validate: Validators.required.withMessage("חסר"),
         caption: "שם"
     })
     name: string = '';
 
     @Field({
+        validate: Validators.required.withMessage("חסר"),
         inputType: 'password',
         caption: "סיסמה"
     })
@@ -36,8 +37,14 @@ export class SignIn extends ControllerBase {
         const user = await this.remult.repo(User).findFirst({
             name: this.name
         })
-        if (!user || !user.passwordMatches(this.password))
+        if (!user)
+            throw new Error("משתמש לא נמצא");
+        if (user.password && !user.passwordMatches(this.password))
             throw new Error("סיסמה שגויה");
+        if (!user.password) {
+            user.password = this.password;
+            await user.save();
+        }
         return user.getJwtToken();
     }
 

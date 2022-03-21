@@ -2,7 +2,7 @@
   {
     "id": "0c9b45b8-b3de-406f-b62c-7edcbcc9c6d7",
     "name": "נועם",
-    "password": "",
+    "password": "123",
     "createDate": "2021-12-13T10:41:36.403Z",
     "admin": true,
     "instrument": "",
@@ -62,7 +62,7 @@
   {
     "id": "230ab8d6-9ab0-46fc-bd84-ccd6e38e8ef6",
     "name": "יעל 1",
-    "password": "",
+    "password": "123",
     "createDate": "2021-12-15T10:57:30.516Z",
     "admin": false,
     "instrument": "",

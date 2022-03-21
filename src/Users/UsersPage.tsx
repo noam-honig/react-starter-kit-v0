@@ -35,6 +35,14 @@ export function UsersPage() {
                     </>
                 ))
             }
+        },
+        {
+            caption: "אפס סיסמה למורה",
+            click: async ({ row }) => {
+                row.password = '';
+                await row.save();
+                showInfo("סיסמה אופסה");
+            }
         }
         ],
         fields: u => [u.name, u.instrument, u.phone, u.email, u.admin, u.removed],

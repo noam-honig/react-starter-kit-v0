@@ -18,8 +18,6 @@ import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from '
 import routes from './Routes';
 import { AccountCircle } from '@mui/icons-material';
 import { Button, Menu, MenuItem } from '@mui/material';
-
-import { SignUp } from './Users/SignUp.controller';
 import { uiTools } from './Utils/FormDialog';
 import { SignIn } from './Users/SignIn.controller';
 import { AuthContext, RemultContext, useRemult } from './common';
@@ -182,10 +180,7 @@ export default function MainPage() {
                   onClick={() => new SignIn(remult).show(uiTools)}>
                   כניסה
                 </Button>
-                <Button color="inherit"
-                  onClick={() => new SignUp(remult).show(uiTools)}>
-                  הרשמה
-                </Button>
+                
               </>)
             }
             {remult.authenticated() && (<>
@@ -214,11 +209,11 @@ export default function MainPage() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>עדכן סיסמה</MenuItem>
                 <MenuItem onClick={() => {
                   signOut();
                   handleClose();
-                }}>Sign Out</MenuItem>
+                }}>יציאה מהמערכת</MenuItem>
               </Menu>
             </>)}
           </div>
