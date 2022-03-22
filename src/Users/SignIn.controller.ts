@@ -38,7 +38,7 @@ export class SignIn extends ControllerBase {
         if (user.password && !user.passwordMatches(this.password))
             throw new Error("סיסמה שגויה");
         if (!user.password) {
-            user.password = this.password;
+            user.hashAndSetPassword(this.password);
             await user.save();
         }
         return user.getJwtToken();

@@ -1,5 +1,5 @@
 
-import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType, IntegerField } from "remult";
+import { IdEntity, Entity, Field, Validators, Allow, UserInfo, FieldType, IntegerField, BackendMethod } from "remult";
 import { generate, verify } from 'password-hash';
 import * as jwt from 'jsonwebtoken';
 import { Roles } from "./Roles";
@@ -98,6 +98,13 @@ export class User extends IdEntity {
     priceTravel: number = 0;
     @Field({ caption: 'הוסר', valueType: Boolean })
     removed: boolean = false;
+
+
+    @BackendMethod({ allowed: Roles.admin })
+    async resetPassword() {
+        this.password = '';
+        await this.save;
+    }
 
 }
 export function getJwtTokenSignKey() {

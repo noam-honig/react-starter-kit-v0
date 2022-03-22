@@ -39,8 +39,8 @@ export function UsersPage() {
         {
             caption: "אפס סיסמה למורה",
             click: async ({ row }) => {
-                row.password = '';
-                await row.save();
+                
+                await row.resetPassword();
                 showInfo("סיסמה אופסה");
             }
         }
