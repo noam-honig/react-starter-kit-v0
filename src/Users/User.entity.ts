@@ -103,7 +103,7 @@ export class User extends IdEntity {
     @BackendMethod({ allowed: Roles.admin })
     async resetPassword() {
         this.password = '';
-        await this.save;
+        await this.save();
     }
 
 }
