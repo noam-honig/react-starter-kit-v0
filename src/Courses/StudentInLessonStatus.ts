@@ -21,6 +21,10 @@ export class StudentInLessonStatus {
         askForComment: true,
         stats: s => s.lessons++,
     });
+    static extraLesson = new StudentInLessonStatus("e", "שיעור השלמה", {
+        stats: s => s.lessons++,
+        icon: c => c.CheckCircleOutline()
+    });
     static double = new StudentInLessonStatus("vv", "שעור כפול", {
         stats: s => s.lessons += 2,
     });
@@ -50,6 +54,7 @@ export interface MonthStatisticsResult {
 }
 
 export interface StatusIcon {
+    CheckCircleOutline(): void;
     checkedBox(): void;
     uncheckedBox(): void;
     chars(chars: string): void;
