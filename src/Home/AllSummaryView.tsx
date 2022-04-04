@@ -75,7 +75,7 @@ function Info({ month }: { month: string }) {
                     </tbody>
                 </StyledTable>
             </Paper>
-            <SummaryView teacher={zoomTeacher!} open={!!zoomTeacher} onClose={() => setZoomTeacher(undefined)} />
+            <SummaryView teacher={zoomTeacher!} open={!!zoomTeacher} onClose={() => setZoomTeacher(undefined)} inMonth={month} />
         </Typography >
     )
 }

@@ -18,6 +18,7 @@ export function SummaryView({ teacher, inMonth, ...props }: {
     const [month, setMonth] = useState(() => DateOnlyValueConverter.toInput!(new Date(), 'date').substring(0, 7));
     if (inMonth && inMonth != month)
         setMonth(inMonth)
+    console.log(inMonth);
 
     return (
         <Dialog
@@ -36,7 +37,7 @@ export function SummaryView({ teacher, inMonth, ...props }: {
                     >
                         <ChevronRightIcon />
                     </IconButton>
-                    {!!inMonth ? (
+                    {!inMonth ? (
                         <TextField type="month"
                             inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
                             label="חודש"
