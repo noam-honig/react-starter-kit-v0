@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Divider, IconButton, List, TextField, Toolbar } from "@mui/material";
+import { Box, Button, Dialog, Divider, FormControl, IconButton, InputAdornment, InputLabel, List, OutlinedInput, TextField, Toolbar } from "@mui/material";
 import React, { Fragment, useState } from "react";
 import { useRemult } from "../common";
 import { Group, StudentInLesson } from "../Courses/Group.entity";
@@ -6,6 +6,8 @@ import { StudentInLessonStatus } from "../Courses/StudentInLessonStatus";
 import { Student } from "../Students/Student.entity";
 import { useEntityArray } from "../Utils/useEntityQuery";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import CloseIcon from '@mui/icons-material/Close';
 import { uiTools } from "../Utils/FormDialog";
 import { DateOnlyValueConverter } from "remult/valueConverters";
 import {
@@ -90,6 +92,11 @@ export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: 
             student.assign({ order }).save();
         }
     };
+    const addToDate = (plus: number) => {
+        const d = new Date(date);
+        d.setDate(d.getDate() + plus);
+        setDate(d);
+    }
     return (
         <Dialog
             fullScreen
@@ -105,13 +112,54 @@ export function GroupStudents({ selectedGroup, handleClose }: { selectedGroup?: 
                         onClick={handleClose}
                         aria-label="close"
                     >
-                        <ChevronRightIcon />
+                        <CloseIcon />
                     </IconButton>
-                    <TextField type="date" inputProps={{ style: { textAlign: 'right' } }} sx={{ m: 2 }}
+                    {/* <TextField type="date" inputProps={{
+                        style: { textAlign: 'right' },
+                      
+                    }} sx={{ m: 2 }}
 
                         label="תאריך השיעור"
                         value={DateOnlyValueConverter.toInput!(date, 'date')}
-                        onChange={e => setDate(DateOnlyValueConverter.fromInput!(e.target.value, 'date'))} />
+                        onChange={e => setDate(DateOnlyValueConverter.fromInput!(e.target.value, 'date'))}
+                    /> */}
+                    <FormControl sx={{ textAlign: 'right', mt: 1, p: 0 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">תאריך השיעור</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type="date"
+                            sx={{ paddingRight: 1, paddingLeft: 1 }}
+                            value={DateOnlyValueConverter.toInput!(date, 'date')}
+                            onChange={e => setDate(DateOnlyValueConverter.fromInput!(e.target.value, 'date'))}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => addToDate(1)}
+                                        edge="end"
+                                    >
+                                        <ChevronLeftIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            startAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        
+                                        onClick={() => addToDate(-1)}
+
+
+                                        edge="start"
+                                    >
+                                        <ChevronRightIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+
+                        />
+                    </FormControl>
+
+
                     <FullMenu options={menuOptions} />
 
                 </Toolbar>
