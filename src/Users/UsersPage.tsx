@@ -60,7 +60,7 @@ export function UsersPage() {
                         "הוסף" :
                         'ערוך ' +
                         'מורה',
-                    fields: [u.name, u.instrument, u.phone, u.email, u.priceTravel, u.price30, u.price45, ...rates.map(x => (
+                    fields: [u.name, u.instrument, u.phone, u.email, u.priceTravel, u.price30, u.price45,u.price60, ...rates.map(x => (
                         {
                             field: x.$.price,
                             caption: 'מחיר לשעור ' + x.groupType.caption

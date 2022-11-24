@@ -14,6 +14,7 @@ export class LessonLength {
     constructor(public id: number, public caption: string, public getPrice: (teacher: User) => number) { }
     static m30 = new LessonLength(30, "30 דקות", t => t.price30);
     static m45 = new LessonLength(45, "45 דקות", t => t.price45);
+    static m60 = new LessonLength(60, "60 דקות", t => t.price60); 
 }
 
 @Entity<Student>("students", {

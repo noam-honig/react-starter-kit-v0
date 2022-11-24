@@ -92,6 +92,8 @@ export class User extends IdEntity {
     price30: number = 0;
     @IntegerField({ caption: "מחיר לשעור 45 דק" })
     price45: number = 0;
+    @IntegerField({ caption: "מחיר לשעור 60 דק" })
+    price60: number = 0;
     @IntegerField({ caption: "מחיר לשעור להקה" })
     priceBand: number = 0;
     @IntegerField({ caption: "מחיר נסיעות ליום" })
