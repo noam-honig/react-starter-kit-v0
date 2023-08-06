@@ -3,7 +3,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 import expressJwt from 'express-jwt';
 import sslRedirect from 'heroku-ssl-redirect'
-import { createPostgresConnection, PostgresClient, PostgresDataProvider, PostgresPool } from 'remult/postgres';
+import { createPostgresConnection, PostgresClient, PostgresDataProvider, PostgresPool, PostgresSchemaBuilder } from 'remult/postgres';
 import { remultExpress } from 'remult/remult-express';
 import { getJwtTokenSignKey, TeacherRate } from '../Users/User.entity';
 import '../Utils/AugmentRemult';
@@ -14,7 +14,8 @@ import { Groups } from '@mui/icons-material';
 import { Group } from '../Courses/Group.entity';
 
 import { Pool, QueryResult } from 'pg';
-import { SqlDatabase } from 'remult';
+import { Remult, SqlDatabase } from 'remult';
+import { remult } from '..';
 
 let ext = "ts";
 let dir = "src";
@@ -69,7 +70,10 @@ const dataProvider = async () => {
                 rejectUnauthorized: false
             }
         });
-        return new SqlDatabase(new PostgresDataProvider(new PostgresSchemaWrapper(pool, 'lev')));
+        const result= new SqlDatabase(new PostgresDataProvider(new PostgresSchemaWrapper(pool, 'lev')));
+        var sb = new PostgresSchemaBuilder(result,'lev');
+        await sb.verifyStructureOfAllEntities(new Remult(result));
+        return result
     }
     return undefined;
 }
