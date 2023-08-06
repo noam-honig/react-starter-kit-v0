@@ -135,7 +135,14 @@ function Info({ month, teacher }: { month: string, teacher: User }) {
                                                 {gStats?.dates} ימי לימוד
                                             </th>
                                         </tr>
-                                        {group.students.lazyItems.map(student => {
+                                        {group.students.lazyItems.filter(student=>{
+                                            if (!student.frozen)
+                                            return true;
+                                            let s = stats.data?.studentStats!.find(s => s.studentId == student.id);
+                                            if (s)
+                                                if (s.canceled!=0||s?.missingOk!=0||s?.lessons!=0)
+                                                return true;
+                                            return false}).map(student => {
                                             let s = stats.data?.studentStats!.find(s => s.studentId == student.id);
                                             return (<tr key={student.id}>
                                                 <td style={{ textDecoration: student.frozen ? 'line-through' : '' }}>{student.fullName}<div><Typography variant="body2" color="text.secondary">{student.type + ", " + student.lessonLength?.caption}</Typography></div></td>
