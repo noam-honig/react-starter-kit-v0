@@ -14,7 +14,8 @@ import { Groups } from '@mui/icons-material';
 import { Group } from '../Courses/Group.entity';
 
 import { Pool, QueryResult } from 'pg';
-import { Remult, SqlDatabase } from 'remult';
+import { JsonDataProvider, Remult, SqlDatabase } from 'remult';
+import {JsonEntityFileStorage} from 'remult/server'
 import { remult } from '..';
 
 let ext = "ts";
@@ -75,7 +76,7 @@ const dataProvider = async () => {
         await sb.verifyStructureOfAllEntities(new Remult(result));
         return result
     }
-    return undefined;
+    return  new JsonDataProvider( new JsonEntityFileStorage('./db2'));
 }
 app.use(remultExpress({
     dataProvider,

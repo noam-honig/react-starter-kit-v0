@@ -48,6 +48,7 @@ export class StudentInLessonStatus {
 
 export interface MonthStatisticsResult {
     studentId: string;
+    fullName:string;
     lessons: number;
     missingOk: number;
     canceled: number;
