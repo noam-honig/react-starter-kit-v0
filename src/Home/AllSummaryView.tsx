@@ -12,26 +12,26 @@ import {
   TextField,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-import React from "react";
-import { Fragment, useState } from "react";
-import { DateOnlyValueConverter } from "remult/valueConverters";
-import { useRemult } from "../common";
+} from "@mui/material"
+import { TransitionProps } from "@mui/material/transitions"
+import React from "react"
+import { Fragment, useState } from "react"
+import { DateOnlyValueConverter } from "remult/valueConverters"
+import { useRemult } from "../common"
 import {
   Group,
   StudentInLesson,
   studentsWithLessonsArrayFilter,
-} from "../Courses/Group.entity";
-import { User } from "../Users/User.entity";
-import { useEntityQuery } from "../Utils/useEntityQuery";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { StyledTable, SummaryView } from "./SummaryView";
+} from "../Courses/Group.entity"
+import { User } from "../Users/User.entity"
+import { useEntityQuery } from "../Utils/useEntityQuery"
+import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import { StyledTable, SummaryView } from "./SummaryView"
 
 export function AllSummaryView() {
   const [month, setMonth] = useState(() =>
     DateOnlyValueConverter.toInput!(new Date(), "date").substring(0, 7)
-  );
+  )
   return (
     <Box sx={{ position: "relative" }}>
       <Toolbar variant="dense">
@@ -47,24 +47,24 @@ export function AllSummaryView() {
       <Divider />
       <Info month={month} />
     </Box>
-  );
+  )
 }
 function Info({ month }: { month: string }) {
-  const remult = useRemult();
+  const remult = useRemult()
   const teachersStats = useEntityQuery(
     () => StudentInLesson.allStatistics(month),
     [month]
-  );
-  const [zoomTeacher, setZoomTeacher] = useState<User>();
-  const titles: string[] = [];
+  )
+  const [zoomTeacher, setZoomTeacher] = useState<User>()
+  const titles: string[] = []
   if (teachersStats.data)
     for (const t of teachersStats.data) {
-      let prev: string = undefined!;
+      let prev: string = undefined!
       for (const stat of t.stats) {
         if (!titles.includes(stat.caption)) {
-          titles.splice(titles.indexOf(prev) + 1, 0, stat.caption);
+          titles.splice(titles.indexOf(prev) + 1, 0, stat.caption)
         }
-        prev = stat.caption;
+        prev = stat.caption
       }
     }
 
@@ -73,47 +73,52 @@ function Info({ month }: { month: string }) {
       <Stack alignItems="center" spacing={2}>
         <CircularProgress color="primary" />
       </Stack>
-    );
+    )
   async function exportToExcel() {
-    const totals: any = { חודש: month };
-    const lines = [];
+    const totals: any = { חודש: month }
+    const lines = []
     for (const teacher of teachersStats.data!) {
       let teacherTotal = teacher.stats.reduce(
         (total, s) => total + s.count * s.price,
         0
-      );
-      let addTeacher = teacherTotal != 0;
+      )
+      let addTeacher = teacherTotal != 0
       for (const students of teacher.studentStats.filter(
         studentsWithLessonsArrayFilter
       )) {
         lines.push({
           תלמיד: students.fullName,
           מדריך: teacher.name,
+          שעור: students.type,
           שעורים: students.lessons,
-        });
-        addTeacher = true;
+        })
+        addTeacher = true
       }
 
       if (addTeacher) {
-        totals[teacher.name] = teacherTotal;
+        totals[teacher.name] = teacherTotal
       }
     }
-    const XLSX = await import("xlsx");
-    let wb = XLSX.utils.book_new();
-    wb.Workbook = { Views: [{ RTL: true }] };
+    lines.sort(
+      (a, b) =>
+        a.מדריך.localeCompare(b.מדריך) ||
+        a.שעור.localeCompare(b.שעור) ||
+        a.תלמיד.localeCompare(b.תלמיד)
+    )
+    const XLSX = await import("xlsx")
+    let wb = XLSX.utils.book_new()
+    wb.Workbook = { Views: [{ RTL: true }] }
     XLSX.utils.book_append_sheet(
       wb,
       XLSX.utils.json_to_sheet([totals], {}),
       "מרצים"
-    );
+    )
     XLSX.utils.book_append_sheet(
       wb,
       XLSX.utils.json_to_sheet(lines, {}),
       "שורות"
-    );
-    XLSX.writeFile(wb, "נוכחות " + month + ".xlsx");
-
-   
+    )
+    XLSX.writeFile(wb, "נוכחות " + month + ".xlsx")
   }
   return (
     <Typography variant="body1" component="div">
@@ -163,5 +168,5 @@ function Info({ month }: { month: string }) {
         inMonth={month}
       />
     </Typography>
-  );
+  )
 }

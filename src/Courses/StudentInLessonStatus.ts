@@ -52,6 +52,7 @@ export interface MonthStatisticsResult {
     lessons: number;
     missingOk: number;
     canceled: number;
+    type:string;
 }
 
 export interface StatusIcon {

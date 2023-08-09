@@ -102,6 +102,7 @@ export default function CompareMarvelX() {
             studentId: teacher.studentStats.length.toString(),
             missing: true,
             marvel: [],
+            type:''
           })
         );
       }
